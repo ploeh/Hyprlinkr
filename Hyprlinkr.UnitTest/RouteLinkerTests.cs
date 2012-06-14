@@ -30,14 +30,26 @@ namespace Ploeh.Hyprlinkr.UnitTest
         }
 
         [Theory, AutoHypData]
-        public void GetRouteForDefaultGetMethodReturnsCorrectResult(
+        public void GetFooRouteForDefaultGetMethodReturnsCorrectResult(
             [Frozen]HttpRequestMessage request,
             RouteLinker sut)
         {
             Uri actual = sut.GetUri<FooController>(r => r.Get());
 
             var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
-            var expected = new Uri(new Uri(baseUri), "Foo/");
+            var expected = new Uri(new Uri(baseUri), "foo/");
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory, AutoHypData]
+        public void GetBarRouteForDefaultGetMethodReturnsCorrectResult(
+            [Frozen]HttpRequestMessage request,
+            RouteLinker sut)
+        {
+            Uri actual = sut.GetUri<BarController>(r => r.Get());
+
+            var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
+            var expected = new Uri(new Uri(baseUri), "bar/");
             Assert.Equal(expected, actual);
         }
     }

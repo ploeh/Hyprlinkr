@@ -25,10 +25,17 @@ namespace Ploeh.Hyprlinkr
             if (methodCallExp == null)
                 throw new ArgumentException("The expression's body must be a MethodCallExpression. The code block supplied should invoke a method.\nExample: x => x.Foo().", "method");
 
+            var controllerName = methodCallExp
+                .Method
+                .ReflectedType
+                .Name
+                .ToLowerInvariant()
+                .Replace("controller", "");
+
             var authority = 
                 this.request.RequestUri.GetLeftPart(UriPartial.Authority);
             var baseUri = new Uri(authority);
-            return new Uri(baseUri, "Foo/");
+            return new Uri(baseUri, controllerName + "/");
         }
     }
 }

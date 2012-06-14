@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoHypDataAttribute.cs" />
+    <Compile Include="Controllers\BarController.cs" />
     <Compile Include="Controllers\FooController.cs" />
     <Compile Include="HyprlinkrCustomization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
