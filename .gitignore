@@ -1,0 +1,11 @@
+[Oo]bj
+[Bb]in
+deploy
+deploy/*
+*.csproj.user
+*.suo
+*.cache
+TestResults/
+*_mm_cache.bin
+*/AutoTest.config
+*/AutoTest.config.old
