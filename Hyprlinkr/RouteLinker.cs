@@ -7,9 +7,12 @@ namespace Ploeh.Hyprlinkr
 {
     public class RouteLinker
     {
-        public void GetUri<T>(object something)
+        public void GetUri<T>(object method)
         {
-            throw new ArgumentNullException();
+            if (method == null)
+                throw new ArgumentNullException("method");
+
+            throw new ArgumentException("The expression's body must be a MethodCallExpression. The code block supplied should invoke a method.\nExample: x => x.Foo().", "method");
         }
     }
 }
