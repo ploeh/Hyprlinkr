@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Ploeh.AutoFixture.AutoMoq</name>
+    </assembly>
+    <members>
+        <member name="T:Ploeh.AutoFixture.AutoMoq.AutoMoqCustomization">
+            <summary>
+            Enables auto-mocking with Moq.
+            </summary>
+        </member>
+        <member name="M:Ploeh.AutoFixture.AutoMoq.AutoMoqCustomization.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ploeh.AutoFixture.AutoMoq.AutoMoqCustomization"/> class.
+            </summary>
+        </member>
+        <member name="M:Ploeh.AutoFixture.AutoMoq.AutoMoqCustomization.#ctor(Ploeh.AutoFixture.Kernel.ISpecimenBuilder)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ploeh.AutoFixture.AutoMoq.AutoMoqCustomization"/> class with a
+            <see cref="T:Ploeh.AutoFixture.AutoMoq.MockRelay"/>.
+            </summary>
+            <param name="relay">The relay.</param>
+        </member>
+        <member name="M:Ploeh.AutoFixture.AutoMoq.AutoMoqCustomization.Customize(Ploeh.AutoFixture.IFixture)">
+            <summary>
+            Customizes a <see cref="T:Ploeh.AutoFixture.IFixture"/> to enable auto-mocking with Moq.
+            </summary>
+            <param name="fixture">The fixture upon which to enable auto-mocking.</param>
+        </member>
+        <member name="P:Ploeh.AutoFixture.AutoMoq.AutoMoqCustomization.Relay">
+            <summary>
+            Gets the relay that will be added to <see cref="P:Ploeh.AutoFixture.IFixture.ResidueCollectors"/> when
+            <see cref="M:Ploeh.AutoFixture.AutoMoq.AutoMoqCustomization.Customize(Ploeh.AutoFixture.IFixture)"/> is invoked.
+            </summary>
+            <seealso cref="M:Ploeh.AutoFixture.AutoMoq.AutoMoqCustomization.#ctor(Ploeh.AutoFixture.Kernel.ISpecimenBuilder)"/>
+        </member>
+        <member name="T:Ploeh.AutoFixture.AutoMoq.MockConstructorQuery">
+            <summary>
+            Selects appropriate constructors to create <see cref="T:Moq.Mock`1"/> instances.
+            </summary>
+        </member>
+        <member name="M:Ploeh.AutoFixture.AutoMoq.MockConstructorQuery.SelectConstructors(System.Type)">
+            <summary>
+            Selects constructors for the supplied <see cref="T:Moq.Mock`1"/> type.
+            </summary>
+            <param name="type">The mock type.</param>
+            <returns>
+            Constructors for <paramref name="type"/>.
+            </returns>
+            <remarks>
+            <para>
+            This method only returns constructors if <paramref name="type"/> is a
+            <see cref="T:Moq.Mock`1"/> type. If not, an empty sequence is returned.
+            </para>
+            <para>
+            If the type is the type of a constructed <see cref="T:Moq.Mock`1"/>, constructors are
+            returned according to the generic type argument's constructors. If the type is an
+            interface, the <see cref="M:Moq.Mock`1.#ctor"/> default constructor is returned. If the type
+            is a class, constructors are returned according to all the public and protected
+            constructors of the underlying type. In this case, the
+            <see cref="M:Moq.Mock`1.#ctor(System.Object[])"/> constructor that takes a params array is returned 
+            for each underlying constructor, with information about the appropriate parameters for
+            each constructor.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Ploeh.AutoFixture.AutoMoq.MockConstructorQuery.SelectMethods(System.Type)">
+            <summary>
+            Selects constructors for the supplied <see cref="T:Moq.Mock`1"/> type.
+            </summary>
+            <param name="type">The mock type.</param>
+            <returns>
+            Constructors for <paramref name="type"/>.
+            </returns>
+            <remarks>
+            <para>
+            This method only returns constructors if <paramref name="type"/> is a
+            <see cref="T:Moq.Mock`1"/> type. If not, an empty sequence is returned.
+            </para>
+            <para>
+            If the type is the type of a constructed <see cref="T:Moq.Mock`1"/>, constructors are
+            returned according to the generic type argument's constructors. If the type is an
+            interface, the <see cref="M:Moq.Mock`1.#ctor"/> default constructor is returned. If the type
+            is a class, constructors are returned according to all the public and protected
+            constructors of the underlying type. In this case, the
+            <see cref="M:Moq.Mock`1.#ctor(System.Object[])"/> constructor that takes a params array is returned 
+            for each underlying constructor, with information about the appropriate parameters for
+            each constructor.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:Ploeh.AutoFixture.AutoMoq.MockPostprocessor">
+            <summary>
+            Post-processes a <see cref="T:Moq.Mock`1"/> instance by setting appropriate default behavioral
+            values.
+            </summary>
+        </member>
+        <member name="M:Ploeh.AutoFixture.AutoMoq.MockPostprocessor.#ctor(Ploeh.AutoFixture.Kernel.ISpecimenBuilder)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ploeh.AutoFixture.AutoMoq.MockPostprocessor"/> class with the
+            supplied <see cref="T:Ploeh.AutoFixture.Kernel.ISpecimenBuilder"/>.
+            </summary>
+            <param name="builder">
+            The builder which is expected to create <see cref="T:Moq.Mock`1"/> instances.
+            </param>
+        </member>
+        <member name="M:Ploeh.AutoFixture.AutoMoq.MockPostprocessor.Create(System.Object,Ploeh.AutoFixture.Kernel.ISpecimenContext)">
+            <summary>
+            Modifies a <see cref="T:Moq.Mock`1"/> instance created by <see cref="P:Ploeh.AutoFixture.AutoMoq.MockPostprocessor.Builder"/>.
+            </summary>
+            <param name="request">The request that describes what to create.</param>
+            <param name="context">A context that can be used to create other specimens.</param>
+            <returns>
+            The specimen created by <see cref="P:Ploeh.AutoFixture.AutoMoq.MockPostprocessor.Builder"/>. If the instance is a correct
+            <see cref="T:Moq.Mock`1"/> instance, this instance modifies it before returning it.
+            </returns>
+        </member>
+        <member name="P:Ploeh.AutoFixture.AutoMoq.MockPostprocessor.Builder">
+            <summary>
+            Gets the builder decorated by this instance.
+            </summary>
+        </member>
+        <member name="T:Ploeh.AutoFixture.AutoMoq.MockRelay">
+            <summary>
+            Relays a request for an interface or an abstract class to a request for a
+            <see cref="T:Moq.Mock`1"/> of that class.
+            </summary>
+        </member>
+        <member name="M:Ploeh.AutoFixture.AutoMoq.MockRelay.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ploeh.AutoFixture.AutoMoq.MockRelay"/> class.
+            </summary>
+        </member>
+        <member name="M:Ploeh.AutoFixture.AutoMoq.MockRelay.#ctor(System.Func{System.Type,System.Boolean})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ploeh.AutoFixture.AutoMoq.MockRelay"/> class with a specification
+            that determines whether a type should be mocked.
+            </summary>
+            <param name="mockableSpecification">
+            A specification that determines whether a type should be mocked or not.
+            </param>
+        </member>
+        <member name="M:Ploeh.AutoFixture.AutoMoq.MockRelay.Create(System.Object,Ploeh.AutoFixture.Kernel.ISpecimenContext)">
+            <summary>
+            Creates a new specimen based on a request.
+            </summary>
+            <param name="request">The request that describes what to create.</param>
+            <param name="context">A context that can be used to create other specimens.</param>
+            <returns>
+            A dynamic mock instance of the requested interface or abstract class if possible;
+            otherwise a <see cref="T:Ploeh.AutoFixture.Kernel.NoSpecimen"/> instance.
+            </returns>
+        </member>
+        <member name="P:Ploeh.AutoFixture.AutoMoq.MockRelay.MockableSpecification">
+            <summary>
+            Gets a specification that determines whether a given type should be mocked.
+            </summary>
+            <value>The specification.</value>
+            <remarks>
+            <para>
+            This specification determins whether a given type should be relayed as a request for a
+            mock of the same type. By default it only returns <see langword="true"/> for interfaces
+            and abstract classes, but a different specification can be supplied by using the
+            <see cref="M:Ploeh.AutoFixture.AutoMoq.MockRelay.#ctor(System.Func{System.Type,System.Boolean})"/> overloaded constructor that takes a
+            specification as input. In that case, this property returns the specification supplied
+            to the constructor.
+            </para>
+            </remarks>
+            <seealso cref="M:Ploeh.AutoFixture.AutoMoq.MockRelay.#ctor(System.Func{System.Type,System.Boolean})"/>
+        </member>
+    </members>
+</doc>

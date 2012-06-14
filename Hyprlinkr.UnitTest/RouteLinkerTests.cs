@@ -6,6 +6,9 @@ using Xunit.Extensions;
 using Xunit;
 using Ploeh.Hyprlinkr;
 using System.Linq.Expressions;
+using Ploeh.Hyprlinkr.UnitTest.Controllers;
+using Ploeh.AutoFixture.Xunit;
+using System.Net.Http;
 
 namespace Ploeh.Hyprlinkr.UnitTest
 {
@@ -24,6 +27,18 @@ namespace Ploeh.Hyprlinkr.UnitTest
             Expression<Action<object>> expressionWithIsNotAMethodCall = _ => new object();
             Assert.Throws<ArgumentException>(() =>
                 sut.GetUri<object>(expressionWithIsNotAMethodCall));
+        }
+
+        [Theory, AutoHypData]
+        public void GetRouteForDefaultGetMethodReturnsCorrectResult(
+            [Frozen]HttpRequestMessage request,
+            RouteLinker sut)
+        {
+            Uri actual = sut.GetUri<FooController>(r => r.Get());
+
+            var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
+            var expected = new Uri(new Uri(baseUri), "Foo/");
+            Assert.Equal(expected, actual);
         }
     }
 }
