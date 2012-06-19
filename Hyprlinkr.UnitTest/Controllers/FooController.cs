@@ -8,7 +8,7 @@ namespace Ploeh.Hyprlinkr.UnitTest.Controllers
 {
     public class FooController : ApiController
     {
-        public object Get()
+        public object GetDefault()
         {
             return new object();
         }

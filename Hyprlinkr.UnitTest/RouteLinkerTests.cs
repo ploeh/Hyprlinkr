@@ -34,7 +34,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
             [Frozen]HttpRequestMessage request,
             RouteLinker sut)
         {
-            Uri actual = sut.GetUri<FooController>(r => r.Get());
+            Uri actual = sut.GetUri<FooController>(r => r.GetDefault());
 
             var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
             var expected = new Uri(new Uri(baseUri), "foo/");
@@ -46,7 +46,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
             [Frozen]HttpRequestMessage request,
             RouteLinker sut)
         {
-            Uri actual = sut.GetUri<BarController>(r => r.Get());
+            Uri actual = sut.GetUri<BarController>(r => r.GetDefault());
 
             var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
             var expected = new Uri(new Uri(baseUri), "bar/");
