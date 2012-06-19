@@ -57,11 +57,10 @@ namespace Ploeh.Hyprlinkr.UnitTest
         [Theory, AutoHypData]
         public void GetUriForGetMethodWithParameters(
             [Frozen]HttpRequestMessage request,
-            [Frozen]HttpConfiguration config,
             RouteLinker sut,
             int id)
         {
-            config.Routes.MapHttpRoute(
+            request.GetConfiguration().Routes.MapHttpRoute(
                 name: "API Default",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional });
