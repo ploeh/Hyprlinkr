@@ -79,6 +79,7 @@
     <Compile Include="AutoHypDataAttribute.cs" />
     <Compile Include="Controllers\BarController.cs" />
     <Compile Include="Controllers\FooController.cs" />
+    <Compile Include="DefaultRouteConfiguration.cs" />
     <Compile Include="HyprlinkrCustomization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteLinkerTests.cs" />

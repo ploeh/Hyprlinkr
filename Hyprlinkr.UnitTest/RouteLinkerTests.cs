@@ -35,6 +35,8 @@ namespace Ploeh.Hyprlinkr.UnitTest
             [Frozen]HttpRequestMessage request,
             RouteLinker sut)
         {
+            request.AddDefaultRoute();
+
             Uri actual = sut.GetUri<FooController>(r => r.GetDefault());
 
             var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
@@ -47,6 +49,8 @@ namespace Ploeh.Hyprlinkr.UnitTest
             [Frozen]HttpRequestMessage request,
             RouteLinker sut)
         {
+            request.AddDefaultRoute();
+
             Uri actual = sut.GetUri<BarController>(r => r.GetDefault());
 
             var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
@@ -60,10 +64,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
             RouteLinker sut,
             int id)
         {
-            request.GetConfiguration().Routes.MapHttpRoute(
-                name: "API Default",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional });
+            request.AddDefaultRoute();
 
             var actual = sut.GetUri<FooController>(r => r.GetById(id));
 
