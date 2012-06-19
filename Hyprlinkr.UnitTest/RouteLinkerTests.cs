@@ -9,6 +9,7 @@ using System.Linq.Expressions;
 using Ploeh.Hyprlinkr.UnitTest.Controllers;
 using Ploeh.AutoFixture.Xunit;
 using System.Net.Http;
+using System.Web.Http;
 
 namespace Ploeh.Hyprlinkr.UnitTest
 {
@@ -50,6 +51,25 @@ namespace Ploeh.Hyprlinkr.UnitTest
 
             var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
             var expected = new Uri(new Uri(baseUri), "bar/");
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory, AutoHypData]
+        public void GetUriForGetMethodWithParameters(
+            [Frozen]HttpRequestMessage request,
+            [Frozen]HttpConfiguration config,
+            RouteLinker sut,
+            int id)
+        {
+            config.Routes.MapHttpRoute(
+                name: "API Default",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional });
+
+            var actual = sut.GetUri<FooController>(r => r.GetById(id));
+
+            var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
+            var expected = new Uri(new Uri(baseUri), "foo/"+ id);
             Assert.Equal(expected, actual);
         }
     }

@@ -12,5 +12,10 @@ namespace Ploeh.Hyprlinkr.UnitTest.Controllers
         {
             return new object();
         }
+
+        public object GetById(int id)
+        {
+            return new object();
+        }
     }
 }

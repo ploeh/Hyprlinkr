@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Linq.Expressions;
 using System.Net.Http;
+using System.Reflection;
 
 namespace Ploeh.Hyprlinkr
 {
@@ -32,10 +33,23 @@ namespace Ploeh.Hyprlinkr
                 .ToLowerInvariant()
                 .Replace("controller", "");
 
+            var routeValues = methodCallExp.Method.GetParameters()
+                .Select(p => GetValue(methodCallExp, p).ToString())
+                .Aggregate("", (x, y) => x + y);
+
             var authority = 
                 this.request.RequestUri.GetLeftPart(UriPartial.Authority);
             var baseUri = new Uri(authority);
-            return new Uri(baseUri, controllerName + "/");
+            return new Uri(baseUri, controllerName + "/" + routeValues);
         }
+
+        private static object GetValue(MethodCallExpression methodCallExp,
+            ParameterInfo p)
+        {
+            var arg = methodCallExp.Arguments[p.Position];
+            var lambda = Expression.Lambda(arg);
+            return lambda.Compile().DynamicInvoke().ToString();
+        }
+
     }
 }
