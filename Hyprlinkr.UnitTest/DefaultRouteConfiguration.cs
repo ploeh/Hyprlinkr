@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Hosting;
 
 namespace Ploeh.Hyprlinkr.UnitTest
 {
@@ -11,10 +12,15 @@ namespace Ploeh.Hyprlinkr.UnitTest
     {
         public static void AddDefaultRoute(this HttpRequestMessage request)
         {
-            request.GetConfiguration().Routes.MapHttpRoute(
+            var config = request.GetConfiguration();
+
+            config.Routes.MapHttpRoute(
                 name: "API Default",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional });
+                routeTemplate: "{controller}/{id}",
+                defaults: new { controller = "Home", id = RouteParameter.Optional });
+
+            request.Properties[HttpPropertyKeys.HttpRouteDataKey] =
+                config.Routes.GetRouteData(request);
         }
     }
 }

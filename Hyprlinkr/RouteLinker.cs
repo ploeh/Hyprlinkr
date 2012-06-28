@@ -5,6 +5,7 @@ using System.Text;
 using System.Linq.Expressions;
 using System.Net.Http;
 using System.Reflection;
+using System.Web.Http.Controllers;
 
 namespace Ploeh.Hyprlinkr
 {
@@ -25,6 +26,9 @@ namespace Ploeh.Hyprlinkr
             var methodCallExp = method.Body as MethodCallExpression;
             if (methodCallExp == null)
                 throw new ArgumentException("The expression's body must be a MethodCallExpression. The code block supplied should invoke a method.\nExample: x => x.Foo().", "method");
+            
+            var routeValues = methodCallExp.Method.GetParameters()
+                .ToDictionary(p => p.Name, p => GetValue(methodCallExp, p));
 
             var controllerName = methodCallExp
                 .Method
@@ -32,15 +36,16 @@ namespace Ploeh.Hyprlinkr
                 .Name
                 .ToLowerInvariant()
                 .Replace("controller", "");
+            routeValues.Add("controller", controllerName);
 
-            var routeValues = methodCallExp.Method.GetParameters()
-                .Select(p => GetValue(methodCallExp, p).ToString())
-                .Aggregate("", (x, y) => x + y);
+            var ctx = new HttpControllerContext(
+                request.GetConfiguration(), request.GetRouteData(), request);
+            var relativeUri = ctx.Url.Route("API Default", routeValues);
 
             var authority = 
                 this.request.RequestUri.GetLeftPart(UriPartial.Authority);
             var baseUri = new Uri(authority);
-            return new Uri(baseUri, controllerName + "/" + routeValues);
+            return new Uri(baseUri, relativeUri);
         }
 
         private static object GetValue(MethodCallExpression methodCallExp,

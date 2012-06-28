@@ -40,7 +40,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
             Uri actual = sut.GetUri<FooController>(r => r.GetDefault());
 
             var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
-            var expected = new Uri(new Uri(baseUri), "foo/");
+            var expected = new Uri(new Uri(baseUri), "foo");
             Assert.Equal(expected, actual);
         }
 
@@ -54,7 +54,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
             Uri actual = sut.GetUri<BarController>(r => r.GetDefault());
 
             var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
-            var expected = new Uri(new Uri(baseUri), "bar/");
+            var expected = new Uri(new Uri(baseUri), "bar");
             Assert.Equal(expected, actual);
         }
 
@@ -70,6 +70,26 @@ namespace Ploeh.Hyprlinkr.UnitTest
 
             var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
             var expected = new Uri(new Uri(baseUri), "foo/"+ id);
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory, AutoHypData]
+        public void GetUriForGetMethodWithNamedParametersReturnsCorrectResult(
+            [Frozen]HttpRequestMessage request,
+            RouteLinker sut,
+            int ploeh,
+            string fnaah)
+        {
+            request.AddDefaultRoute();
+
+            var actual = sut.GetUri<FooController>(r =>
+                r.GetWithPloehAndFnaah(ploeh, fnaah));
+
+            var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
+            var expected = 
+                new Uri(
+                    new Uri(baseUri),
+                    "foo?ploeh=" + ploeh + "&fnaah=" + fnaah);
             Assert.Equal(expected, actual);
         }
     }

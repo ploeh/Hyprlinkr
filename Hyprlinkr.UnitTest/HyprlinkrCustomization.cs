@@ -7,6 +7,7 @@ using Ploeh.AutoFixture.AutoMoq;
 using System.Net.Http;
 using System.Web.Http.Hosting;
 using System.Web.Http;
+using System.Web.Http.Routing;
 
 namespace Ploeh.Hyprlinkr.UnitTest
 {
@@ -15,8 +16,8 @@ namespace Ploeh.Hyprlinkr.UnitTest
         public HyprlinkrCustomization()
             : base(
                 new HttpSchemeCustomization(),
-                new HttpRequestMessageCustomization(),
-                new AutoMoqCustomization()
+                new AutoMoqCustomization(),
+                new HttpRequestMessageCustomization()
             )
         {
         }
@@ -33,11 +34,13 @@ namespace Ploeh.Hyprlinkr.UnitTest
         {
             public void Customize(IFixture fixture)
             {
+                var config = fixture.CreateAnonymous<HttpConfiguration>();
+
                 fixture.Customize<HttpRequestMessage>(c => c
                     .Do(x =>
                     {
                         x.Properties[HttpPropertyKeys.HttpConfigurationKey] =
-                            fixture.CreateAnonymous<HttpConfiguration>();
+                            config;
                     }));
             }
         }
