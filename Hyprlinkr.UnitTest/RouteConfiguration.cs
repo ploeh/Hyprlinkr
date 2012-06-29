@@ -8,7 +8,7 @@ using System.Web.Http.Hosting;
 
 namespace Ploeh.Hyprlinkr.UnitTest
 {
-    public static class DefaultRouteConfiguration
+    public static class RouteConfiguration
     {
         public static void AddDefaultRoute(this HttpRequestMessage request)
         {
