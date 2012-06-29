@@ -79,6 +79,13 @@
     <Compile Include="AutoHypDataAttribute.cs" />
     <Compile Include="Controllers\BarController.cs" />
     <Compile Include="Controllers\FooController.cs" />
+    <Compile Include="netfx\System\Guard.cs" />
+    <Compile Include="netfx\System\Reflection\Reflect.cs" />
+    <Compile Include="netfx\System\Reflection\Reflect.Overloads.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reflect.Overloads.tt</DependentUpon>
+    </Compile>
     <Compile Include="RoupleTests.cs" />
     <Compile Include="RouteConfiguration.cs" />
     <Compile Include="HyprlinkrCustomization.cs" />
@@ -87,6 +94,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="netfx\System\Reflection\Reflect.Overloads.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Reflect.Overloads.cs</LastGenOutput>
+    </None>
+    <None Include="netfx\System\Reflection\TargetFramework.ttinclude" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -94,6 +106,9 @@
       <Project>{76905975-456A-44C1-87F6-8E2296CD336E}</Project>
       <Name>Hyprlinkr</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

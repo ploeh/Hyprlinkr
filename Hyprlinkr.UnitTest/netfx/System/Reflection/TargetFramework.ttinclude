@@ -1,0 +1,55 @@
+﻿<#@ Assembly Name="EnvDTE" #>
+<#@ Assembly Name="System.Core" #>
+<#@ Import Namespace="System.Linq" #>
+<#@ Import Namespace="System.Runtime.Versioning" #>
+<#@ Import Namespace="EnvDTE" #>
+<#
+	var dte = (DTE)((IServiceProvider)this.Host).GetService(typeof(DTE));
+	if (dte == null)
+	    return "#warning Cannot get access to Visual Studio environment. Please use 'Run Custom Tool' context menu over the template '" + System.IO.Path.GetFileName(this.Host.TemplateFile) + "'.";
+
+	var project = default(Project);
+	var templateItem = dte.SelectedItems
+		.OfType<SelectedItem>()
+		.Where(s => s.ProjectItem != null && s.ProjectItem.FileNames[1] == this.Host.TemplateFile)
+		.Select(s => s.ProjectItem)
+		.FirstOrDefault();
+        
+	if (templateItem == null)
+	{
+		// Go the hard way, to the entire solution.
+		project = 
+			(from prj in dte.Solution.Projects.OfType<Project>()
+			 where prj.ProjectItems.OfType<ProjectItem>().Any(item => item.FileNames[1] == this.Host.TemplateFile)
+			 select prj)
+			.FirstOrDefault();
+
+		if (project == null)
+		{
+			project = 
+				(from prj in dte.Solution.Projects.OfType<Project>()
+				 let netfx = prj.ProjectItems.OfType<ProjectItem>().FirstOrDefault(item => item.Name == "netfx")
+                 where netfx != null
+                 let system = netfx.ProjectItems.OfType<ProjectItem>().FirstOrDefault(item => item.Name == "System")
+                 where system != null
+                 let reflection = system.ProjectItems.OfType<ProjectItem>().FirstOrDefault(item => item.Name == "Reflection")
+                 where reflection != null
+                 let reflect = reflection.ProjectItems.OfType<ProjectItem>().FirstOrDefault(item => item.FileNames[0] == this.Host.TemplateFile)
+                 where reflect != null
+                 select prj)
+				.FirstOrDefault();
+		}
+	}
+	else
+	{
+		project = templateItem.ContainingProject;
+	}
+ 
+	if (project == null)
+		return "#warning Cannot determine parent project of template " + this.Host.TemplateFile;
+        
+	this.TargetFramework = new FrameworkName((string)project.Properties.Item("TargetFrameworkMoniker").Value);
+#>
+<#+
+	public FrameworkName TargetFramework { get; private set; }
+#>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- 
+	Template for a Guard.NotNullOrEmpty method call.
+	Press notempty[TAB][TAB] to get it.
+-->
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Guard null or empty string argument</Title>
+			<Shortcut>notempty</Shortcut>
+			<Description>Call Guard.NotNullOrEmpty for the given argument</Description>
+			<Author>Daniel Cazzulino</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>argument</ID>
+					<ToolTip>Name of the argument to guard</ToolTip>
+					<Default>value</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="csharp"><![CDATA[Guard.NotNullOrEmpty(() => $argument$, $argument$);
+			$end$]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>
