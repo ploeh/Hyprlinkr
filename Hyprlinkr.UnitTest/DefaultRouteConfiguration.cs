@@ -12,12 +12,20 @@ namespace Ploeh.Hyprlinkr.UnitTest
     {
         public static void AddDefaultRoute(this HttpRequestMessage request)
         {
-            var config = request.GetConfiguration();
-
-            config.Routes.MapHttpRoute(
+            request.AddRoute(
                 name: "API Default",
                 routeTemplate: "{controller}/{id}",
                 defaults: new { controller = "Home", id = RouteParameter.Optional });
+        }
+
+        public static void AddRoute(this HttpRequestMessage request,
+            string name,
+            string routeTemplate,
+            object defaults)
+        {
+            var config = request.GetConfiguration();
+
+            config.Routes.MapHttpRoute(name, routeTemplate, defaults);
 
             request.Properties[HttpPropertyKeys.HttpRouteDataKey] =
                 config.Routes.GetRouteData(request);
