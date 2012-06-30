@@ -12,10 +12,17 @@ namespace Ploeh.Hyprlinkr
     public class RouteLinker
     {
         private readonly HttpRequestMessage request;
+        private readonly IRouteDispatcher dispatcher;
 
         public RouteLinker(HttpRequestMessage request)
         {
             this.request = request;
+        }
+
+        public RouteLinker(HttpRequestMessage request, IRouteDispatcher dispatcher)
+        {
+            this.request = request;
+            this.dispatcher = dispatcher;
         }
 
         public Uri GetUri<T>(Expression<Action<T>> method)
@@ -30,17 +37,25 @@ namespace Ploeh.Hyprlinkr
             var routeValues = methodCallExp.Method.GetParameters()
                 .ToDictionary(p => p.Name, p => GetValue(methodCallExp, p));
 
-            var controllerName = methodCallExp
-                .Method
-                .ReflectedType
-                .Name
-                .ToLowerInvariant()
-                .Replace("controller", "");
-            routeValues.Add("controller", controllerName);
+            if (this.dispatcher == null)
+            {
+                var controllerName = methodCallExp
+                    .Method
+                    .ReflectedType
+                    .Name
+                    .ToLowerInvariant()
+                    .Replace("controller", "");
+                routeValues.Add("controller", controllerName);
+            }
 
             var ctx = new HttpControllerContext(
                 request.GetConfiguration(), request.GetRouteData(), request);
             var relativeUri = ctx.Url.Route("API Default", routeValues);
+            if (this.dispatcher != null)
+            {
+                var r = this.dispatcher.Dispatch(methodCallExp.Method, routeValues);
+                relativeUri = ctx.Url.Route(r.RouteName, r.RouteValues);
+            }
 
             var authority = 
                 this.request.RequestUri.GetLeftPart(UriPartial.Authority);

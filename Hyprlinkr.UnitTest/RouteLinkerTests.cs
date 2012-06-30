@@ -10,6 +10,8 @@ using Ploeh.Hyprlinkr.UnitTest.Controllers;
 using Ploeh.AutoFixture.Xunit;
 using System.Net.Http;
 using System.Web.Http;
+using Moq;
+using System.Reflection;
 
 namespace Ploeh.Hyprlinkr.UnitTest
 {
@@ -90,6 +92,43 @@ namespace Ploeh.Hyprlinkr.UnitTest
                 new Uri(
                     new Uri(baseUri),
                     "foo?ploeh=" + ploeh + "&fnaah=" + fnaah);
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory, AutoHypData]
+        public void GetUriWithCustomRouteAndDispatcherReturnsCorrectResult(
+            [Frozen]HttpRequestMessage request,
+            [Frozen]Mock<IRouteDispatcher> dispatcherStub,
+            string routeName,
+            [Greedy]RouteLinker sut,
+            int ploeh,
+            string fnaah)
+        {
+            // Arrange
+            request.AddDefaultRoute();
+            request.AddRoute(
+                name: routeName,
+                routeTemplate: "foo/{ploeh}/{fnaah}",
+                defaults: new { });
+
+            var method = Reflect<FooController>
+                .GetMethod(c => c.GetWithPloehAndFnaah(ploeh, fnaah));
+            dispatcherStub
+                .Setup(d =>
+                    d.Dispatch(method, It.IsAny<IDictionary<string, object>>()))
+                .Returns((MethodInfo _, IDictionary<string, object> routeValues) =>
+                    new Rouple(routeName, routeValues));
+
+            // Act
+            var actual = sut.GetUri<FooController>(r =>
+                r.GetWithPloehAndFnaah(ploeh, fnaah));
+
+            // Assert
+            var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
+            var expected =
+                new Uri(
+                    new Uri(baseUri),
+                    "foo/" + ploeh + "/" + fnaah);
             Assert.Equal(expected, actual);
         }
     }
