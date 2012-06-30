@@ -13,6 +13,21 @@ namespace Ploeh.Hyprlinkr
     /// <seealso cref="IRouteDispatcher" />
     public class DefaultRouteDispatcher : IRouteDispatcher
     {
+        private readonly string routeName;
+
+        public DefaultRouteDispatcher()
+            : this("API Default")
+        {
+        }
+
+        public DefaultRouteDispatcher(string routeName)
+        {
+            if (routeName == null)
+                throw new ArgumentNullException("routeName");
+
+            this.routeName = routeName;
+        }
+
         public Rouple Dispatch(
             MethodInfo method,
             IDictionary<string, object> routeValues)
@@ -29,7 +44,12 @@ namespace Ploeh.Hyprlinkr
                 .Replace("controller", "");
             newRouteValues["controller"] = controllerName;
 
-            return new Rouple("API Default", newRouteValues);
+            return new Rouple(this.routeName, newRouteValues);
+        }
+
+        public string RouteName
+        {
+            get { return this.routeName; }
         }
     }
 }

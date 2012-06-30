@@ -8,6 +8,7 @@ using Xunit;
 using System.Reflection;
 using Ploeh.Hyprlinkr.UnitTest.Controllers;
 using Ploeh.AutoFixture.Idioms;
+using Ploeh.AutoFixture.Xunit;
 
 namespace Ploeh.Hyprlinkr.UnitTest
 {
@@ -26,13 +27,38 @@ namespace Ploeh.Hyprlinkr.UnitTest
         }
 
         [Theory, AutoHypData]
+        public void RouteNameIsCorrect(
+            [Frozen]string expected,
+            [Greedy]DefaultRouteDispatcher sut)
+        {
+            Assert.Equal<string>(expected, sut.RouteName);
+        }
+
+        [Theory, AutoHypData]
+        public void DefaultRouteNameIsCorrect(
+            [Modest]DefaultRouteDispatcher sut)
+        {
+            Assert.Equal("API Default", sut.RouteName);
+        }
+
+        [Theory, AutoHypData]
         public void DispatchReturnsResultWithCorrectRouteName(
-            DefaultRouteDispatcher sut,
+            [Modest]DefaultRouteDispatcher sut,
             MethodInfo method,
             IDictionary<string, object> routeValues)
         {
             var actual = sut.Dispatch(method, routeValues);
             Assert.Equal("API Default", actual.RouteName);
+        }
+
+        [Theory, AutoHypData]
+        public void DispatchReturnsResultWithCustomRouteName(
+            [Greedy]DefaultRouteDispatcher sut,
+            MethodInfo method,
+            IDictionary<string, object> routeValues)
+        {
+            var actual = sut.Dispatch(method, routeValues);
+            Assert.Equal(sut.RouteName, actual.RouteName);
         }
 
         [Theory, AutoHypData]
