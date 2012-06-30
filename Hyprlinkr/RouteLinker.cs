@@ -17,6 +17,7 @@ namespace Ploeh.Hyprlinkr
         public RouteLinker(HttpRequestMessage request)
         {
             this.request = request;
+            this.dispatcher = new DefaultRouteDispatcher();
         }
 
         public RouteLinker(HttpRequestMessage request, IRouteDispatcher dispatcher)
@@ -33,31 +34,16 @@ namespace Ploeh.Hyprlinkr
             var methodCallExp = method.Body as MethodCallExpression;
             if (methodCallExp == null)
                 throw new ArgumentException("The expression's body must be a MethodCallExpression. The code block supplied should invoke a method.\nExample: x => x.Foo().", "method");
-            
-            var routeValues = methodCallExp.Method.GetParameters()
-                .ToDictionary(p => p.Name, p => GetValue(methodCallExp, p));
 
-            if (this.dispatcher == null)
-            {
-                var controllerName = methodCallExp
-                    .Method
-                    .ReflectedType
-                    .Name
-                    .ToLowerInvariant()
-                    .Replace("controller", "");
-                routeValues.Add("controller", controllerName);
-            }
+            var routeValues = methodCallExp.Method.GetParameters()
+                .ToDictionary(p => p.Name, p => GetValue(methodCallExp, p));            
+            var r = this.dispatcher.Dispatch(methodCallExp.Method, routeValues);
 
             var ctx = new HttpControllerContext(
                 request.GetConfiguration(), request.GetRouteData(), request);
-            var relativeUri = ctx.Url.Route("API Default", routeValues);
-            if (this.dispatcher != null)
-            {
-                var r = this.dispatcher.Dispatch(methodCallExp.Method, routeValues);
-                relativeUri = ctx.Url.Route(r.RouteName, r.RouteValues);
-            }
+            var relativeUri = ctx.Url.Route(r.RouteName, r.RouteValues);
 
-            var authority = 
+            var authority =
                 this.request.RequestUri.GetLeftPart(UriPartial.Authority);
             var baseUri = new Uri(authority);
             return new Uri(baseUri, relativeUri);
