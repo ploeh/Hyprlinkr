@@ -129,7 +129,9 @@ namespace Ploeh.Hyprlinkr
 
             var ctx = new HttpControllerContext(
                 request.GetConfiguration(), request.GetRouteData(), request);
-            var relativeUri = ctx.Url.Route(r.RouteName, r.RouteValues);
+            var relativeUri = new Uri(
+                ctx.Url.Route(r.RouteName, r.RouteValues),
+                UriKind.Relative);
 
             var authority =
                 this.request.RequestUri.GetLeftPart(UriPartial.Authority);
