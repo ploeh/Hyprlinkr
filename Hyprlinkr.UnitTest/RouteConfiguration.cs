@@ -12,11 +12,11 @@ namespace Ploeh.Hyprlinkr.UnitTest
     {
         public static void AddDefaultRoute(this HttpRequestMessage request)
         {
-            request.RequestUri = new Uri(request.RequestUri, "api");
+            request.RequestUri = new Uri(request.RequestUri, "api/qux");
             request.AddRoute(
                 name: "API Default",
                 routeTemplate: "api/{controller}/{id}",
-                defaults: new { controller = "Home", id = RouteParameter.Optional });
+                defaults: new { id = RouteParameter.Optional });
         }
 
         public static void AddRoute(this HttpRequestMessage request,
