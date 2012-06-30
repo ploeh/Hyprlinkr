@@ -64,6 +64,7 @@ namespace Ploeh.Hyprlinkr
         /// derived from <paramref name="method" />.
         /// </para>
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "This method should produce URIs with lower-case letters, so ultimately, it would have to invoke some sort of ToLower method.")]
         public Rouple Dispatch(
             MethodInfo method,
             IDictionary<string, object> routeValues)
