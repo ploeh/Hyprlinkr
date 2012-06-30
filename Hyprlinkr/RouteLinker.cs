@@ -15,9 +15,8 @@ namespace Ploeh.Hyprlinkr
         private readonly IRouteDispatcher dispatcher;
 
         public RouteLinker(HttpRequestMessage request)
+            : this(request, new DefaultRouteDispatcher())
         {
-            this.request = request;
-            this.dispatcher = new DefaultRouteDispatcher();
         }
 
         public RouteLinker(HttpRequestMessage request, IRouteDispatcher dispatcher)
@@ -36,7 +35,7 @@ namespace Ploeh.Hyprlinkr
                 throw new ArgumentException("The expression's body must be a MethodCallExpression. The code block supplied should invoke a method.\nExample: x => x.Foo().", "method");
 
             var routeValues = methodCallExp.Method.GetParameters()
-                .ToDictionary(p => p.Name, p => GetValue(methodCallExp, p));            
+                .ToDictionary(p => p.Name, p => GetValue(methodCallExp, p));
             var r = this.dispatcher.Dispatch(methodCallExp.Method, routeValues);
 
             var ctx = new HttpControllerContext(
