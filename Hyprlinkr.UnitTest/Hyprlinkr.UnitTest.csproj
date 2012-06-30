@@ -79,6 +79,7 @@
     <Compile Include="AutoHypDataAttribute.cs" />
     <Compile Include="Controllers\BarController.cs" />
     <Compile Include="Controllers\FooController.cs" />
+    <Compile Include="DefaultRouteDispatcherTests.cs" />
     <Compile Include="netfx\System\Guard.cs" />
     <Compile Include="netfx\System\Reflection\Reflect.cs" />
     <Compile Include="netfx\System\Reflection\Reflect.Overloads.cs">

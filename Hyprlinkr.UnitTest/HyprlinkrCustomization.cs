@@ -8,6 +8,8 @@ using System.Net.Http;
 using System.Web.Http.Hosting;
 using System.Web.Http;
 using System.Web.Http.Routing;
+using Moq;
+using System.Reflection;
 
 namespace Ploeh.Hyprlinkr.UnitTest
 {
@@ -16,6 +18,8 @@ namespace Ploeh.Hyprlinkr.UnitTest
         public HyprlinkrCustomization()
             : base(
                 new HttpSchemeCustomization(),
+                new MethodInfoCustomization(),
+                new MultipleCustomization(),
                 new AutoMoqCustomization(),
                 new HttpRequestMessageCustomization()
             )
@@ -42,6 +46,17 @@ namespace Ploeh.Hyprlinkr.UnitTest
                         x.Properties[HttpPropertyKeys.HttpConfigurationKey] =
                             config;
                     }));
+            }
+        }
+
+        private class MethodInfoCustomization : ICustomization
+        {
+            public void Customize(IFixture fixture)
+            {
+                fixture.Customize<Mock<MethodInfo>>(c => c
+                    .Do(stub => stub
+                        .SetupGet(m => m.ReflectedType.Name)
+                        .Returns(fixture.CreateAnonymous<string>())));
             }
         }
     }

@@ -12,7 +12,10 @@ namespace Ploeh.Hyprlinkr.UnitTest
     public class RoupleTests
     {
         [Theory, AutoHypData]
-        public void RouteNameIsCorrect([Frozen]string expected, Rouple sut)
+        public void RouteNameIsCorrect(
+            [Frozen]IDictionary<string, object> dummyFrozenBeforeStringIsFrozen,
+            [Frozen]string expected,
+            Rouple sut)
         {
             Assert.Equal<string>(expected, sut.RouteName);
         }
