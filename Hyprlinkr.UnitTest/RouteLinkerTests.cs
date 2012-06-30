@@ -42,7 +42,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
             Uri actual = sut.GetUri<FooController>(r => r.GetDefault());
 
             var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
-            var expected = new Uri(new Uri(baseUri), "foo");
+            var expected = new Uri(new Uri(baseUri), "api/foo");
             Assert.Equal(expected, actual);
         }
 
@@ -56,7 +56,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
             Uri actual = sut.GetUri<BarController>(r => r.GetDefault());
 
             var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
-            var expected = new Uri(new Uri(baseUri), "bar");
+            var expected = new Uri(new Uri(baseUri), "api/bar");
             Assert.Equal(expected, actual);
         }
 
@@ -71,7 +71,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
             var actual = sut.GetUri<FooController>(r => r.GetById(id));
 
             var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
-            var expected = new Uri(new Uri(baseUri), "foo/"+ id);
+            var expected = new Uri(new Uri(baseUri), "api/foo/"+ id);
             Assert.Equal(expected, actual);
         }
 
@@ -91,7 +91,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
             var expected = 
                 new Uri(
                     new Uri(baseUri),
-                    "foo?ploeh=" + ploeh + "&fnaah=" + fnaah);
+                    "api/foo?ploeh=" + ploeh + "&fnaah=" + fnaah);
             Assert.Equal(expected, actual);
         }
 
