@@ -43,6 +43,9 @@
     <Reference Include="Ploeh.AutoFixture.AutoMoq">
       <HintPath>..\packages\AutoFixture.AutoMoq.2.11.2\lib\Ploeh.AutoFixture.AutoMoq.dll</HintPath>
     </Reference>
+    <Reference Include="Ploeh.AutoFixture.Idioms">
+      <HintPath>..\packages\AutoFixture.Idioms.2.11.2\lib\Ploeh.AutoFixture.Idioms.dll</HintPath>
+    </Reference>
     <Reference Include="Ploeh.AutoFixture.Xunit">
       <HintPath>..\packages\AutoFixture.Xunit.2.11.2\lib\Ploeh.AutoFixture.Xunit.dll</HintPath>
     </Reference>
