@@ -6,6 +6,11 @@ using System.Reflection;
 
 namespace Ploeh.Hyprlinkr
 {
+    /// <summary>
+    /// The default Strategy for dispatching Action Methods to a route name, by
+    /// always dispatching to a single, named route.
+    /// </summary>
+    /// <seealso cref="IRouteDispatcher" />
     public class DefaultRouteDispatcher : IRouteDispatcher
     {
         public Rouple Dispatch(
