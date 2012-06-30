@@ -15,11 +15,28 @@ namespace Ploeh.Hyprlinkr
     {
         private readonly string routeName;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DefaultRouteDispatcher" /> class.
+        /// </summary>
         public DefaultRouteDispatcher()
             : this("API Default")
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="DefaultRouteDispatcher" /> class with the supplied route name.
+        /// </summary>
+        /// <param name="routeName">
+        /// The route name which will be used by the <see cref="Dispatch" /> method as the
+        /// <see cref="Rouple.RouteName" /> value.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// After initialization, the <paramref name="routeName" /> value is available through the
+        /// <see cref="RouteName" /> property.
+        /// </para>
+        /// </remarks>
         public DefaultRouteDispatcher(string routeName)
         {
             if (routeName == null)
@@ -28,6 +45,25 @@ namespace Ploeh.Hyprlinkr
             this.routeName = routeName;
         }
 
+        /// <summary>
+        /// Provides dispatch information based on an Action Method.
+        /// </summary>
+        /// <param name="method">The Action Method.</param>
+        /// <param name="routeValues">Route values.</param>
+        /// <returns>
+        /// An object containing the route name, as well as the route values.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The returned <see cref="Rouple.RouteName" /> will be the value of the
+        /// <see cref="RouteName" /> property.
+        /// </para>
+        /// <para>
+        /// The returned <see cref="Rouple.RouteValues" /> will be all entries of the
+        /// <paramref name="routeValues" />, plus a value for an additional "controller" key,
+        /// derived from <paramref name="method" />.
+        /// </para>
+        /// </remarks>
         public Rouple Dispatch(
             MethodInfo method,
             IDictionary<string, object> routeValues)
@@ -47,6 +83,10 @@ namespace Ploeh.Hyprlinkr
             return new Rouple(this.routeName, newRouteValues);
         }
 
+        /// <summary>
+        /// Gets the route name.
+        /// </summary>
+        /// <seealso cref="DefaultRouteDispatcher(string)" />
         public string RouteName
         {
             get { return this.routeName; }
