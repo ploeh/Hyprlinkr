@@ -21,6 +21,11 @@ namespace Ploeh.Hyprlinkr
 
         public RouteLinker(HttpRequestMessage request, IRouteDispatcher dispatcher)
         {
+            if (request == null)
+                throw new ArgumentNullException("request");
+            if (dispatcher == null)
+                throw new ArgumentNullException("dispatcher");
+
             this.request = request;
             this.dispatcher = dispatcher;
         }

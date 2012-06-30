@@ -12,11 +12,18 @@ using System.Net.Http;
 using System.Web.Http;
 using Moq;
 using System.Reflection;
+using Ploeh.AutoFixture.Idioms;
 
 namespace Ploeh.Hyprlinkr.UnitTest
 {
     public class RouteLinkerTests
     {
+        [Theory, AutoHypData]
+        public void ConstructorHasAppropriateGuards(GuardClauseAssertion assertion)
+        {
+            assertion.Verify(typeof(RouteLinker).GetConstructors());
+        }
+
         [Theory, AutoHypData]
         public void GetNullThrows(RouteLinker sut)
         {

@@ -7,11 +7,18 @@ using Ploeh.Hyprlinkr;
 using Xunit;
 using System.Reflection;
 using Ploeh.Hyprlinkr.UnitTest.Controllers;
+using Ploeh.AutoFixture.Idioms;
 
 namespace Ploeh.Hyprlinkr.UnitTest
 {
     public class DefaultRouteDispatcherTests
     {
+        [Theory, AutoHypData]
+        public void SutHasAppropriateGuards(GuardClauseAssertion assertion)
+        {
+            assertion.Verify(typeof(DefaultRouteDispatcher));
+        }
+
         [Theory, AutoHypData]
         public void SutIsRouteLinker(DefaultRouteDispatcher sut)
         {

@@ -6,11 +6,18 @@ using Xunit.Extensions;
 using Ploeh.AutoFixture.Xunit;
 using Ploeh.Hyprlinkr;
 using Xunit;
+using Ploeh.AutoFixture.Idioms;
 
 namespace Ploeh.Hyprlinkr.UnitTest
 {
     public class RoupleTests
     {
+        [Theory, AutoHypData]
+        public void SutHasAppropriateGuards(GuardClauseAssertion assertion)
+        {
+            assertion.Verify(typeof(Rouple));
+        }
+
         [Theory, AutoHypData]
         public void RouteNameIsCorrect(
             [Frozen]IDictionary<string, object> dummyFrozenBeforeStringIsFrozen,

@@ -12,6 +12,9 @@ namespace Ploeh.Hyprlinkr
             MethodInfo method,
             IDictionary<string, object> routeValues)
         {
+            if (method == null)
+                throw new ArgumentNullException("method");
+
             var newRouteValues = new Dictionary<string, object>(routeValues);
 
             var controllerName = method

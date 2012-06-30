@@ -15,6 +15,11 @@ namespace Ploeh.Hyprlinkr
 
         public Rouple(string routeName, IDictionary<string, object> routeValues)
         {
+            if (routeName == null)
+                throw new ArgumentNullException("routeName");
+            if (routeValues == null)
+                throw new ArgumentNullException("routeValues");
+                        
             this.routeName = routeName;
             this.routeValues = routeValues;
         }
