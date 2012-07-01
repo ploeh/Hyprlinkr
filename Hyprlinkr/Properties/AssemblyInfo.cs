@@ -9,7 +9,7 @@ using System;
 [assembly: AssemblyTitle("Hyprlinkr")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Mark Seemann")]
 [assembly: AssemblyProduct("Hyprlinkr")]
 [assembly: AssemblyCopyright("Copyright © Mark Seemann 2012")]
 [assembly: AssemblyTrademark("")]

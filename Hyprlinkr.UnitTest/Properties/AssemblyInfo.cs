@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Hyprlinkr.UnitTest")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Mark Seemann")]
 [assembly: AssemblyProduct("Hyprlinkr.UnitTest")]
 [assembly: AssemblyCopyright("Copyright © Mark Seemann 2012")]
 [assembly: AssemblyTrademark("")]
