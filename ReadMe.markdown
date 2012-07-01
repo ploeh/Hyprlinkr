@@ -41,7 +41,7 @@ public IHttpController Create(
 ```
 Nuget
 -----
-Hyprlinkr is available via nuget: https://nuget.org/packages/Hyprlinkr
+Hyprlinkr is [available via nuget](https://nuget.org/packages/Hyprlinkr)
 Contribute
 ----------
 Hyprlinkr is open source, and pull requests are welcome.
@@ -52,4 +52,4 @@ Hyprlinkr was developed entirely using TDD. Pull requests without test coverage 
 Please be aware that the Visual Studio solution contains a new build configuration (besides Debug and Release) called Verify. This configuration treats all warnings and errors, and runs Code Analysis. No Code Analyis warnings should be suppressed unless the documented conditions for suppression are satisfied. Otherwise, a documented agreement between at least two active developers of the project should be reached to allow a suppression of a non-suppressable warning.
 Credits
 -------
-The strongly typed Resource Linker idea was originally presented by José F. Romaniello: http://joseoncode.com/2011/03/18/wcf-web-api-strongly-typed-resource-linker/
+The strongly typed Resource Linker idea was [originally presented by José F. Romaniello](http://joseoncode.com/2011/03/18/wcf-web-api-strongly-typed-resource-linker/).
