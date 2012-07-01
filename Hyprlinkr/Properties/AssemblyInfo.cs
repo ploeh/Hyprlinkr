@@ -7,7 +7,7 @@ using System;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Hyprlinkr")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Hyprlinkr is a small and very focused helper library for the ASP.NET Web API. It does one thing only: it creates URIs according to the application's route configuration in a type-safe manner.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Mark Seemann")]
 [assembly: AssemblyProduct("Hyprlinkr")]
