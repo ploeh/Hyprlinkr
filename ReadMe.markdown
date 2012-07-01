@@ -39,6 +39,9 @@ public IHttpController Create(
     // If desired, a DI Container can be used for this task.
 }
 ```
+Nuget
+-----
+Hyprlinkr is available via nuget: https://nuget.org/packages/Hyprlinkr
 Contribute
 ----------
 Hyprlinkr is open source, and pull requests are welcome.
