@@ -39,6 +39,15 @@ public IHttpController Create(
     // If desired, a DI Container can be used for this task.
 }
 ```
+Such a custom IHttpControllerActivator can be registered in Global.asax like this:
+```C#
+GlobalConfiguration.Configuration.Services.Replace(
+    typeof(IHttpControllerActivator),
+    new MyCustomControllerActivator());
+```
+Custom route dispatching
+------------------------
+The default behavior for RouteLinker is to assume that there's only a single configured route for the ASP.NET Web API, and that this route is named "API Default". This behavior is implemented by the DefaultRouteDispatcher class. If you require different dispatching behavior, you can implement a custom IRouteDispatcher and inject it into the RouteLinker instances.
 Nuget
 -----
 Hyprlinkr is [available via nuget](https://nuget.org/packages/Hyprlinkr)
