@@ -40,9 +40,10 @@ namespace Ploeh.Hyprlinkr.UnitTest
         [Theory, AutoHypData]
         public void GetUriFromInvalidExpressionThrows(RouteLinker sut)
         {
-            Expression<Action<object>> expressionWithIsNotAMethodCall = _ => new object();
+            Expression<Action<object>> expressionWhichIsNotAMethodCall =
+                _ => new object();
             Assert.Throws<ArgumentException>(() =>
-                sut.GetUri<object>(expressionWithIsNotAMethodCall));
+                sut.GetUri<object>(expressionWhichIsNotAMethodCall));
         }
 
         [Theory, AutoHypData]
