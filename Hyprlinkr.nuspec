@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Hyprlinkr</id>
+    <version>$version$</version>
+    <title>Hyprlinkr</title>
+    <authors>$author$</authors>
+    <owners>Mark Seemann</owners>
+    <dependencies>
+        <dependency id="AspNetWebApi.Core" version="4.0.20505.0" />
+    </dependencies>
+    <projectUrl>https://github.com/ploeh/Hyprlinkr</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <copyright>Copyright Mark Seemann 2012</copyright>
+    <files>
+        <file src=".\Hyprlinkr\bin\Release\Ploeh.Hyprlinkr.dll" target="lib" />
+        <file src=".\Hyprlinkr\bin\Release\Ploeh.Hyprlinkr.XML" target="lib" />
+    </files>
+  </metadata>
+</package>
