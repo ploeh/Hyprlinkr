@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Hyprlinkr</id>
-    <version>$version$</version>
+    <version>0.1.0</version>
     <title>Hyprlinkr</title>
     <authors>$author$</authors>
     <owners>Mark Seemann</owners>
@@ -13,9 +13,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <copyright>Copyright Mark Seemann 2012</copyright>
-    <files>
-        <file src=".\Hyprlinkr\bin\Release\Ploeh.Hyprlinkr.dll" target="lib" />
-        <file src=".\Hyprlinkr\bin\Release\Ploeh.Hyprlinkr.XML" target="lib" />
-    </files>
   </metadata>
+  <files>
+    <file src=".\bin\Release\Ploeh.Hyprlinkr.dll" target="lib" />
+    <file src=".\bin\Release\Ploeh.Hyprlinkr.XML" target="lib" />
+  </files>
 </package>
