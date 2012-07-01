@@ -25,6 +25,12 @@ namespace Ploeh.Hyprlinkr.UnitTest
         }
 
         [Theory, AutoHypData]
+        public void SutIsRouteLinker(RouteLinker sut)
+        {
+            Assert.IsAssignableFrom<IRouteLinker>(sut);
+        }
+
+        [Theory, AutoHypData]
         public void GetNullThrows(RouteLinker sut)
         {
             Assert.Throws<ArgumentNullException>(() =>

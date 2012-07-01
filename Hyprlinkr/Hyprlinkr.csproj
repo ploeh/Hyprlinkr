@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="DefaultRouteDispatcher.cs" />
     <Compile Include="IRouteDispatcher.cs" />
+    <Compile Include="IRouteLinker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rouple.cs" />
     <Compile Include="RouteLinker.cs" />
