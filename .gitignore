@@ -9,3 +9,4 @@ TestResults/
 *_mm_cache.bin
 */AutoTest.config
 */AutoTest.config.old
+*.snk
