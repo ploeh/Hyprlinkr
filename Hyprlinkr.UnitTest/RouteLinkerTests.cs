@@ -176,5 +176,13 @@ namespace Ploeh.Hyprlinkr.UnitTest
         {
             Assert.Equal<HttpRequestMessage>(expected, sut.Request);
         }
+
+        [Theory, AutoHypData]
+        public void GivenGreedyConstructorDispatcherIsCorrect(
+            [Frozen]IRouteDispatcher expected,
+            [Greedy]RouteLinker sut)
+        {
+            Assert.Equal<IRouteDispatcher>(expected, sut.RouteDispatcher);
+        }
     }
 }

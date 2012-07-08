@@ -163,5 +163,10 @@ namespace Ploeh.Hyprlinkr
         {
             get { return this.request; }
         }
+
+        public IRouteDispatcher RouteDispatcher
+        {
+            get { return this.dispatcher; }
+        }
     }
 }
