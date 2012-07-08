@@ -139,6 +139,16 @@ namespace Ploeh.Hyprlinkr
             return new Uri(baseUri, relativeUri);
         }
 
+        public HttpRequestMessage Request
+        {
+            get { return this.request; }
+        }
+
+        public IRouteDispatcher RouteDispatcher
+        {
+            get { return this.dispatcher; }
+        }
+
         public void Dispose()
         {
             this.Dispose(true);
@@ -157,16 +167,6 @@ namespace Ploeh.Hyprlinkr
             var arg = methodCallExp.Arguments[p.Position];
             var lambda = Expression.Lambda(arg);
             return lambda.Compile().DynamicInvoke().ToString();
-        }
-
-        public HttpRequestMessage Request
-        {
-            get { return this.request; }
-        }
-
-        public IRouteDispatcher RouteDispatcher
-        {
-            get { return this.dispatcher; }
         }
     }
 }
