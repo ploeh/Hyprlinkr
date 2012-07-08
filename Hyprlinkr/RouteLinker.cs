@@ -31,6 +31,12 @@ namespace Ploeh.Hyprlinkr
         /// Initializes a new instance of the <see cref="RouteLinker"/> class.
         /// </summary>
         /// <param name="request">The current request.</param>
+        /// <remarks>
+        /// <para>
+        /// After initialization, the <paramref name="request" /> value is available through the
+        /// <see cref="Request" /> property.
+        /// </para>
+        /// </remarks>
         /// <seealso cref="RouteLinker(HttpRequestMessage, IRouteDispatcher)" />
         public RouteLinker(HttpRequestMessage request)
             : this(request, new DefaultRouteDispatcher())
@@ -46,6 +52,11 @@ namespace Ploeh.Hyprlinkr
         /// <para>
         /// This constructor overload requires a custom <see cref="IRouteDispatcher" />. If you
         /// don't want to use a custom dispatcher, you can use the simpler constructor overload.
+        /// </para>
+        /// <para>
+        /// After initialization, the <paramref name="request" /> value is available through the
+        /// <see cref="Request" /> property; and the <paramref name="dispatcher" /> is available
+        /// through the <see cref="RouteDispatcher" /> property.
         /// </para>
         /// </remarks>
         /// <seealso cref="RouteLinker(HttpRequestMessage)" />
@@ -139,22 +150,54 @@ namespace Ploeh.Hyprlinkr
             return new Uri(baseUri, relativeUri);
         }
 
+        /// <summary>
+        /// Gets the request that this instance uses to create URIs.
+        /// </summary>
+        /// <seealso cref="RouteLinker(HttpRequestMessage)" />
+        /// <seealso cref="RouteLinker(HttpRequestMessage, IRouteDispatcher)" />
         public HttpRequestMessage Request
         {
             get { return this.request; }
         }
 
+        /// <summary>
+        /// Gets the route dispatcher.
+        /// </summary>
+        /// <seealso cref="RouteLinker(HttpRequestMessage, IRouteDispatcher)" />
         public IRouteDispatcher RouteDispatcher
         {
             get { return this.dispatcher; }
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting
+        /// unmanaged resources.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// This implementation follows the standard Dispose pattern by delegating to the virtual
+        /// <see cref="Dispose(bool)" /> method.
+        /// </para>
+        /// </remarks>
         public void Dispose()
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources
+        /// </summary>
+        /// <param name="disposing">
+        /// <see langword="true" /> to release both managed and unmanaged resources;
+        /// <see langword="false" /> to release only unmanaged resources.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// If <paramref name="disposing" /> is <see langword="true" /> this method disposes
+        /// <see cref="Request" />.
+        /// </para>
+        /// </remarks>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
