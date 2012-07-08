@@ -160,5 +160,21 @@ namespace Ploeh.Hyprlinkr.UnitTest
             sut.Dispose();
             requestMock.Protected().Verify("Dispose", Times.Once(), true);
         }
+
+        [Theory, AutoHypData]
+        public void GivenModestConstructorRequestIsCorrect(
+            [Frozen]HttpRequestMessage expected,
+            [Modest]RouteLinker sut)
+        {
+            Assert.Equal<HttpRequestMessage>(expected, sut.Request);
+        }
+
+        [Theory, AutoHypData]
+        public void GivenGreedyConstructorRequestIsCorrect(
+            [Frozen]HttpRequestMessage expected,
+            [Greedy]RouteLinker sut)
+        {
+            Assert.Equal<HttpRequestMessage>(expected, sut.Request);
+        }
     }
 }

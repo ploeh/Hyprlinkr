@@ -158,5 +158,10 @@ namespace Ploeh.Hyprlinkr
             var lambda = Expression.Lambda(arg);
             return lambda.Compile().DynamicInvoke().ToString();
         }
+
+        public HttpRequestMessage Request
+        {
+            get { return this.request; }
+        }
     }
 }
