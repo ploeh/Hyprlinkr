@@ -22,7 +22,7 @@ namespace Ploeh.Hyprlinkr
     /// </para>
     /// </remarks>
     /// <seealso cref="GetUri{T}(Expression{Action{T}})" />
-    public class RouteLinker : IRouteLinker
+    public class RouteLinker : IRouteLinker, IDisposable
     {
         private readonly HttpRequestMessage request;
         private readonly IRouteDispatcher dispatcher;
@@ -139,6 +139,18 @@ namespace Ploeh.Hyprlinkr
             return new Uri(baseUri, relativeUri);
         }
 
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+                this.request.Dispose();
+        }
+
         private static object GetValue(MethodCallExpression methodCallExp,
             ParameterInfo p)
         {
@@ -146,6 +158,5 @@ namespace Ploeh.Hyprlinkr
             var lambda = Expression.Lambda(arg);
             return lambda.Compile().DynamicInvoke().ToString();
         }
-
     }
 }

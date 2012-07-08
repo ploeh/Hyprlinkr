@@ -13,6 +13,7 @@ using System.Web.Http;
 using Moq;
 using System.Reflection;
 using Ploeh.AutoFixture.Idioms;
+using Moq.Protected;
 
 namespace Ploeh.Hyprlinkr.UnitTest
 {
@@ -144,6 +145,20 @@ namespace Ploeh.Hyprlinkr.UnitTest
                     new Uri(baseUri),
                     "foo/" + ploeh + "/" + fnaah);
             Assert.Equal(expected, actual);
+        }
+
+        [Theory, AutoHypData]
+        public void SutIsDisposable(RouteLinker sut)
+        {
+            Assert.IsAssignableFrom<IDisposable>(sut);
+        }
+
+        [Theory, AutoHypData]
+        public void DisposeDisposesRequest(Mock<HttpRequestMessage> requestMock)
+        {
+            var sut = new RouteLinker(requestMock.Object);
+            sut.Dispose();
+            requestMock.Protected().Verify("Dispose", Times.Once(), true);
         }
     }
 }
