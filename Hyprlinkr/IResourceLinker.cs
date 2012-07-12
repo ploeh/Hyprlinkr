@@ -6,7 +6,7 @@ namespace Ploeh.Hyprlinkr
     /// <summary>
     /// Creates URIs from type-safe expressions.
     /// </summary>
-    public interface IRouteLinker
+    public interface IResourceLinker
     {
         /// <summary>
         /// Creates an URI based on a type-safe expression.

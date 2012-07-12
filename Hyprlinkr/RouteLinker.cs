@@ -22,7 +22,7 @@ namespace Ploeh.Hyprlinkr
     /// </para>
     /// </remarks>
     /// <seealso cref="GetUri{T}(Expression{Action{T}})" />
-    public class RouteLinker : IRouteLinker, IDisposable
+    public class RouteLinker : IResourceLinker, IDisposable
     {
         private readonly HttpRequestMessage request;
         private readonly IRouteDispatcher dispatcher;
