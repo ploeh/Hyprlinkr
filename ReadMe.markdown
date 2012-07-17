@@ -80,10 +80,16 @@ public HomeModel Get(string id)
 ```
 This produces a representation equivalent to this:
 ```XML
-<home xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.ploeh.dk/hyprlinkr/sample/2012">
+<home xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+      xmlns="http://www.ploeh.dk/hyprlinkr/sample/2012">
     <links>
-        <link xmlns="http://www.w3.org/2005/Atom" href="http://localhost:6788/home/ploeh" rel="self"/>
-        <link xmlns="http://www.w3.org/2005/Atom" href="http://localhost:6788/" rel="http://sample.ploeh.dk/rels/home"/>
+        <link xmlns="http://www.w3.org/2005/Atom"
+              href="http://localhost:6788/home/ploeh"
+              rel="self"/>
+        <link xmlns="http://www.w3.org/2005/Atom"
+              href="http://localhost:6788/"
+              rel="http://sample.ploeh.dk/rels/home"/>
     </links>
     <name>ploeh</name>
 </home>
