@@ -9,14 +9,15 @@ namespace Ploeh.Samples.Hyprlinkr.ExampleService
 {
     public class HomeController : ApiController
     {
-        public IEnumerable<string> Get()
+        public IEnumerable<HomeModel> Get()
         {
-            return new string[] { "value1", "value2" };
+            yield return new HomeModel { Name = "ploeh" };
+            yield return new HomeModel { Name = "fnaah" };
         }
 
-        public string Get(int id)
+        public HomeModel Get(string id)
         {
-            return "value";
+            return new HomeModel { Name = id };
         }
     }
 }
