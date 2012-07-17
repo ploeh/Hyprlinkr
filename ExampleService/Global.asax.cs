@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Http.Dispatcher;
 
 namespace Ploeh.Samples.Hyprlinkr.ExampleService
 {
@@ -23,6 +24,10 @@ namespace Ploeh.Samples.Hyprlinkr.ExampleService
                     id = RouteParameter.Optional
                 }
             );
+
+            GlobalConfiguration.Configuration.Services.Replace(
+                typeof(IHttpControllerActivator),
+                new MyCustomControllerActivator());
         }
     }
 }
