@@ -31,6 +31,12 @@ namespace Ploeh.Samples.Hyprlinkr.ExampleService
                             new AtomLinkModel
                             {
                                 Href = this.linker.GetUri<HomeController>(r =>
+                                    r.Get()).ToString(),
+                                Rel = "self"
+                            },
+                            new AtomLinkModel
+                            {
+                                Href = this.linker.GetUri<HomeController>(r =>
                                     r.Get("ploeh")).ToString(),
                                 Rel = "http://sample.ploeh.dk/rels/specific-home"
                             }
@@ -41,6 +47,12 @@ namespace Ploeh.Samples.Hyprlinkr.ExampleService
                         Name = "fnaah",
                         Links = new[]
                         {
+                            new AtomLinkModel
+                            {
+                                Href = this.linker.GetUri<HomeController>(r =>
+                                    r.Get()).ToString(),
+                                Rel = "self"
+                            },
                             new AtomLinkModel
                             {
                                 Href = this.linker.GetUri<HomeController>(r =>
@@ -60,6 +72,12 @@ namespace Ploeh.Samples.Hyprlinkr.ExampleService
                 Name = id,
                 Links = new[]
                 {
+                    new AtomLinkModel
+                    {
+                        Href = this.linker.GetUri<HomeController>(r =>
+                            r.Get(id)).ToString(),
+                        Rel = "self"
+                    },
                     new AtomLinkModel
                     {
                         Href = this.linker.GetUri<HomeController>(r =>
