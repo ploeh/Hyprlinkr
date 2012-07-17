@@ -17,15 +17,57 @@ namespace Ploeh.Samples.Hyprlinkr.ExampleService
             this.linker = linker;
         }
 
-        public IEnumerable<HomeModel> Get()
+        public HomeModelCollection Get()
         {
-            yield return new HomeModel { Name = "ploeh" };
-            yield return new HomeModel { Name = "fnaah" };
+            return new HomeModelCollection
+            {
+                Homes = new[]
+                {
+                    new HomeModel
+                    {
+                        Name = "ploeh",
+                        Links = new[]
+                        {
+                            new AtomLinkModel
+                            {
+                                Href = this.linker.GetUri<HomeController>(r =>
+                                    r.Get("ploeh")).ToString(),
+                                Rel = "http://sample.ploeh.dk/rels/specific-home"
+                            }
+                        }
+                    },
+                    new HomeModel
+                    {
+                        Name = "fnaah",
+                        Links = new[]
+                        {
+                            new AtomLinkModel
+                            {
+                                Href = this.linker.GetUri<HomeController>(r =>
+                                    r.Get("fnaah")).ToString(),
+                                Rel = "http://sample.ploeh.dk/rels/specific-home"
+                            }
+                        }
+                    }
+                }
+            };
         }
 
         public HomeModel Get(string id)
         {
-            return new HomeModel { Name = id };
+            return new HomeModel
+            {
+                Name = id,
+                Links = new[]
+                {
+                    new AtomLinkModel
+                    {
+                        Href = this.linker.GetUri<HomeController>(r =>
+                            r.Get()).ToString(),
+                        Rel = "http://sample.ploeh.dk/rels/home"
+                    }
+                }
+            };
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Http.Dispatcher;
+using Newtonsoft.Json.Serialization;
 
 namespace Ploeh.Samples.Hyprlinkr.ExampleService
 {
@@ -28,6 +29,18 @@ namespace Ploeh.Samples.Hyprlinkr.ExampleService
             GlobalConfiguration.Configuration.Services.Replace(
                 typeof(IHttpControllerActivator),
                 new MyCustomControllerActivator());
+
+            GlobalConfiguration
+                .Configuration
+                .Formatters
+                .JsonFormatter
+                .SerializerSettings
+                .ContractResolver = new CamelCasePropertyNamesContractResolver();
+            GlobalConfiguration
+                .Configuration
+                .Formatters
+                .XmlFormatter
+                .UseXmlSerializer = true;
         }
     }
 }
