@@ -138,8 +138,11 @@ namespace Ploeh.Hyprlinkr
                 .ToDictionary(p => p.Name, p => GetValue(methodCallExp, p));
             var r = this.dispatcher.Dispatch(methodCallExp.Method, routeValues);
 
+            var routeData = request.GetRouteData();
+            routeData.Values.Clear();
+
             var ctx = new HttpControllerContext(
-                request.GetConfiguration(), request.GetRouteData(), request);
+                request.GetConfiguration(), routeData, request);
             var relativeUri = new Uri(
                 ctx.Url.Route(r.RouteName, r.RouteValues),
                 UriKind.Relative);

@@ -184,5 +184,28 @@ namespace Ploeh.Hyprlinkr.UnitTest
         {
             Assert.Equal<IRouteDispatcher>(expected, sut.RouteDispatcher);
         }
+
+        [Theory, AutoHypData]
+        public void GetFooRouteForDefaultGetMethodFromIndexedUriReturnsCorrectResult(
+            [Frozen]HttpRequestMessage request,
+            RouteLinker sut,
+            string currentId)
+        {
+            request.RequestUri = new Uri(request.RequestUri, "api/foo/" + currentId);
+            request.AddRoute(
+                name: "API Default",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new
+                {
+                    controller = "Home",
+                    id = RouteParameter.Optional
+                });
+
+            Uri actual = sut.GetUri<FooController>(r => r.GetDefault());
+
+            var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
+            var expected = new Uri(new Uri(baseUri), "api/foo");
+            Assert.Equal(expected, actual);
+        }
     }
 }
