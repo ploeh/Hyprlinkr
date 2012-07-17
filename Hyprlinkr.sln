@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hyprlinkr", "Hyprlinkr\Hypr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hyprlinkr.UnitTest", "Hyprlinkr.UnitTest\Hyprlinkr.UnitTest.csproj", "{8007D548-D6C9-4C56-AFEA-6B0413189A5D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleService", "ExampleService\ExampleService.csproj", "{E1B8892B-122A-4E8B-9C45-0602D7A83048}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,12 @@ Global
 		{8007D548-D6C9-4C56-AFEA-6B0413189A5D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8007D548-D6C9-4C56-AFEA-6B0413189A5D}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
 		{8007D548-D6C9-4C56-AFEA-6B0413189A5D}.Verify|Any CPU.Build.0 = Verify|Any CPU
+		{E1B8892B-122A-4E8B-9C45-0602D7A83048}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1B8892B-122A-4E8B-9C45-0602D7A83048}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1B8892B-122A-4E8B-9C45-0602D7A83048}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1B8892B-122A-4E8B-9C45-0602D7A83048}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1B8892B-122A-4E8B-9C45-0602D7A83048}.Verify|Any CPU.ActiveCfg = Release|Any CPU
+		{E1B8892B-122A-4E8B-9C45-0602D7A83048}.Verify|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
