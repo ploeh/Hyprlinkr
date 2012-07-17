@@ -51,6 +51,44 @@ The default behavior for RouteLinker is to assume that there's only a single con
 Nuget
 -----
 Hyprlinkr is [available via nuget](https://nuget.org/packages/Hyprlinkr)
+Example code
+------------
+The *ExampleService* project, included in the source code, provides a very simple example of how to wire and use Hyprlinkr. As an example, in HomeController.cs you can see that links are added to a model instance like this:
+```C#
+public HomeModel Get(string id)
+{
+    return new HomeModel
+    {
+        Name = id,
+        Links = new[]
+        {
+            new AtomLinkModel
+            {
+                Href = this.linker.GetUri<HomeController>(r =>
+                    r.Get(id)).ToString(),
+                Rel = "self"
+            },
+            new AtomLinkModel
+            {
+                Href = this.linker.GetUri<HomeController>(r =>
+                    r.Get()).ToString(),
+                Rel = "http://sample.ploeh.dk/rels/home"
+            }
+        }
+    };
+}
+```
+This produces a representation equivalent to this:
+```XML
+<home xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.ploeh.dk/hyprlinkr/sample/2012">
+    <links>
+        <link xmlns="http://www.w3.org/2005/Atom" href="http://localhost:6788/home/ploeh" rel="self"/>
+        <link xmlns="http://www.w3.org/2005/Atom" href="http://localhost:6788/" rel="http://sample.ploeh.dk/rels/home"/>
+    </links>
+    <name>ploeh</name>
+</home>
+```
+In order to run the sample application, open the Hyprlinkr.sln solution and set *ExampleService* as the startup project, then run the application by hitting F5 (or Ctrl+F5).
 Contribute
 ----------
 Hyprlinkr is open source, and pull requests are welcome.
