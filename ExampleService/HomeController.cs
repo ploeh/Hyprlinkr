@@ -28,6 +28,12 @@ namespace Ploeh.Samples.Hyprlinkr.ExampleService
                         Href = this.linker.GetUri<HomeController>(r =>
                             r.Get()).ToString(),
                         Rel = "self"
+                    },
+                    new AtomLinkModel
+                    {
+                        Href = this.linker.GetUri<NoDIController>(r =>
+                            r.Get("foo")).ToString(),
+                        Rel = "http://sample.ploeh.dk/rels/no-di"
                     }
                 },
                 Homes = new[]

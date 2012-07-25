@@ -112,6 +112,8 @@
     <Compile Include="HomeController.cs" />
     <Compile Include="HomeModel.cs" />
     <Compile Include="MyCustomControllerActivator.cs" />
+    <Compile Include="NoDIController.cs" />
+    <Compile Include="NoDIModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
