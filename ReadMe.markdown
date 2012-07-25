@@ -45,7 +45,7 @@ GlobalConfiguration.Configuration.Services.Replace(
     typeof(IHttpControllerActivator),
     new MyCustomControllerActivator());
 ```
-This approach enables the use of Dependency Injection (DI) because the request can be injected into the services which requires it.
+This approach enables the use of Dependency Injection (DI) because the request can be injected into the services which require it.
 ### Without Dependency Injection ###
 As an alternative to Dependency Injection (DI), the request can also be pulled directly from the ApiController instance. This requires that Controllers derive from ApiController. If this is the case, a RouteLinker instance can be created easily:
 ```C#
