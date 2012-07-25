@@ -45,6 +45,13 @@ GlobalConfiguration.Configuration.Services.Replace(
     typeof(IHttpControllerActivator),
     new MyCustomControllerActivator());
 ```
+This approach enables the use of Dependency Injection (DI) because the request can be injected into the services which requires it.
+### Without Dependency Injection ###
+As an alternative to Dependency Injection (DI), the request can also be pulled directly from the ApiController instance. This requires that Controllers derive from ApiController. If this is the case, a RouteLinker instance can be created easily:
+```C#
+var linker = new RouteLinker(this.Request);
+```
+The example code includes a NoDIController class that demonstrates this approach.
 Custom route dispatching
 ------------------------
 The default behavior for RouteLinker is to assume that there's only a single configured route for the ASP.NET Web API, and that this route is named "API Default". This behavior is implemented by the DefaultRouteDispatcher class. If you require different dispatching behavior, you can implement a custom IRouteDispatcher and inject it into the RouteLinker instances.
