@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Net.Http;
 using System.Reflection;
 using System.Web.Http.Controllers;
+using System.Web.Http.Routing;
 
 namespace Ploeh.Hyprlinkr
 {
@@ -139,10 +140,11 @@ namespace Ploeh.Hyprlinkr
             var r = this.dispatcher.Dispatch(methodCallExp.Method, routeValues);
 
             var routeData = request.GetRouteData();
-            routeData.Values.Clear();
 
             var ctx = new HttpControllerContext(
-                request.GetConfiguration(), routeData, request);
+                request.GetConfiguration(),
+                new HttpRouteData(routeData.Route),
+                request);
             var relativeUri = new Uri(
                 ctx.Url.Route(r.RouteName, r.RouteValues),
                 UriKind.Relative);

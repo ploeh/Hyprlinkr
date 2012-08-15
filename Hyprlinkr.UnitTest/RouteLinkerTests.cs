@@ -207,5 +207,20 @@ namespace Ploeh.Hyprlinkr.UnitTest
             var expected = new Uri(new Uri(baseUri), "api/foo");
             Assert.Equal(expected, actual);
         }
+
+        [Theory, AutoHypData]
+        public void GetUriDoesNotMutateExistingRouteData(
+            [Frozen]HttpRequestMessage request,
+            RouteLinker sut)
+        {
+            request.AddDefaultRoute();
+            var expected = new HashSet<KeyValuePair<string, object>>(
+                request.GetRouteData().Values);
+
+            sut.GetUri<FooController>(r => r.GetDefault());
+
+            var actual = request.GetRouteData().Values.ToList();
+            Assert.True(expected.SetEquals(actual));
+        }
     }
 }
