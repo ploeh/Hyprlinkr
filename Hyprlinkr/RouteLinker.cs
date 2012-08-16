@@ -179,16 +179,24 @@ namespace Ploeh.Hyprlinkr
                 this.request.Method,
                 this.request.RequestUri);
 
-            foreach (var kvp in this.request.Properties)
-                if (kvp.Key != HttpPropertyKeys.HttpRouteDataKey)
-                    r.Properties.Add(kvp.Key, kvp.Value);
+            try
+            {
+                foreach (var kvp in this.request.Properties)
+                    if (kvp.Key != HttpPropertyKeys.HttpRouteDataKey)
+                        r.Properties.Add(kvp.Key, kvp.Value);
 
-            var routeData = this.request.GetRouteData();
-            r.Properties.Add(
-                HttpPropertyKeys.HttpRouteDataKey,
-                new HttpRouteData(routeData.Route));
+                var routeData = this.request.GetRouteData();
+                r.Properties.Add(
+                    HttpPropertyKeys.HttpRouteDataKey,
+                    new HttpRouteData(routeData.Route));
 
-            return r;
+                return r;
+            }
+            catch
+            {
+                r.Dispose();
+                throw;
+            }
         }
 
         /// <summary>
