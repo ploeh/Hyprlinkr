@@ -140,17 +140,7 @@ namespace Ploeh.Hyprlinkr
                 .ToDictionary(p => p.Name, p => GetValue(methodCallExp, p));
             var r = this.dispatcher.Dispatch(methodCallExp.Method, routeValues);
 
-            var routeData = request.GetRouteData();
-
-            var req = new HttpRequestMessage(this.request.Method, this.request.RequestUri);
-            foreach (var kvp in this.request.Properties)
-            {
-                if (kvp.Key != HttpPropertyKeys.HttpRouteDataKey)
-                    req.Properties.Add(kvp.Key, kvp.Value);
-            }
-            req.Properties.Add(HttpPropertyKeys.HttpRouteDataKey, new HttpRouteData(routeData.Route));
-
-            var urlHelper = new UrlHelper(req);
+            var urlHelper = this.CreateUrlHelper();
             var relativeUri = new Uri(
                 urlHelper.Route(r.RouteName, r.RouteValues),
                 UriKind.Relative);
@@ -221,6 +211,22 @@ namespace Ploeh.Hyprlinkr
             var arg = methodCallExp.Arguments[p.Position];
             var lambda = Expression.Lambda(arg);
             return lambda.Compile().DynamicInvoke().ToString();
+        }
+
+        private UrlHelper CreateUrlHelper()
+        {
+            var routeData = this.request.GetRouteData();
+
+            var req = new HttpRequestMessage(this.request.Method, this.request.RequestUri);
+            foreach (var kvp in this.request.Properties)
+            {
+                if (kvp.Key != HttpPropertyKeys.HttpRouteDataKey)
+                    req.Properties.Add(kvp.Key, kvp.Value);
+            }
+            req.Properties.Add(HttpPropertyKeys.HttpRouteDataKey, new HttpRouteData(routeData.Route));
+
+            var urlHelper = new UrlHelper(req);
+            return urlHelper;
         }
     }
 }
