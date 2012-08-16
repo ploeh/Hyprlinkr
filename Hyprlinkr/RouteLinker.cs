@@ -105,14 +105,9 @@ namespace Ploeh.Hyprlinkr
         /// </para>
         /// <para>
         /// Based on the Action Method identified by the supplied expression, the ASP.NET Web API
-        /// routing configuration is consulted to build an apprpriate URI which matches the Action
+        /// routing configuration is consulted to build an apporpriate URI which matches the Action
         /// Method. The routing configuration is pulled from the <see cref="HttpRequestMessage" />
-        /// instance supplied to the constructor of the <see cref="RouteLinker" /> class. This is
-        /// done by utilizing the
-        /// <see cref="System.Net.Http.HttpRequestMessageExtensions.GetConfiguration(HttpRequestMessage)" />
-        /// and
-        /// <see cref="System.Net.Http.HttpRequestMessageExtensions.GetRouteData(HttpRequestMessage)" />
-        /// extension methods.
+        /// instance supplied to the constructor of the <see cref="RouteLinker" /> class.
         /// </para>
         /// </remarks>
         /// <seealso cref="RouteLinker(HttpRequestMessage)" />
