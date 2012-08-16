@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Web.Http.Controllers;
 using System.Web.Http.Routing;
+using System.Web.Http.Hosting;
 
 namespace Ploeh.Hyprlinkr
 {
@@ -141,12 +142,17 @@ namespace Ploeh.Hyprlinkr
 
             var routeData = request.GetRouteData();
 
-            var ctx = new HttpControllerContext(
-                request.GetConfiguration(),
-                new HttpRouteData(routeData.Route),
-                request);
+            var req = new HttpRequestMessage(this.request.Method, this.request.RequestUri);
+            foreach (var kvp in this.request.Properties)
+            {
+                if (kvp.Key != HttpPropertyKeys.HttpRouteDataKey)
+                    req.Properties.Add(kvp.Key, kvp.Value);
+            }
+            req.Properties.Add(HttpPropertyKeys.HttpRouteDataKey, new HttpRouteData(routeData.Route));
+
+            var urlHelper = new UrlHelper(req);
             var relativeUri = new Uri(
-                ctx.Url.Route(r.RouteName, r.RouteValues),
+                urlHelper.Route(r.RouteName, r.RouteValues),
                 UriKind.Relative);
 
             var authority =
