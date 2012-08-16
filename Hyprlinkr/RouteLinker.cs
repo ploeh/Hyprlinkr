@@ -215,18 +215,25 @@ namespace Ploeh.Hyprlinkr
 
         private UrlHelper CreateUrlHelper()
         {
-            var routeData = this.request.GetRouteData();
+            return this.CopyRequestWithoutRouteValues().GetUrlHelper();
+        }
 
-            var req = new HttpRequestMessage(this.request.Method, this.request.RequestUri);
+        private HttpRequestMessage CopyRequestWithoutRouteValues()
+        {
+            var r = new HttpRequestMessage(
+                this.request.Method,
+                this.request.RequestUri);
+
             foreach (var kvp in this.request.Properties)
-            {
                 if (kvp.Key != HttpPropertyKeys.HttpRouteDataKey)
-                    req.Properties.Add(kvp.Key, kvp.Value);
-            }
-            req.Properties.Add(HttpPropertyKeys.HttpRouteDataKey, new HttpRouteData(routeData.Route));
+                    r.Properties.Add(kvp.Key, kvp.Value);
 
-            var urlHelper = new UrlHelper(req);
-            return urlHelper;
+            var routeData = this.request.GetRouteData();
+            r.Properties.Add(
+                HttpPropertyKeys.HttpRouteDataKey,
+                new HttpRouteData(routeData.Route));
+
+            return r;
         }
     }
 }
