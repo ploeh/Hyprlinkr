@@ -143,6 +143,61 @@ namespace Ploeh.Hyprlinkr
             return new Uri(baseUri, relativeUri);
         }
 
+        private Rouple Dispatch(MethodCallExpression methodCallExp)
+        {
+            var routeValues = methodCallExp.Method.GetParameters()
+                .ToDictionary(p => p.Name, p => GetValue(methodCallExp, p));
+            return this.dispatcher.Dispatch(methodCallExp.Method, routeValues);
+        }
+
+        private static object GetValue(MethodCallExpression methodCallExp,
+            ParameterInfo p)
+        {
+            var arg = methodCallExp.Arguments[p.Position];
+            var lambda = Expression.Lambda(arg);
+            return lambda.Compile().DynamicInvoke().ToString();
+        }
+
+        private Uri GetRelativeUri(Rouple r)
+        {
+            var urlHelper = this.CreateUrlHelper();
+            var relativeUri = new Uri(
+                urlHelper.Route(r.RouteName, r.RouteValues),
+                UriKind.Relative);
+            return relativeUri;
+        }
+
+        private Uri GetBaseUri()
+        {
+            var authority =
+                this.request.RequestUri.GetLeftPart(UriPartial.Authority);
+            var baseUri = new Uri(authority);
+            return baseUri;
+        }
+
+        private UrlHelper CreateUrlHelper()
+        {
+            return this.CopyRequestWithoutRouteValues().GetUrlHelper();
+        }
+
+        private HttpRequestMessage CopyRequestWithoutRouteValues()
+        {
+            var r = new HttpRequestMessage(
+                this.request.Method,
+                this.request.RequestUri);
+
+            foreach (var kvp in this.request.Properties)
+                if (kvp.Key != HttpPropertyKeys.HttpRouteDataKey)
+                    r.Properties.Add(kvp.Key, kvp.Value);
+
+            var routeData = this.request.GetRouteData();
+            r.Properties.Add(
+                HttpPropertyKeys.HttpRouteDataKey,
+                new HttpRouteData(routeData.Route));
+
+            return r;
+        }
+
         /// <summary>
         /// Gets the request that this instance uses to create URIs.
         /// </summary>
@@ -195,61 +250,6 @@ namespace Ploeh.Hyprlinkr
         {
             if (disposing)
                 this.request.Dispose();
-        }
-
-        private static object GetValue(MethodCallExpression methodCallExp,
-            ParameterInfo p)
-        {
-            var arg = methodCallExp.Arguments[p.Position];
-            var lambda = Expression.Lambda(arg);
-            return lambda.Compile().DynamicInvoke().ToString();
-        }
-
-        private Rouple Dispatch(MethodCallExpression methodCallExp)
-        {
-            var routeValues = methodCallExp.Method.GetParameters()
-                .ToDictionary(p => p.Name, p => GetValue(methodCallExp, p));
-            return this.dispatcher.Dispatch(methodCallExp.Method, routeValues);
-        }
-
-        private Uri GetRelativeUri(Rouple r)
-        {
-            var urlHelper = this.CreateUrlHelper();
-            var relativeUri = new Uri(
-                urlHelper.Route(r.RouteName, r.RouteValues),
-                UriKind.Relative);
-            return relativeUri;
-        }
-
-        private Uri GetBaseUri()
-        {
-            var authority =
-                this.request.RequestUri.GetLeftPart(UriPartial.Authority);
-            var baseUri = new Uri(authority);
-            return baseUri;
-        }
-
-        private UrlHelper CreateUrlHelper()
-        {
-            return this.CopyRequestWithoutRouteValues().GetUrlHelper();
-        }
-
-        private HttpRequestMessage CopyRequestWithoutRouteValues()
-        {
-            var r = new HttpRequestMessage(
-                this.request.Method,
-                this.request.RequestUri);
-
-            foreach (var kvp in this.request.Properties)
-                if (kvp.Key != HttpPropertyKeys.HttpRouteDataKey)
-                    r.Properties.Add(kvp.Key, kvp.Value);
-
-            var routeData = this.request.GetRouteData();
-            r.Properties.Add(
-                HttpPropertyKeys.HttpRouteDataKey,
-                new HttpRouteData(routeData.Route));
-
-            return r;
         }
     }
 }
