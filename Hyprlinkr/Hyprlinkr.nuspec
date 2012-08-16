@@ -2,12 +2,12 @@
 <package >
   <metadata>
     <id>Hyprlinkr</id>
-    <version>0.2.3</version>
+    <version>0.3.0</version>
     <title>Hyprlinkr</title>
     <authors>Mark Seemann</authors>
     <owners>Mark Seemann</owners>
     <dependencies>
-        <dependency id="AspNetWebApi.Core" version="4.0.20505.0" />
+        <dependency id="AspNetWebApi.Core" version="4.0.20710.0" />
     </dependencies>
     <projectUrl>https://github.com/ploeh/Hyprlinkr</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
