@@ -136,9 +136,7 @@ namespace Ploeh.Hyprlinkr
             if (methodCallExp == null)
                 throw new ArgumentException("The expression's body must be a MethodCallExpression. The code block supplied should invoke a method.\nExample: x => x.Foo().", "method");
 
-            var routeValues = methodCallExp.Method.GetParameters()
-                .ToDictionary(p => p.Name, p => GetValue(methodCallExp, p));
-            var r = this.dispatcher.Dispatch(methodCallExp.Method, routeValues);
+            var r = this.Dispatch(methodCallExp);
 
             var urlHelper = this.CreateUrlHelper();
             var relativeUri = new Uri(
@@ -211,6 +209,13 @@ namespace Ploeh.Hyprlinkr
             var arg = methodCallExp.Arguments[p.Position];
             var lambda = Expression.Lambda(arg);
             return lambda.Compile().DynamicInvoke().ToString();
+        }
+
+        private Rouple Dispatch(MethodCallExpression methodCallExp)
+        {
+            var routeValues = methodCallExp.Method.GetParameters()
+                .ToDictionary(p => p.Name, p => GetValue(methodCallExp, p));
+            return this.dispatcher.Dispatch(methodCallExp.Method, routeValues);
         }
 
         private UrlHelper CreateUrlHelper()
