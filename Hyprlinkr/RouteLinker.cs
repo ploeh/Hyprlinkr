@@ -138,10 +138,7 @@ namespace Ploeh.Hyprlinkr
 
             var r = this.Dispatch(methodCallExp);
 
-            var urlHelper = this.CreateUrlHelper();
-            var relativeUri = new Uri(
-                urlHelper.Route(r.RouteName, r.RouteValues),
-                UriKind.Relative);
+            var relativeUri = this.GetRelativeUri(r);
 
             var authority =
                 this.request.RequestUri.GetLeftPart(UriPartial.Authority);
@@ -216,6 +213,15 @@ namespace Ploeh.Hyprlinkr
             var routeValues = methodCallExp.Method.GetParameters()
                 .ToDictionary(p => p.Name, p => GetValue(methodCallExp, p));
             return this.dispatcher.Dispatch(methodCallExp.Method, routeValues);
+        }
+
+        private Uri GetRelativeUri(Rouple r)
+        {
+            var urlHelper = this.CreateUrlHelper();
+            var relativeUri = new Uri(
+                urlHelper.Route(r.RouteName, r.RouteValues),
+                UriKind.Relative);
+            return relativeUri;
         }
 
         private UrlHelper CreateUrlHelper()
