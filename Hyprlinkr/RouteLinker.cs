@@ -161,10 +161,8 @@ namespace Ploeh.Hyprlinkr
         private Uri GetRelativeUri(Rouple r)
         {
             var urlHelper = this.CreateUrlHelper();
-            var relativeUri = new Uri(
-                urlHelper.Route(r.RouteName, r.RouteValues),
-                UriKind.Relative);
-            return relativeUri;
+            var relativeUri = urlHelper.Route(r.RouteName, r.RouteValues);
+            return new Uri(relativeUri, UriKind.Relative);
         }
 
         private Uri GetBaseUri()
