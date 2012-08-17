@@ -164,8 +164,7 @@ namespace Ploeh.Hyprlinkr
         {
             var authority =
                 this.request.RequestUri.GetLeftPart(UriPartial.Authority);
-            var baseUri = new Uri(authority);
-            return baseUri;
+            return new Uri(authority);
         }
 
         private UrlHelper CreateUrlHelper()
