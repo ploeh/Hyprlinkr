@@ -12,6 +12,22 @@ using System.Web.Http.Routing;
 
 namespace Ploeh.Hyprlinkr
 {
+    /// <summary>
+    /// <para>This class parses URIs into a structured representation. The <see cref="HttpActionContext"/> class is used as said representation.</para>
+    /// <para>Additionally, this class is capable of verifying that a <see cref="HttpActionContext"/> matches a specific controller action.</para>
+    /// </summary>
+    /// <remarks>
+    /// Example:
+    /// <code>
+    /// <![CDATA[
+    /// HttpContextAction contextAction;
+    /// if(linkVerifier.TryParseUri(uri, out contextAction) && linkVerifier.Verify<SomeController>(x => x.SomeAction(Arg.OfType<int>)))
+    /// {
+    ///     var id = (int)contextAction.ActionArguments["id"];
+    /// }
+    /// ]]>
+    /// </code>
+    /// </remarks>
     public class ResourceLinkVerifier : IResourceLinkParser, IActionVerifier
     {
         private readonly IHttpActionSelector actionSelector;
