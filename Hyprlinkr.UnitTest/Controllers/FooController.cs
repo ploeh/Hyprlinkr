@@ -18,6 +18,11 @@ namespace Ploeh.Hyprlinkr.UnitTest.Controllers
             return new object();
         }
 
+        public object GetWithIdAndOptionalParameter(int id, string bar, string foo = "foo")
+        {
+            return new object();
+        }
+
         public object GetWithPloehAndFnaah(int ploeh, string fnaah)
         {
             return new object();

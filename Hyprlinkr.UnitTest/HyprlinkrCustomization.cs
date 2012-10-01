@@ -23,7 +23,8 @@ namespace Ploeh.Hyprlinkr.UnitTest
                 new MultipleCustomization(),
                 new InjectFixtureIntoItself(),
                 new AutoMoqCustomization(),
-                new HttpRequestMessageCustomization()
+                new HttpRequestMessageCustomization(),
+                new HttpConfigurationCustomization()
             )
         {
         }
@@ -33,6 +34,14 @@ namespace Ploeh.Hyprlinkr.UnitTest
             public void Customize(IFixture fixture)
             {
                 fixture.Inject(new UriScheme("http"));
+            }
+        }
+
+        private class HttpConfigurationCustomization : ICustomization
+        {
+            public void Customize(IFixture fixture)
+            {
+                fixture.Customize<HttpConfiguration>(c => c.Without(x => x.DependencyResolver));
             }
         }
 

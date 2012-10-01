@@ -12,5 +12,10 @@ namespace Ploeh.Hyprlinkr.UnitTest.Controllers
         {
             return new object();
         }
+
+        public object GetWithIdAndQueryParameter(int id, string bar)
+        {
+            return new object();
+        }
     }
 }
