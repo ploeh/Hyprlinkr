@@ -13,12 +13,11 @@ using System.Web.Http.Routing;
 namespace Ploeh.Hyprlinkr
 {
     /// <summary>
-    /// <para>This class parses URIs into a structured representation. The <see cref="HttpActionContext"/> class is used as said representation.</para>
-    /// <para>Additionally, this class is capable of verifying that a <see cref="HttpActionContext"/> matches a specific controller action.</para>
+    ///     <para> This class parses URIs into a structured representation. The <see cref="HttpActionContext"/> class is used as said representation. </para>
+    ///     <para> Additionally, this class is capable of verifying that a <see cref="HttpActionContext"/> matches a specific controller action. </para>
     /// </summary>
     /// <remarks>
-    /// Example:
-    /// <code>
+    /// Example: <code>
     /// <![CDATA[
     /// HttpContextAction contextAction;
     /// if(linkVerifier.TryParseUri(uri, out contextAction) && linkVerifier.Verify<SomeController>(x => x.SomeAction(Arg.OfType<int>)))
@@ -187,38 +186,6 @@ namespace Ploeh.Hyprlinkr
         }
 
         /// <summary>
-        /// Gets the <see cref="HttpControllerContext"/> for the supplied <see cref="Uri"/>.
-        /// </summary>
-        /// <param name="uri">
-        /// The URI.
-        /// </param>
-        /// <returns>
-        /// The <see cref="HttpControllerContext"/> instance for the supplier URI.
-        /// </returns>
-        private HttpControllerContext GetControllerContext(Uri uri)
-        {
-            using(var request = new HttpRequestMessage(HttpMethod.Get, uri))
-            {
-                var routeData = Configuration.Routes.GetRouteData(request);
-                if (routeData == null)
-                    return null;
-
-                request.Properties[HttpPropertyKeys.HttpRouteDataKey] = routeData;
-                request.Properties[HttpPropertyKeys.HttpConfigurationKey] = Configuration;
-
-                var controllerContext = new HttpControllerContext(Configuration, routeData, request);
-
-                var controllerName = GetControllerName(routeData);
-
-                if (!this.controllerSelector.GetControllerMapping().ContainsKey(controllerName))
-                    return null;
-
-                controllerContext.ControllerDescriptor = this.controllerSelector.SelectController(request);
-                return controllerContext;
-            }
-        }
-
-        /// <summary>
         /// Gets the action descriptor.
         /// </summary>
         /// <param name="controllerContext">
@@ -236,6 +203,38 @@ namespace Ploeh.Hyprlinkr
             catch (InvalidOperationException)
             {
                 return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the <see cref="HttpControllerContext"/> for the supplied <see cref="Uri"/>.
+        /// </summary>
+        /// <param name="uri">
+        /// The URI.
+        /// </param>
+        /// <returns>
+        /// The <see cref="HttpControllerContext"/> instance for the supplier URI.
+        /// </returns>
+        private HttpControllerContext GetControllerContext(Uri uri)
+        {
+            using (var request = new HttpRequestMessage(HttpMethod.Get, uri))
+            {
+                var routeData = Configuration.Routes.GetRouteData(request);
+                if (routeData == null)
+                    return null;
+
+                request.Properties[HttpPropertyKeys.HttpRouteDataKey] = routeData;
+                request.Properties[HttpPropertyKeys.HttpConfigurationKey] = Configuration;
+
+                var controllerContext = new HttpControllerContext(Configuration, routeData, request);
+
+                var controllerName = GetControllerName(routeData);
+
+                if (!this.controllerSelector.GetControllerMapping().ContainsKey(controllerName))
+                    return null;
+
+                controllerContext.ControllerDescriptor = this.controllerSelector.SelectController(request);
+                return controllerContext;
             }
         }
     }
