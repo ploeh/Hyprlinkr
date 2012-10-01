@@ -93,7 +93,7 @@ namespace Ploeh.Hyprlinkr
         {
             actionContext = null;
 
-            var controllerContext = ConstructControllerContext(uri);
+            var controllerContext = GetControllerContext(uri);
             if (controllerContext == null)
                 return false;
 
@@ -187,15 +187,15 @@ namespace Ploeh.Hyprlinkr
         }
 
         /// <summary>
-        /// Constructs a new <see cref="HttpControllerContext"/> from the supplied <see cref="Uri"/>.
+        /// Gets the <see cref="HttpControllerContext"/> for the supplied <see cref="Uri"/>.
         /// </summary>
         /// <param name="uri">
         /// The URI.
         /// </param>
         /// <returns>
-        /// The new <see cref="HttpControllerContext"/> instance.
+        /// The <see cref="HttpControllerContext"/> instance for the supplier URI.
         /// </returns>
-        private HttpControllerContext ConstructControllerContext(Uri uri)
+        private HttpControllerContext GetControllerContext(Uri uri)
         {
             using(var request = new HttpRequestMessage(HttpMethod.Get, uri))
             {
