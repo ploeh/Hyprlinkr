@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Web.Http;
 using System.Web.Http.Controllers;
+using System.Web.Http.Routing;
 using Ploeh.AutoFixture.Idioms;
 using Ploeh.Hyprlinkr.UnitTest.Controllers;
 using Xunit;
@@ -15,6 +17,20 @@ namespace Ploeh.Hyprlinkr.UnitTest
         public void ConstructorHasAppropriateGuards(GuardClauseAssertion assertion)
         {
             assertion.Verify(typeof(ResourceLinkVerifier).GetConstructors());
+        }
+
+        [Theory]
+        [AutoHypData]
+        public void ParseUriFollowsRedirect(ResourceLinkVerifier sut, string host)
+        {
+            var defaultRoute = sut.Configuration.AddDefaultRoute();
+            sut.Configuration.AddPermanentRedirectRoute("Redirect", new HttpRoute("api_old/{controller}/{id}", new HttpRouteValueDictionary(new { id = RouteParameter.Optional })), defaultRoute);
+            var uri = new Uri(string.Format("http://{0}/api_old/bar", host));
+
+            var actual = sut.Parse(uri);
+            var expected = GetActionContext<BarController>(x => x.GetDefault());
+
+            Assert.Equal(expected, actual, HttpActionContextResemblance.EqualityComparer);
         }
 
         [Theory]
