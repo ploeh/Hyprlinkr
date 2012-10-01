@@ -197,23 +197,25 @@ namespace Ploeh.Hyprlinkr
         /// </returns>
         private HttpControllerContext ConstructControllerContext(Uri uri)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, uri);
-            var routeData = Configuration.Routes.GetRouteData(request);
-            if (routeData == null)
-                return null;
+            using(var request = new HttpRequestMessage(HttpMethod.Get, uri))
+            {
+                var routeData = Configuration.Routes.GetRouteData(request);
+                if (routeData == null)
+                    return null;
 
-            request.Properties[HttpPropertyKeys.HttpRouteDataKey] = routeData;
-            request.Properties[HttpPropertyKeys.HttpConfigurationKey] = Configuration;
+                request.Properties[HttpPropertyKeys.HttpRouteDataKey] = routeData;
+                request.Properties[HttpPropertyKeys.HttpConfigurationKey] = Configuration;
 
-            var controllerContext = new HttpControllerContext(Configuration, routeData, request);
+                var controllerContext = new HttpControllerContext(Configuration, routeData, request);
 
-            var controllerName = GetControllerName(routeData);
+                var controllerName = GetControllerName(routeData);
 
-            if (!this.controllerSelector.GetControllerMapping().ContainsKey(controllerName))
-                return null;
+                if (!this.controllerSelector.GetControllerMapping().ContainsKey(controllerName))
+                    return null;
 
-            controllerContext.ControllerDescriptor = this.controllerSelector.SelectController(request);
-            return controllerContext;
+                controllerContext.ControllerDescriptor = this.controllerSelector.SelectController(request);
+                return controllerContext;
+            }
         }
 
         /// <summary>
@@ -231,7 +233,7 @@ namespace Ploeh.Hyprlinkr
             {
                 return this.actionSelector.SelectAction(controllerContext);
             }
-            catch (InvalidOperationException e)
+            catch (InvalidOperationException)
             {
                 return null;
             }

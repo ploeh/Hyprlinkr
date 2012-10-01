@@ -12,9 +12,6 @@ namespace Ploeh.Hyprlinkr
         /// <summary>
         /// Gets the <see cref="MethodCallExpression"/> of the body of the supplied expression.
         /// </summary>
-        /// <typeparam name="T">
-        /// The type of the class used inside the body of the expression
-        /// </typeparam>
         /// <param name="expression">
         /// The expression.
         /// </param>
@@ -23,7 +20,7 @@ namespace Ploeh.Hyprlinkr
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="expression"/> is <c>null</c>.</exception>
         /// <exception cref="System.ArgumentException"><paramref name="expression"/> doesn't represent an Action that invokes a method.</exception>
-        public static MethodCallExpression GetBodyMethodCallExpression<T>(this Expression<Action<T>> expression)
+        public static MethodCallExpression GetBodyMethodCallExpression(this LambdaExpression expression)
         {
             if (expression == null)
                 throw new ArgumentNullException("expression");
@@ -42,17 +39,17 @@ namespace Ploeh.Hyprlinkr
         /// <summary>
         /// Gets the <see cref="MethodInfo"/> object of the body of the supplied expression.
         /// </summary>
-        /// <typeparam name="T">
-        /// The type of the class used inside the body of the expression
-        /// </typeparam>
         /// <param name="expression">
         /// The expression.
         /// </param>
         /// <returns>
         /// The <see cref="MethodInfo"/> object of the body of the supplied expression.
         /// </returns>
-        public static MethodInfo GetMethodInfo<T>(this Expression<Action<T>> expression)
+        public static MethodInfo GetMethodInfo(this LambdaExpression expression)
         {
+            if (expression == null)
+                throw new ArgumentNullException("expression");
+
             return expression.GetBodyMethodCallExpression().Method;
         }
 
@@ -70,6 +67,11 @@ namespace Ploeh.Hyprlinkr
         /// </returns>
         public static object GetParameterValue(this MethodCallExpression methodCallExpression, ParameterInfo parameterInfo)
         {
+            if (methodCallExpression == null)
+                throw new ArgumentNullException("methodCallExpression");
+            if (parameterInfo == null)
+                throw new ArgumentNullException("parameterInfo");
+
             var arg = methodCallExpression.Arguments[parameterInfo.Position];
             var lambda = Expression.Lambda(arg);
             return lambda.Compile().DynamicInvoke();
