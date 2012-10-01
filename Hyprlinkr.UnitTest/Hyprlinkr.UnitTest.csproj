@@ -103,9 +103,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoHypDataAttribute.cs" />
+    <Compile Include="Controllers\AmbiguousActionController.cs" />
     <Compile Include="Controllers\BarController.cs" />
+    <Compile Include="Controllers\FooBarController.cs" />
     <Compile Include="Controllers\FooController.cs" />
+    <Compile Include="Controllers\NoGetActionController.cs" />
     <Compile Include="DefaultRouteDispatcherTests.cs" />
+    <Compile Include="HttpActionContextResemblance.cs" />
     <Compile Include="netfx\System\Guard.cs" />
     <Compile Include="netfx\System\Reflection\Reflect.cs" />
     <Compile Include="netfx\System\Reflection\Reflect.Overloads.cs">
@@ -113,11 +117,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reflect.Overloads.tt</DependentUpon>
     </Compile>
+    <Compile Include="ResourceLinkVerifierTests.cs" />
     <Compile Include="RoupleTests.cs" />
     <Compile Include="RouteConfiguration.cs" />
     <Compile Include="HyprlinkrCustomization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteLinkerTests.cs" />
+    <Compile Include="TestExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
