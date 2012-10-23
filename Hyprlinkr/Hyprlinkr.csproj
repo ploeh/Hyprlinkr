@@ -85,6 +85,7 @@
     <Compile Include="IResourceLinker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceLinkVerifier.cs" />
+    <Compile Include="ResourceLinkVerifierExtensions.cs" />
     <Compile Include="Rouple.cs" />
     <Compile Include="RouteLinker.cs" />
   </ItemGroup>
