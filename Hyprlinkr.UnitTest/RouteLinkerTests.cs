@@ -148,17 +148,9 @@ namespace Ploeh.Hyprlinkr.UnitTest
         }
 
         [Theory, AutoHypData]
-        public void SutIsDisposable(RouteLinker sut)
+        public void SutIsNotDisposable(RouteLinker sut)
         {
-            Assert.IsAssignableFrom<IDisposable>(sut);
-        }
-
-        [Theory, AutoHypData]
-        public void DisposeDisposesRequest(Mock<HttpRequestMessage> requestMock)
-        {
-            var sut = new RouteLinker(requestMock.Object);
-            sut.Dispose();
-            requestMock.Protected().Verify("Dispose", Times.Once(), true);
+            Assert.False(sut is IDisposable);
         }
 
         [Theory, AutoHypData]
