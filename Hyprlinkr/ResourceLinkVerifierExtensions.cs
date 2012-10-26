@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Dynamic;
+using System.Globalization;
 using System.Linq.Expressions;
 using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 
@@ -24,6 +27,8 @@ namespace Ploeh.Hyprlinkr
         ///     Thrown with status code <see cref="HttpStatusCode.BadRequest"/> if the <paramref name="uri"/> couldn't be parsed or if it didn't match the expected
         ///     controller action.
         /// </exception>
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope",
+            Justification = "The purpose of this code is to throw an exception with that message. It can't be disposed before it loses scope.")]
         public static dynamic ParseAndVerify<TController>(
             this ResourceLinkVerifier resourceLinkVerifier, Uri uri, Expression<Action<TController>> expectedAction)
         {
@@ -32,7 +37,11 @@ namespace Ploeh.Hyprlinkr
 
             HttpActionContext context;
             if (!resourceLinkVerifier.TryParse(uri, out context) || !resourceLinkVerifier.Verify(context, expectedAction))
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            {
+                var content = string.Format(CultureInfo.InvariantCulture, "The URI '{0}' couldn't be parsed or doesn't match the specified controller.", uri);
+                var message = new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent(content) };
+                throw new HttpResponseException(message);
+            }
 
             IDictionary<string, object> result = new ExpandoObject();
             foreach (var actionArgument in context.ActionArguments)
