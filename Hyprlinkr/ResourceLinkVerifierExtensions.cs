@@ -24,8 +24,7 @@ namespace Ploeh.Hyprlinkr
         /// <param name="expectedAction">The expected controller action.</param>
         /// <returns>A dynamic object with a property for each controller action parameter.</returns>
         /// <exception cref="System.Web.Http.HttpResponseException">
-        ///     Thrown with status code <see cref="HttpStatusCode.BadRequest"/> if the <paramref name="uri"/> couldn't be parsed or if it didn't match the expected
-        ///     controller action.
+        ///     Thrown with status code <see cref="HttpStatusCode.BadRequest"/> if the URI couldn't be parsed or if it didn't match the expected controller action.
         /// </exception>
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope",
             Justification = "The purpose of this code is to throw an exception with that message. It can't be disposed before it loses scope.")]
