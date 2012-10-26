@@ -31,7 +31,7 @@ namespace Ploeh.Hyprlinkr
                 throw new ArgumentNullException("resourceLinkVerifier");
 
             HttpActionContext context;
-            if (!resourceLinkVerifier.TryParse(uri, out context) && !resourceLinkVerifier.Verify(context, expectedAction))
+            if (!resourceLinkVerifier.TryParse(uri, out context) || !resourceLinkVerifier.Verify(context, expectedAction))
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
 
             IDictionary<string, object> result = new ExpandoObject();
