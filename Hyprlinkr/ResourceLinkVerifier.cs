@@ -16,17 +16,25 @@ namespace Ploeh.Hyprlinkr
     ///     <para> This class parses URIs into a structured representation. The <see cref="HttpActionContext"/> class is used as said representation. </para>
     ///     <para> Additionally, this class is capable of verifying that a <see cref="HttpActionContext"/> matches a specific controller action. </para>
     /// </summary>
-    /// <remarks>
-    /// Example: <code>
+    /// <example>
+    /// <code>
     /// <![CDATA[
     /// HttpContextAction contextAction;
-    /// if(linkVerifier.TryParseUri(uri, out contextAction) && linkVerifier.Verify<SomeController>(x => x.SomeAction(Arg.OfType<int>)))
+    /// if(linkVerifier.TryParseUri(uri, out contextAction) && linkVerifier.Verify<SomeController>(x => x.SomeAction(Arg.OfType<int>())))
     /// {
     ///     var id = (int)contextAction.ActionArguments["id"];
     /// }
     /// ]]>
     /// </code>
-    /// </remarks>
+    /// </example>
+    /// <example>
+    /// You can also use the convenience extension method <see cref="ResourceLinkVerifierExtensions.ParseAndVerify{TController}"/>:
+    /// <code>
+    /// <![CDATA[
+    /// int id = linkVerifier.ParseAndVerify<SomeController>(uri, x => x.SomeAction(Arg.OfType<int>())).id;
+    /// ]]>
+    /// </code>
+    /// </example>
     public class ResourceLinkVerifier : IResourceLinkParser, IActionVerifier
     {
         private readonly IHttpActionSelector actionSelector;
