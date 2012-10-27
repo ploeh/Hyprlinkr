@@ -24,7 +24,7 @@ namespace Ploeh.Hyprlinkr
     /// </para>
     /// </remarks>
     /// <seealso cref="GetUri{T}(Expression{Action{T}})" />
-    public class RouteLinker : IResourceLinker, IDisposable
+    public class RouteLinker : IResourceLinker
     {
         private readonly HttpRequestMessage request;
         private readonly IRouteDispatcher dispatcher;
@@ -215,41 +215,6 @@ namespace Ploeh.Hyprlinkr
         public IRouteDispatcher RouteDispatcher
         {
             get { return this.dispatcher; }
-        }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting
-        /// unmanaged resources.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// This implementation follows the standard Dispose pattern by delegating to the virtual
-        /// <see cref="Dispose(bool)" /> method.
-        /// </para>
-        /// </remarks>
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        /// <param name="disposing">
-        /// <see langword="true" /> to release both managed and unmanaged resources;
-        /// <see langword="false" /> to release only unmanaged resources.
-        /// </param>
-        /// <remarks>
-        /// <para>
-        /// If <paramref name="disposing" /> is <see langword="true" /> this method disposes
-        /// <see cref="Request" />.
-        /// </para>
-        /// </remarks>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-                this.request.Dispose();
         }
     }
 }
