@@ -18,7 +18,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         {
             request.RequestUri = new Uri(request.RequestUri, "api/qux");
             request.AddRoute(
-                name: "API Default",
+                name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional });
         }

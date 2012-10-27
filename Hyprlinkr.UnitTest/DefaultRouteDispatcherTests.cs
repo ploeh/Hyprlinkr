@@ -38,7 +38,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         public void DefaultRouteNameIsCorrect(
             [Modest]DefaultRouteDispatcher sut)
         {
-            Assert.Equal("API Default", sut.RouteName);
+            Assert.Equal("DefaultApi", sut.RouteName);
         }
 
         [Theory, AutoHypData]
@@ -48,7 +48,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
             IDictionary<string, object> routeValues)
         {
             var actual = sut.Dispatch(method, routeValues);
-            Assert.Equal("API Default", actual.RouteName);
+            Assert.Equal("DefaultApi", actual.RouteName);
         }
 
         [Theory, AutoHypData]

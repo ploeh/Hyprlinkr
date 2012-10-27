@@ -193,7 +193,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         {
             request.RequestUri = new Uri(request.RequestUri, "api/foo/" + currentId);
             request.AddRoute(
-                name: "API Default",
+                name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new
                 {

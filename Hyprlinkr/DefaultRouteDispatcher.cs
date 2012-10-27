@@ -19,7 +19,7 @@ namespace Ploeh.Hyprlinkr
         /// Initializes a new instance of the <see cref="DefaultRouteDispatcher" /> class.
         /// </summary>
         public DefaultRouteDispatcher()
-            : this("API Default")
+            : this("DefaultApi")
         {
         }
 
