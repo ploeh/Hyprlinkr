@@ -130,8 +130,10 @@ namespace Ploeh.Hyprlinkr.UnitTest
                 .GetMethod(c => c.GetWithPloehAndFnaah(ploeh, fnaah));
             dispatcherStub
                 .Setup(d =>
-                    d.Dispatch(method, It.IsAny<IDictionary<string, object>>()))
-                .Returns((MethodInfo _, IDictionary<string, object> routeValues) =>
+                    d.Dispatch(
+                        It.Is<MethodCallExpression>(exp => method.Equals(exp.Method)),
+                        It.IsAny<IDictionary<string, object>>()))
+                .Returns((MethodCallExpression _, IDictionary<string, object> routeValues) =>
                     new Rouple(routeName, routeValues));
 
             // Act
@@ -207,6 +209,20 @@ namespace Ploeh.Hyprlinkr.UnitTest
 
             var actual = request.GetRouteData().Values.ToList();
             Assert.True(expected.SetEquals(actual));
+        }
+
+        [Theory, AutoHypData]
+        public void GetUriFromBaseActionMethodReturnsCorrectResponse(
+            [Frozen]HttpRequestMessage request,
+            RouteLinker sut)
+        {
+            request.AddDefaultRoute();
+
+            var actual = sut.GetUri<DerivedController>(c => c.BaseMethod());
+
+            var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
+            var expected = new Uri(new Uri(baseUri), "api/derived");
+            Assert.Equal(expected, actual);
         }
     }
 }

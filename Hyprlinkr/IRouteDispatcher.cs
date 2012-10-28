@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.Linq.Expressions;
 
 namespace Ploeh.Hyprlinkr
 {
@@ -41,5 +42,9 @@ namespace Ploeh.Hyprlinkr
         /// </para>
         /// </remarks>
         Rouple Dispatch(MethodInfo method, IDictionary<string, object> routeValues);
+
+        Rouple Dispatch(
+            MethodCallExpression method,
+            IDictionary<string, object> routeValues);
     }
 }

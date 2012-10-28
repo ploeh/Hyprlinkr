@@ -11,6 +11,8 @@ using System.Web.Http.Routing;
 using Moq;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
+using System.Linq.Expressions;
+using Ploeh.Hyprlinkr.UnitTest.Controllers;
 
 namespace Ploeh.Hyprlinkr.UnitTest
 {
@@ -19,7 +21,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         public HyprlinkrCustomization()
             : base(
                 new HttpSchemeCustomization(),
-                new MethodInfoCustomization(),
+                new MethodCustomization(),
                 new MultipleCustomization(),
                 new InjectFixtureIntoItself(),
                 new AutoMoqCustomization(),
@@ -60,7 +62,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
             }
         }
 
-        private class MethodInfoCustomization : ICustomization
+        private class MethodCustomization : ICustomization
         {
             public void Customize(IFixture fixture)
             {
@@ -68,6 +70,9 @@ namespace Ploeh.Hyprlinkr.UnitTest
                     .Do(stub => stub
                         .SetupGet(m => m.ReflectedType.Name)
                         .Returns(fixture.CreateAnonymous<string>())));
+
+                Expression<Action<FooController>> exp = c => c.GetDefault();
+                fixture.Inject(exp.GetBodyMethodCallExpression());
             }
         }
 

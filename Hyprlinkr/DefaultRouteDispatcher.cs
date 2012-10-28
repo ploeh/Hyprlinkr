@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.Linq.Expressions;
 
 namespace Ploeh.Hyprlinkr
 {
@@ -76,6 +77,26 @@ namespace Ploeh.Hyprlinkr
 
             var controllerName = method
                 .ReflectedType
+                .Name
+                .ToLowerInvariant()
+                .Replace("controller", "");
+            newRouteValues["controller"] = controllerName;
+
+            return new Rouple(this.routeName, newRouteValues);
+        }
+
+        public Rouple Dispatch(
+            MethodCallExpression method,
+            IDictionary<string, object> routeValues)
+        {
+            if (method == null)
+                throw new ArgumentNullException("method");
+
+            var newRouteValues = new Dictionary<string, object>(routeValues);
+
+            var controllerName = method
+                .Object
+                .Type
                 .Name
                 .ToLowerInvariant()
                 .Replace("controller", "");

@@ -142,7 +142,7 @@ namespace Ploeh.Hyprlinkr
         {
             var routeValues = methodCallExp.Method.GetParameters()
                 .ToDictionary(p => p.Name, p => GetValue(methodCallExp, p));
-            return this.dispatcher.Dispatch(methodCallExp.Method, routeValues);
+            return this.dispatcher.Dispatch(methodCallExp, routeValues);
         }
 
         private static object GetValue(MethodCallExpression methodCallExp,
