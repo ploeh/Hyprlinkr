@@ -22,7 +22,7 @@ namespace Ploeh.Hyprlinkr
     /// an Action Method.
     /// </para>
     /// </remarks>
-    /// <seealso cref="Dispatch(MethodInfo, IDictionary{string, object})" />
+    /// <seealso cref="Dispatch(MethodCallExpression, IDictionary{string, object})" />
     public interface IRouteDispatcher
     {
         /// <summary>
