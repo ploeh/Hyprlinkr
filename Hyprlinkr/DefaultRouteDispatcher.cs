@@ -51,45 +51,6 @@ namespace Ploeh.Hyprlinkr
         /// <summary>
         /// Provides dispatch information based on an Action Method.
         /// </summary>
-        /// <param name="method">The Action Method.</param>
-        /// <param name="routeValues">Route values.</param>
-        /// <returns>
-        /// An object containing the route name, as well as the route values.
-        /// </returns>
-        /// <remarks>
-        /// <para>
-        /// The returned <see cref="Rouple.RouteName" /> will be the value of the
-        /// <see cref="RouteName" /> property.
-        /// </para>
-        /// <para>
-        /// The returned <see cref="Rouple.RouteValues" /> will be all entries of the
-        /// <paramref name="routeValues" />, plus a value for an additional "controller" key,
-        /// derived from <paramref name="method" />.
-        /// </para>
-        /// </remarks>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "This method should produce URIs with lower-case letters, so ultimately, it would have to invoke some sort of ToLower method.")]
-        public Rouple Dispatch(
-            MethodInfo method,
-            IDictionary<string, object> routeValues)
-        {
-            if (method == null)
-                throw new ArgumentNullException("method");
-
-            var newRouteValues = new Dictionary<string, object>(routeValues);
-
-            var controllerName = method
-                .ReflectedType
-                .Name
-                .ToLowerInvariant()
-                .Replace("controller", "");
-            newRouteValues["controller"] = controllerName;
-
-            return new Rouple(this.routeName, newRouteValues);
-        }
-
-        /// <summary>
-        /// Provides dispatch information based on an Action Method.
-        /// </summary>
         /// <param name="method">The method expression.</param>
         /// <param name="routeValues">Route values.</param>
         /// <returns>

@@ -9,6 +9,7 @@ using System.Reflection;
 using Ploeh.Hyprlinkr.UnitTest.Controllers;
 using Ploeh.AutoFixture.Idioms;
 using Ploeh.AutoFixture.Xunit;
+using System.Linq.Expressions;
 
 namespace Ploeh.Hyprlinkr.UnitTest
 {
@@ -44,7 +45,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         [Theory, AutoHypData]
         public void DispatchReturnsResultWithCorrectRouteName(
             [Modest]DefaultRouteDispatcher sut,
-            MethodInfo method,
+            MethodCallExpression method,
             IDictionary<string, object> routeValues)
         {
             var actual = sut.Dispatch(method, routeValues);
@@ -54,7 +55,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         [Theory, AutoHypData]
         public void DispatchReturnsResultWithCustomRouteName(
             [Greedy]DefaultRouteDispatcher sut,
-            MethodInfo method,
+            MethodCallExpression method,
             IDictionary<string, object> routeValues)
         {
             var actual = sut.Dispatch(method, routeValues);
@@ -64,7 +65,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         [Theory, AutoHypData]
         public void DispatchPreservesAllRouteValues(
             DefaultRouteDispatcher sut,
-            MethodInfo method,
+            MethodCallExpression method,
             IDictionary<string, object> routeValues)
         {
             var actual = sut.Dispatch(method, routeValues);
@@ -78,7 +79,8 @@ namespace Ploeh.Hyprlinkr.UnitTest
             DefaultRouteDispatcher sut,
             IDictionary<string, object> routeValues)
         {
-            var method = Reflect<FooController>.GetMethod(c => c.GetDefault());
+            Expression<Action<FooController>> exp = c => c.GetDefault();
+            var method = (MethodCallExpression)exp.Body;
             var actual = sut.Dispatch(method, routeValues);
             Assert.Equal("foo", actual.RouteValues["controller"]);
         }
@@ -88,7 +90,8 @@ namespace Ploeh.Hyprlinkr.UnitTest
             DefaultRouteDispatcher sut,
             IDictionary<string, object> routeValues)
         {
-            var method = Reflect<BarController>.GetMethod(c => c.GetDefault());
+            Expression<Action<BarController>> exp = c => c.GetDefault();
+            var method = (MethodCallExpression)exp.Body;
             var actual = sut.Dispatch(method, routeValues);
             Assert.Equal("bar", actual.RouteValues["controller"]);
         }
@@ -96,7 +99,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         [Theory, AutoHypData]
         public void DispatchDoesNotMutateInputRouteValues(
             DefaultRouteDispatcher sut,
-            MethodInfo method,
+            MethodCallExpression method,
             IDictionary<string, object> routeValues)
         {
             var expected = routeValues.ToList();
