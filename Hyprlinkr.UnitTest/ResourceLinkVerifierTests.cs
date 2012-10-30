@@ -240,17 +240,8 @@ namespace Ploeh.Hyprlinkr.UnitTest
             Assert.False(actual);
         }
 
-        [Theory, AutoHypData]
-        public void VerifyReturnsTrueWhenActionContextMatchesExpression(ResourceLinkVerifier sut, int id)
-        {
-            var actionContext = GetActionContext<FooController>(x => x.GetById(id));
-
-            var actual = sut.Verify<FooController>(actionContext, x => x.GetById(Arg.OfType<int>()));
-
-            Assert.True(actual);
-        }
-
-        [Theory, AutoHypData]
+        [Theory]
+        [AutoHypData]
         public void VerifyReturnsFalseWhenActionContextIsForCorrectControllerButWrongAction(ResourceLinkVerifier sut, int id)
         {
             var actionContext = GetActionContext<FooController>(x => x.GetById(id));
@@ -260,7 +251,8 @@ namespace Ploeh.Hyprlinkr.UnitTest
             Assert.False(actual);
         }
 
-        [Theory, AutoHypData]
+        [Theory]
+        [AutoHypData]
         public void VerifyReturnsFalseWhenActionContextIsForWrongController(ResourceLinkVerifier sut)
         {
             var actionContext = GetActionContext<FooController>(x => x.GetDefault());
@@ -268,6 +260,28 @@ namespace Ploeh.Hyprlinkr.UnitTest
             var actual = sut.Verify<BarController>(actionContext, x => x.GetDefault());
 
             Assert.False(actual);
+        }
+
+        [Theory]
+        [AutoHypData]
+        public void VerifyReturnsTrueWhenActionContextIsForMethodDeclaredOnControllerBaseType(ResourceLinkVerifier sut)
+        {
+            var actionContext = GetActionContext<DerivedController>(x => x.BaseMethod());
+
+            var actual = sut.Verify<DerivedController>(actionContext, x => x.BaseMethod());
+
+            Assert.True(actual);
+        }
+
+        [Theory]
+        [AutoHypData]
+        public void VerifyReturnsTrueWhenActionContextMatchesExpression(ResourceLinkVerifier sut, int id)
+        {
+            var actionContext = GetActionContext<FooController>(x => x.GetById(id));
+
+            var actual = sut.Verify<FooController>(actionContext, x => x.GetById(Arg.OfType<int>()));
+
+            Assert.True(actual);
         }
 
         private static HttpActionContextResemblance GetActionContext<TController>(
