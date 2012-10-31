@@ -11,14 +11,14 @@ namespace Ploeh.Hyprlinkr.UnitTest
         {
             var bodyCallExpression = expression.GetBodyMethodCallExpression();
             var methodInfo = bodyCallExpression.Method;
-            var controllerDescriptor = new HttpControllerDescriptor { ControllerType = methodInfo.DeclaringType };
+            var controllerDescriptor = new HttpControllerDescriptor { ControllerType = typeof(TController) };
             var actionContext =
                 new HttpActionContext(
                     new HttpControllerContext { ControllerDescriptor = controllerDescriptor }, 
                     new ReflectedHttpActionDescriptor(controllerDescriptor, methodInfo));
 
             var parameters = bodyCallExpression.Method.GetParameters().ToDictionary(
-                p => p.Name, p => bodyCallExpression.GetParameterValue(p));
+                p => p.Name, bodyCallExpression.GetParameterValue);
 
             foreach (var kvp in parameters)
                 actionContext.ActionArguments.Add(kvp.Key, kvp.Value);
