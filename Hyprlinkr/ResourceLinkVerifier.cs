@@ -130,9 +130,6 @@ namespace Ploeh.Hyprlinkr
 
             var expectedActionMethod = expectedAction.GetMethodInfo();
 
-            if (actionContext.ControllerContext.ControllerDescriptor.ControllerType != expectedActionMethod.DeclaringType)
-                return false;
-
             MethodInfo actualActionMethod;
             var actionDescriptor = actionContext.ActionDescriptor as ReflectedHttpActionDescriptor;
             if (actionDescriptor == null)
