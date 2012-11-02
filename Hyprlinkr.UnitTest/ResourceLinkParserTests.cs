@@ -10,18 +10,18 @@ using Xunit.Extensions;
 
 namespace Ploeh.Hyprlinkr.UnitTest
 {
-    public class ResourceLinkVerifierTests
+    public class ResourceLinkParserTests
     {
         [Theory]
         [AutoHypData]
         public void ConstructorHasAppropriateGuards(GuardClauseAssertion assertion)
         {
-            assertion.Verify(typeof(ResourceLinkVerifier).GetConstructors());
+            assertion.Verify(typeof(ResourceLinkParser).GetConstructors());
         }
 
         [Theory]
         [AutoHypData]
-        public void ParseUriFollowsRedirect(ResourceLinkVerifier sut, string host)
+        public void ParseUriFollowsRedirect(ResourceLinkParser sut, string host)
         {
             var defaultRoute = sut.Configuration.AddDefaultRoute();
             sut.Configuration.AddPermanentRedirectRoute("Redirect", new HttpRoute("api_old/{controller}/{id}", new HttpRouteValueDictionary(new { id = RouteParameter.Optional })), defaultRoute);
@@ -35,7 +35,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
 
         [Theory]
         [AutoHypData]
-        public void ParseUriReturnsCorrectValueForComplexRoute(ResourceLinkVerifier sut, string host, int id, int bar)
+        public void ParseUriReturnsCorrectValueForComplexRoute(ResourceLinkParser sut, string host, int id, int bar)
         {
             sut.Configuration.AddDefaultRoute();
             sut.Configuration.AddRoute("Complex Route", "api/{controller}/{id}/bars/{bar}", null);
@@ -50,7 +50,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         [Theory]
         [AutoHypData]
         public void ParseUriReturnsCorrectValueForUriWithOmittedOptionalParameters(
-            ResourceLinkVerifier sut, string host, int id, string bar)
+            ResourceLinkParser sut, string host, int id, string bar)
         {
             sut.Configuration.AddDefaultRoute();
             var uri = new Uri(string.Format("http://{0}/api/foo/{1}?bar={2}", host, id, bar));
@@ -64,7 +64,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         [Theory]
         [AutoHypData]
         public void ParseUriReturnsCorrectValueForUriWithOverParametrization(
-            ResourceLinkVerifier sut, string host, int id, string bar, string foo)
+            ResourceLinkParser sut, string host, int id, string bar, string foo)
         {
             sut.Configuration.AddDefaultRoute();
             var uri = new Uri(string.Format("http://{0}/api/bar/{1}?foo={2}&bar={3}", host, id, foo, bar));
@@ -78,7 +78,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         [Theory]
         [AutoHypData]
         public void ParseUriReturnsCorrectValueForUriWithQueryParameters(
-            ResourceLinkVerifier sut, string host, int id, string bar)
+            ResourceLinkParser sut, string host, int id, string bar)
         {
             sut.Configuration.AddDefaultRoute();
             var uri = new Uri(string.Format("http://{0}/api/bar/{1}?bar={2}", host, id, bar));
@@ -92,7 +92,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         [Theory]
         [AutoHypData]
         public void ParseUriReturnsCorrectValueForUriWithQueryParametersInDifferentOrder(
-            ResourceLinkVerifier sut, string host, int id, string bar, string foo)
+            ResourceLinkParser sut, string host, int id, string bar, string foo)
         {
             sut.Configuration.AddDefaultRoute();
             var uri = new Uri(string.Format("http://{0}/api/foo/{1}?foo={2}&bar={3}", host, id, foo, bar));
@@ -106,7 +106,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         [Theory]
         [AutoHypData]
         public void ParseUriReturnsCorrectValueForUriWithSuppliedOptionalParameters(
-            ResourceLinkVerifier sut, string host, int id, string bar, string foo)
+            ResourceLinkParser sut, string host, int id, string bar, string foo)
         {
             sut.Configuration.AddDefaultRoute();
             var uri = new Uri(string.Format("http://{0}/api/foo/{1}?bar={2}&foo={3}", host, id, bar, foo));
@@ -120,7 +120,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         [Theory]
         [AutoHypData]
         public void ParseUriReturnsCorrectValueForUriWithoutQueryParameters(
-            ResourceLinkVerifier sut, string host, int id)
+            ResourceLinkParser sut, string host, int id)
         {
             sut.Configuration.AddDefaultRoute();
             var uri = new Uri(string.Format("http://{0}/api/foo/{1}", host, id));
@@ -133,7 +133,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
 
         [Theory]
         [AutoHypData]
-        public void ParseUriThrowsOnUriWithMultipleMatchingActions(ResourceLinkVerifier sut, string host, int id)
+        public void ParseUriThrowsOnUriWithMultipleMatchingActions(ResourceLinkParser sut, string host, int id)
         {
             sut.Configuration.AddDefaultRoute();
             var uri = new Uri(string.Format("http://{0}/api/ambiguousaction/{1}", host, id));
@@ -143,7 +143,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
 
         [Theory]
         [AutoHypData]
-        public void ParseUriThrowsOnUriWithoutMatchingAction(ResourceLinkVerifier sut, string host, int id)
+        public void ParseUriThrowsOnUriWithoutMatchingAction(ResourceLinkParser sut, string host, int id)
         {
             sut.Configuration.AddDefaultRoute();
             var uri = new Uri(string.Format("http://{0}/nogetaction/{1}", host, id));
@@ -154,7 +154,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         [Theory]
         [AutoHypData]
         public void ParseUriThrowsOnUriWithoutMatchingController(
-            ResourceLinkVerifier sut, string host, int id, object controller)
+            ResourceLinkParser sut, string host, int id, object controller)
         {
             sut.Configuration.AddDefaultRoute();
             var uri = new Uri(string.Format("http://{0}/api/{1}/{2}", host, controller, id));
@@ -164,7 +164,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
 
         [Theory]
         [AutoHypData]
-        public void ParseUriThrowsOnUriWithoutMatchingRoute(ResourceLinkVerifier sut, string host, int id)
+        public void ParseUriThrowsOnUriWithoutMatchingRoute(ResourceLinkParser sut, string host, int id)
         {
             sut.Configuration.AddDefaultRoute();
             var uri = new Uri(string.Format("http://{0}/foo/{1}", host, id));
@@ -174,14 +174,14 @@ namespace Ploeh.Hyprlinkr.UnitTest
 
         [Theory]
         [AutoHypData]
-        public void SutIsActionVerifier(ResourceLinkVerifier sut)
+        public void SutIsActionVerifier(ResourceLinkParser sut)
         {
             Assert.IsAssignableFrom<IActionVerifier>(sut);
         }
 
         [Theory]
         [AutoHypData]
-        public void SutIsResourceLinkParser(ResourceLinkVerifier sut)
+        public void SutIsResourceLinkParser(ResourceLinkParser sut)
         {
             Assert.IsAssignableFrom<IResourceLinkParser>(sut);
         }
@@ -189,7 +189,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         [Theory]
         [AutoHypData]
         public void TryParseUriReturnsFalseOnUriWithMultipleMatchingActions(
-            ResourceLinkVerifier sut, string host, int id)
+            ResourceLinkParser sut, string host, int id)
         {
             sut.Configuration.AddDefaultRoute();
             var uri = new Uri(string.Format("http://{0}/api/ambiguousaction/{1}", host, id));
@@ -202,7 +202,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
 
         [Theory]
         [AutoHypData]
-        public void TryParseUriReturnsFalseOnUriWithoutMatchingAction(ResourceLinkVerifier sut, string host, int id)
+        public void TryParseUriReturnsFalseOnUriWithoutMatchingAction(ResourceLinkParser sut, string host, int id)
         {
             sut.Configuration.AddDefaultRoute();
             var uri = new Uri(string.Format("http://{0}/nogetaction/{1}", host, id));
@@ -216,7 +216,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         [Theory]
         [AutoHypData]
         public void TryParseUriReturnsFalseOnUriWithoutMatchingController(
-            ResourceLinkVerifier sut, string host, int id, string controller)
+            ResourceLinkParser sut, string host, int id, string controller)
         {
             sut.Configuration.AddDefaultRoute();
             var uri = new Uri(string.Format("http://{0}/api/{1}/{2}", host, controller, id));
@@ -229,7 +229,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
 
         [Theory]
         [AutoHypData]
-        public void TryParseUriReturnsFalseOnUriWithoutMatchingRoute(ResourceLinkVerifier sut, string host, int id)
+        public void TryParseUriReturnsFalseOnUriWithoutMatchingRoute(ResourceLinkParser sut, string host, int id)
         {
             sut.Configuration.AddDefaultRoute();
             var uri = new Uri(string.Format("http://{0}/foo/{1}", host, id));
@@ -242,7 +242,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
 
         [Theory]
         [AutoHypData]
-        public void VerifyReturnsFalseWhenActionContextIsForCorrectControllerButWrongAction(ResourceLinkVerifier sut, int id)
+        public void VerifyReturnsFalseWhenActionContextIsForCorrectControllerButWrongAction(ResourceLinkParser sut, int id)
         {
             var actionContext = GetActionContext<FooController>(x => x.GetById(id));
 
@@ -253,7 +253,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
 
         [Theory]
         [AutoHypData]
-        public void VerifyReturnsFalseWhenActionContextIsForWrongController(ResourceLinkVerifier sut)
+        public void VerifyReturnsFalseWhenActionContextIsForWrongController(ResourceLinkParser sut)
         {
             var actionContext = GetActionContext<FooController>(x => x.GetDefault());
 
@@ -264,7 +264,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
 
         [Theory]
         [AutoHypData]
-        public void VerifyReturnsTrueWhenActionContextIsForMethodDeclaredOnControllerBaseType(ResourceLinkVerifier sut)
+        public void VerifyReturnsTrueWhenActionContextIsForMethodDeclaredOnControllerBaseType(ResourceLinkParser sut)
         {
             var actionContext = GetActionContext<DerivedController>(x => x.BaseMethod());
 
@@ -275,7 +275,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
 
         [Theory]
         [AutoHypData]
-        public void VerifyReturnsTrueWhenActionContextMatchesExpression(ResourceLinkVerifier sut, int id)
+        public void VerifyReturnsTrueWhenActionContextMatchesExpression(ResourceLinkParser sut, int id)
         {
             var actionContext = GetActionContext<FooController>(x => x.GetById(id));
 

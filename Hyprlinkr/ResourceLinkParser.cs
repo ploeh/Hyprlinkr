@@ -20,26 +20,26 @@ namespace Ploeh.Hyprlinkr
     /// Example: <code>
     /// <![CDATA[
     /// HttpContextAction contextAction;
-    /// if(linkVerifier.TryParseUri(uri, out contextAction) && linkVerifier.Verify<SomeController>(x => x.SomeAction(Arg.OfType<int>)))
+    /// if(linkParser.TryParseUri(uri, out contextAction) && linkParser.Verify<SomeController>(x => x.SomeAction(Arg.OfType<int>)))
     /// {
     ///     var id = (int)contextAction.ActionArguments["id"];
     /// }
     /// ]]>
     /// </code>
     /// </remarks>
-    public class ResourceLinkVerifier : IResourceLinkParser, IActionVerifier
+    public class ResourceLinkParser : IResourceLinkParser, IActionVerifier
     {
         private readonly IHttpActionSelector actionSelector;
         private readonly HttpConfiguration configuration;
         private readonly IHttpControllerSelector controllerSelector;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ResourceLinkVerifier"/> class.
+        /// Initializes a new instance of the <see cref="ResourceLinkParser"/> class.
         /// </summary>
         /// <param name="configuration">
         /// The configuration to use to parse the URIs.
         /// </param>
-        public ResourceLinkVerifier(HttpConfiguration configuration)
+        public ResourceLinkParser(HttpConfiguration configuration)
         {
             if (configuration == null)
                 throw new ArgumentNullException("configuration");

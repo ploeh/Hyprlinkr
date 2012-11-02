@@ -45,9 +45,11 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>..\Hyprlinkr.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories></CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleSetDirectories>
+    </CodeAnalysisRuleSetDirectories>
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisRuleDirectories></CodeAnalysisRuleDirectories>
+    <CodeAnalysisRuleDirectories>
+    </CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
@@ -85,7 +87,7 @@
     <Compile Include="IResourceLinker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectionExtensions.cs" />
-    <Compile Include="ResourceLinkVerifier.cs" />
+    <Compile Include="ResourceLinkParser.cs" />
     <Compile Include="Rouple.cs" />
     <Compile Include="RouteLinker.cs" />
   </ItemGroup>
