@@ -275,6 +275,17 @@ namespace Ploeh.Hyprlinkr.UnitTest
 
         [Theory]
         [AutoHypData]
+        public void VerifyReturnsFalseWhenActionContextIsForMethodDeclaredOnControllerBaseTypeButActionControllerIsDifferentFromSpecifiedController(ResourceLinkParser sut)
+        {
+            var actionContext = GetActionContext<DerivedController>(x => x.BaseMethod());
+
+            var actual = sut.Verify<DerivedController2>(actionContext, x => x.BaseMethod());
+
+            Assert.False(actual);
+        }
+
+        [Theory]
+        [AutoHypData]
         public void VerifyReturnsTrueWhenActionContextMatchesExpression(ResourceLinkParser sut, int id)
         {
             var actionContext = GetActionContext<FooController>(x => x.GetById(id));
