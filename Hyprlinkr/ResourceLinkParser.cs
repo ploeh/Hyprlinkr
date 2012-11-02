@@ -128,6 +128,9 @@ namespace Ploeh.Hyprlinkr
             if (expectedAction == null)
                 throw new ArgumentNullException("expectedAction");
 
+            if (typeof(TController) != actionContext.ControllerContext.ControllerDescriptor.ControllerType)
+                return false;
+
             var expectedActionMethod = expectedAction.GetMethodInfo();
 
             MethodInfo actualActionMethod;

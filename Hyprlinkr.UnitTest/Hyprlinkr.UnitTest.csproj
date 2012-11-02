@@ -108,6 +108,7 @@
     <Compile Include="Controllers\BarController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DerivedController.cs" />
+    <Compile Include="Controllers\DerivedController2.cs" />
     <Compile Include="Controllers\FooBarController.cs" />
     <Compile Include="Controllers\FooController.cs" />
     <Compile Include="Controllers\NoGetActionController.cs" />
