@@ -1,7 +1,10 @@
-﻿namespace Ploeh.Hyprlinkr
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Ploeh.Hyprlinkr
 {
-    /// <summary> Helper class to make it more visual that the parameters in the expression passed to <seealso cref="IActionVerifier.Verify{TController}"/> are
-    /// irrelevant. </summary>
+    /// <summary>
+    /// Helper class to make it more visual that the parameters in the expression passed to <seealso cref="IActionVerifier.Verify{TController}"/> are irrelevant.
+    /// </summary>
     /// <typeparam name="T">The type to return the default value for.</typeparam>
     public static class Arg<T>
     {
