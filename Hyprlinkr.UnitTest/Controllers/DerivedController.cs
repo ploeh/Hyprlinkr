@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Ploeh.Hyprlinkr.UnitTest.Controllers
+﻿namespace Ploeh.Hyprlinkr.UnitTest.Controllers
 {
     public class DerivedController : BaseController
     {
