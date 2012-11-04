@@ -20,7 +20,7 @@ namespace Ploeh.Hyprlinkr
     /// Example: <code>
     /// <![CDATA[
     /// HttpContextAction contextAction;
-    /// if(linkParser.TryParseUri(uri, out contextAction) && linkParser.Verify<SomeController>(x => x.SomeAction(Arg.OfType<int>)))
+    /// if(linkParser.TryParseUri(uri, out contextAction) && linkParser.Verify<SomeController>(x => x.SomeAction(Arg<int>.Any)))
     /// {
     ///     var id = (int)contextAction.ActionArguments["id"];
     /// }

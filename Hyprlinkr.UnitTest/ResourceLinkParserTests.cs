@@ -279,7 +279,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         {
             var actionContext = GetActionContext<FooController>(x => x.GetById(id));
 
-            var actual = sut.Verify<FooController>(actionContext, x => x.GetById(Arg.OfType<int>()));
+            var actual = sut.Verify<FooController>(actionContext, x => x.GetById(Arg<int>.Any));
 
             Assert.True(actual);
         }
