@@ -25,7 +25,18 @@ namespace Ploeh.Hyprlinkr
             MethodCallExpression methodCallExpression,
             ParameterInfo parameterInfo)
         {
-            throw new ArgumentNullException();
+            if (methodCallExpression == null)
+                throw new ArgumentNullException("methodCallExpression");
+            if (parameterInfo == null)
+                throw new ArgumentNullException("parameterInfo");
+
+            var arg = methodCallExpression.Arguments[parameterInfo.Position];
+            var lambda = Expression.Lambda(arg);
+            var value = lambda.Compile().DynamicInvoke().ToString();
+            return new Dictionary<string, object>
+            {
+                { parameterInfo.Name, value }
+            };
         }
     }
 }

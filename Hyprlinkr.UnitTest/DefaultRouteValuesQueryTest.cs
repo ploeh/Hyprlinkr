@@ -68,7 +68,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
             Generator<IDictionary<string, object>> routeValueDictionaries)
         {
             // Fixture setup
-            Expression<Action<BarController>> exp = 
+            Expression<Action<BarController>> exp =
                 c => c.GetWithIdAndQueryParameter(id, bar);
             var methodCallExp = (MethodCallExpression)exp.Body;
             var parameters = methodCallExp.Method.GetParameters();
@@ -90,6 +90,33 @@ namespace Ploeh.Hyprlinkr.UnitTest
             Assert.True(expected.SetEquals(actual));
 
             // Teardown
+        }
+
+        [Theory]
+        [InlineAutoHypData(0)]
+        [InlineAutoHypData(1)]
+        public void GetParameterValueReturnsCorrectResult(
+            int index,
+            DefaultRouteValuesQuery sut,
+            int id,
+            string bar)
+        {
+            Expression<Action<BarController>> exp =
+                c => c.GetWithIdAndQueryParameter(id, bar);
+            var methodCallExp = (MethodCallExpression)exp.Body;
+            var parameters = methodCallExp.Method.GetParameters();
+
+            var actual =
+                sut.GetParameterValues(methodCallExp, parameters[index]);
+
+            var expected =
+                new Dictionary<string, object> 
+                    {
+                        { "id", id.ToString() },
+                        { "bar", bar } 
+                    }
+                    .ToArray()[index];
+            Assert.Contains(expected, actual);
         }
     }
 }
