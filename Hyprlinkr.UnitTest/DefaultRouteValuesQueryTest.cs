@@ -9,6 +9,7 @@ using Xunit;
 using System.Linq.Expressions;
 using Ploeh.Hyprlinkr.UnitTest.Controllers;
 using Moq;
+using Ploeh.AutoFixture;
 
 namespace Ploeh.Hyprlinkr.UnitTest
 {
@@ -57,6 +58,38 @@ namespace Ploeh.Hyprlinkr.UnitTest
             var actual = sut.GetRouteValues(methodCallExp);
 
             Assert.Empty(actual);
+        }
+
+        [Theory, AutoHypData]
+        public void GetRouteValuesForTwoParameterMethodReturnsCorrectResult(
+            Mock<DefaultRouteValuesQuery> sutStub,
+            int id,
+            string bar,
+            Generator<IDictionary<string, object>> routeValueDictionaries)
+        {
+            // Fixture setup
+            Expression<Action<BarController>> exp = 
+                c => c.GetWithIdAndQueryParameter(id, bar);
+            var methodCallExp = (MethodCallExpression)exp.Body;
+            var parameters = methodCallExp.Method.GetParameters();
+
+            var expected = parameters.Zip(routeValueDictionaries, (p, d) =>
+                {
+                    sutStub
+                        .Setup(s => s.GetParameterValues(methodCallExp, p))
+                        .Returns(d);
+                    return d;
+                })
+                .SelectMany(d => d)
+                .ToHashSet();
+
+            // Exercise system
+            var actual = sutStub.Object.GetRouteValues(methodCallExp);
+
+            // Verify outcome
+            Assert.True(expected.SetEquals(actual));
+
+            // Teardown
         }
     }
 }

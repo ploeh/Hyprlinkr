@@ -15,14 +15,10 @@ namespace Ploeh.Hyprlinkr
             if (methodCallExpression == null)
                 throw new ArgumentNullException("methodCallExpression");
 
-            var parameters =
-                methodCallExpression.Method.GetParameters().SingleOrDefault();
-            if (parameters == null)
-                return new Dictionary<string, object>();
-
-            return this.GetParameterValues(
-                methodCallExpression,
-                methodCallExpression.Method.GetParameters().Single());
+            return methodCallExpression.Method.GetParameters()
+                .Select(p => this.GetParameterValues(methodCallExpression, p))
+                .SelectMany(d => d)
+                .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
         }
 
         public virtual IDictionary<string, object> GetParameterValues(

@@ -116,6 +116,7 @@
     <Compile Include="Controllers\SomeModel.cs" />
     <Compile Include="DefaultRouteDispatcherTests.cs" />
     <Compile Include="DefaultRouteValuesQueryTest.cs" />
+    <Compile Include="Enumerable.cs" />
     <Compile Include="HttpActionContextResemblance.cs" />
     <Compile Include="netfx\System\Guard.cs" />
     <Compile Include="netfx\System\Reflection\Reflect.cs" />
