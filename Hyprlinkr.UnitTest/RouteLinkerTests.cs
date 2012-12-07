@@ -86,7 +86,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
             var actual = sut.GetUri<FooController>(r => r.GetById(id));
 
             var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
-            var expected = new Uri(new Uri(baseUri), "api/foo/"+ id);
+            var expected = new Uri(new Uri(baseUri), "api/foo/" + id);
             Assert.Equal(expected, actual);
         }
 
@@ -103,7 +103,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
                 r.GetWithPloehAndFnaah(ploeh, fnaah));
 
             var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
-            var expected = 
+            var expected =
                 new Uri(
                     new Uri(baseUri),
                     "api/foo?ploeh=" + ploeh + "&fnaah=" + fnaah);
@@ -242,13 +242,21 @@ namespace Ploeh.Hyprlinkr.UnitTest
             Assert.Equal(expected, actual);
         }
 
-        [Theory(Skip = "Awaiting fix."), AutoHypData]
+        [Theory, AutoHypData]
         public void GetUriFromModelControllerReturnsCorrectResponse(
             [Frozen]HttpRequestMessage request,
-            RouteLinker sut,
+            [Frozen]Mock<IRouteValuesQuery> queryStub,
+            [Frozen(As = typeof(IRouteDispatcher))]DefaultRouteDispatcher dummy,
+            [Greedy]RouteLinker sut,
             SomeModel model)
         {
             request.AddDefaultRoute();
+            queryStub.SetReturnsDefault<IDictionary<string, object>>(
+                new Dictionary<string, object>
+                {
+                    { "number", model.Number.ToString() },
+                    { "text", model.Text }
+                });
 
             var actual = sut.GetUri<ModelController>(c => c.Get(model));
 
