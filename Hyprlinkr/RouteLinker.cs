@@ -27,6 +27,7 @@ namespace Ploeh.Hyprlinkr
     public class RouteLinker : IResourceLinker
     {
         private readonly HttpRequestMessage request;
+        private readonly IRouteValuesQuery valuesQuery;
         private readonly IRouteDispatcher dispatcher;
 
         /// <summary>
@@ -70,6 +71,7 @@ namespace Ploeh.Hyprlinkr
                 throw new ArgumentNullException("dispatcher");
 
             this.request = request;
+            this.valuesQuery = new DefaultRouteValuesQuery();
             this.dispatcher = dispatcher;
         }
 
@@ -140,17 +142,8 @@ namespace Ploeh.Hyprlinkr
 
         private Rouple Dispatch(MethodCallExpression methodCallExp)
         {
-            var routeValues = methodCallExp.Method.GetParameters()
-                .ToDictionary(p => p.Name, p => GetValue(methodCallExp, p));
+            var routeValues = this.valuesQuery.GetRouteValues(methodCallExp);
             return this.dispatcher.Dispatch(methodCallExp, routeValues);
-        }
-
-        private static object GetValue(MethodCallExpression methodCallExp,
-            ParameterInfo p)
-        {
-            var arg = methodCallExp.Arguments[p.Position];
-            var lambda = Expression.Lambda(arg);
-            return lambda.Compile().DynamicInvoke().ToString();
         }
 
         private Uri GetRelativeUri(Rouple r)
