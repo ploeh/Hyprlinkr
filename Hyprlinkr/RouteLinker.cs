@@ -46,6 +46,11 @@ namespace Ploeh.Hyprlinkr
         {
         }
 
+        public RouteLinker(HttpRequestMessage request, IRouteValuesQuery routeValuesQuery)
+            : this(request, routeValuesQuery, new DefaultRouteDispatcher())
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RouteLinker"/> class.
         /// </summary>
@@ -64,14 +69,24 @@ namespace Ploeh.Hyprlinkr
         /// </remarks>
         /// <seealso cref="RouteLinker(HttpRequestMessage)" />
         public RouteLinker(HttpRequestMessage request, IRouteDispatcher dispatcher)
+            : this(request, new DefaultRouteValuesQuery(), dispatcher)
+        {
+        }
+
+        public RouteLinker(
+            HttpRequestMessage request,
+            IRouteValuesQuery routeValuesQuery,
+            IRouteDispatcher dispatcher)
         {
             if (request == null)
                 throw new ArgumentNullException("request");
+            if (routeValuesQuery == null)
+                throw new ArgumentNullException("routeValuesQuery");
             if (dispatcher == null)
                 throw new ArgumentNullException("dispatcher");
 
             this.request = request;
-            this.valuesQuery = new DefaultRouteValuesQuery();
+            this.valuesQuery = routeValuesQuery;
             this.dispatcher = dispatcher;
         }
 
