@@ -80,7 +80,7 @@
   <ItemGroup>
     <Compile Include="Arg.cs" />
     <Compile Include="DefaultRouteDispatcher.cs" />
-    <Compile Include="DefaultRouteValuesQuery.cs" />
+    <Compile Include="ScalarRouteValuesQuery.cs" />
     <Compile Include="ExpressionExtensions.cs" />
     <Compile Include="IActionVerifier.cs" />
     <Compile Include="IResourceLinkParser.cs" />

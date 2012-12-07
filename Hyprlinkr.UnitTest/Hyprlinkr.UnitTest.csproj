@@ -114,7 +114,7 @@
     <Compile Include="Controllers\ModelController.cs" />
     <Compile Include="Controllers\NoGetActionController.cs" />
     <Compile Include="Controllers\SomeModel.cs" />
-    <Compile Include="DefaultRouteDispatcherTests.cs" />
+    <Compile Include="ScalarRouteDispatcherTests.cs" />
     <Compile Include="DefaultRouteValuesQueryTest.cs" />
     <Compile Include="Enumerable.cs" />
     <Compile Include="HttpActionContextResemblance.cs" />

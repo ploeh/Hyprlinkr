@@ -13,7 +13,7 @@ using System.Linq.Expressions;
 
 namespace Ploeh.Hyprlinkr.UnitTest
 {
-    public class DefaultRouteDispatcherTests
+    public class ScalarRouteDispatcherTests
     {
         [Theory, AutoHypData]
         public void SutHasAppropriateGuards(GuardClauseAssertion assertion)

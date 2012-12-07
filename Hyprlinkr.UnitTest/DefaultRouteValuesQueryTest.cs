@@ -18,18 +18,18 @@ namespace Ploeh.Hyprlinkr.UnitTest
         [Theory, AutoHypData]
         public void SutHasAppropriateGuards(GuardClauseAssertion assertion)
         {
-            assertion.Verify(typeof(DefaultRouteValuesQuery));
+            assertion.Verify(typeof(ScalarRouteValuesQuery));
         }
 
         [Theory, AutoHypData]
-        public void SutIsRouteValuesQuery(DefaultRouteValuesQuery sut)
+        public void SutIsRouteValuesQuery(ScalarRouteValuesQuery sut)
         {
             Assert.IsAssignableFrom<IRouteValuesQuery>(sut);
         }
 
         [Theory, AutoHypData]
         public void GetRouteValuesForSingleParameterMethodReturnsCorrectResult(
-            Mock<DefaultRouteValuesQuery> sutStub,
+            Mock<ScalarRouteValuesQuery> sutStub,
             int id,
             IDictionary<string, object> parameterValues)
         {
@@ -50,7 +50,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
 
         [Theory, AutoHypData]
         public void GetRouteValuesForParameterLessMethodReturnsCorrectResult(
-            DefaultRouteValuesQuery sut)
+            ScalarRouteValuesQuery sut)
         {
             Expression<Action<FooController>> exp = c => c.GetDefault();
             var methodCallExp = (MethodCallExpression)exp.Body;
@@ -62,7 +62,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
 
         [Theory, AutoHypData]
         public void GetRouteValuesForTwoParameterMethodReturnsCorrectResult(
-            Mock<DefaultRouteValuesQuery> sutStub,
+            Mock<ScalarRouteValuesQuery> sutStub,
             int id,
             string bar,
             Generator<IDictionary<string, object>> routeValueDictionaries)
@@ -97,7 +97,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         [InlineAutoHypData(1)]
         public void GetParameterValueReturnsCorrectResult(
             int index,
-            DefaultRouteValuesQuery sut,
+            ScalarRouteValuesQuery sut,
             int id,
             string bar)
         {

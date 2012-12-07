@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Ploeh.Hyprlinkr
 {
-    public class DefaultRouteValuesQuery : IRouteValuesQuery
+    public class ScalarRouteValuesQuery : IRouteValuesQuery
     {
         public IDictionary<string, object> GetRouteValues(
             MethodCallExpression methodCallExpression)

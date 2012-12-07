@@ -113,7 +113,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         [Theory, AutoHypData]
         public void GetUriWithCustomRouteAndDispatcherReturnsCorrectResult(
             [Frozen]HttpRequestMessage request,
-            [Frozen(As = typeof(IRouteValuesQuery))]DefaultRouteValuesQuery dummyQuery,
+            [Frozen(As = typeof(IRouteValuesQuery))]ScalarRouteValuesQuery dummyQuery,
             [Frozen]Mock<IRouteDispatcher> dispatcherStub,
             string routeName,
             [Greedy]RouteLinker sut,
@@ -162,7 +162,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         public void GivenModestConstructorQueryIsCorrect(
             [Modest]RouteLinker sut)
         {
-            Assert.IsAssignableFrom<DefaultRouteValuesQuery>(
+            Assert.IsAssignableFrom<ScalarRouteValuesQuery>(
                 sut.RouteValuesQuery);
         }
 

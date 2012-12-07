@@ -69,7 +69,7 @@ namespace Ploeh.Hyprlinkr
         /// </remarks>
         /// <seealso cref="RouteLinker(HttpRequestMessage)" />
         public RouteLinker(HttpRequestMessage request, IRouteDispatcher dispatcher)
-            : this(request, new DefaultRouteValuesQuery(), dispatcher)
+            : this(request, new ScalarRouteValuesQuery(), dispatcher)
         {
         }
 
