@@ -46,5 +46,17 @@ namespace Ploeh.Hyprlinkr.UnitTest
                 new HashSet<KeyValuePair<string, object>>(parameterValues);
             Assert.True(expected.SetEquals(actual));
         }
+
+        [Theory, AutoHypData]
+        public void GetRouteValuesForParameterLessMethodReturnsCorrectResult(
+            DefaultRouteValuesQuery sut)
+        {
+            Expression<Action<FooController>> exp = c => c.GetDefault();
+            var methodCallExp = (MethodCallExpression)exp.Body;
+
+            var actual = sut.GetRouteValues(methodCallExp);
+
+            Assert.Empty(actual);
+        }
     }
 }
