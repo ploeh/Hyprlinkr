@@ -224,5 +224,22 @@ namespace Ploeh.Hyprlinkr.UnitTest
             var expected = new Uri(new Uri(baseUri), "api/derived");
             Assert.Equal(expected, actual);
         }
+
+        [Theory(Skip = "Awaiting fix."), AutoHypData]
+        public void GetUriFromModelControllerReturnsCorrectResponse(
+            [Frozen]HttpRequestMessage request,
+            RouteLinker sut,
+            SomeModel model)
+        {
+            request.AddDefaultRoute();
+
+            var actual = sut.GetUri<ModelController>(c => c.Get(model));
+
+            var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
+            var expected = new Uri(
+                new Uri(baseUri),
+                "api/model?number=" + model.Number + "&text=" + model.Text);
+            Assert.Equal(expected, actual);
+        }
     }
 }

@@ -111,7 +111,9 @@
     <Compile Include="Controllers\DerivedController2.cs" />
     <Compile Include="Controllers\FooBarController.cs" />
     <Compile Include="Controllers\FooController.cs" />
+    <Compile Include="Controllers\ModelController.cs" />
     <Compile Include="Controllers\NoGetActionController.cs" />
+    <Compile Include="Controllers\SomeModel.cs" />
     <Compile Include="DefaultRouteDispatcherTests.cs" />
     <Compile Include="HttpActionContextResemblance.cs" />
     <Compile Include="netfx\System\Guard.cs" />
