@@ -41,11 +41,36 @@ namespace Ploeh.Hyprlinkr
         /// </para>
         /// </remarks>
         /// <seealso cref="RouteLinker(HttpRequestMessage, IRouteDispatcher)" />
+        /// <seealso cref="RouteLinker(HttpRequestMessage, IRouteValuesQuery)" />
+        /// <seealso cref="RouteLinker(HttpRequestMessage, IRouteValuesQuery, IRouteDispatcher)" />
         public RouteLinker(HttpRequestMessage request)
             : this(request, new DefaultRouteDispatcher())
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RouteLinker" /> class.
+        /// </summary>
+        /// <param name="request">The current request.</param>
+        /// <param name="routeValuesQuery">
+        /// A Strategy for extracting route values.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// This constructor overload requires a custom
+        /// <see cref="IRouteValuesQuery" />. If you don't want to use a custom
+        /// query, you can use the simpler constructor overload.
+        /// </para>
+        /// <para>
+        /// After initialization, the <paramref name="request" /> value is
+        /// available through the <see cref="Request" /> property, and the
+        /// <paramref name="routeValuesQuery" /> value is available via the
+        /// <see cref="RouteValuesQuery" /> property.
+        /// </para>
+        /// </remarks>
+        /// <seealso cref="RouteLinker(HttpRequestMessage)" />
+        /// <seealso cref="RouteLinker(HttpRequestMessage, IRouteDispatcher)" />
+        /// <seealso cref="RouteLinker(HttpRequestMessage, IRouteValuesQuery, IRouteDispatcher)" />
         public RouteLinker(HttpRequestMessage request, IRouteValuesQuery routeValuesQuery)
             : this(request, routeValuesQuery, new DefaultRouteDispatcher())
         {
@@ -68,11 +93,47 @@ namespace Ploeh.Hyprlinkr
         /// </para>
         /// </remarks>
         /// <seealso cref="RouteLinker(HttpRequestMessage)" />
+        /// <seealso cref="RouteLinker(HttpRequestMessage, IRouteValuesQuery)" />
+        /// <seealso cref="RouteLinker(HttpRequestMessage, IRouteValuesQuery, IRouteDispatcher)" />
         public RouteLinker(HttpRequestMessage request, IRouteDispatcher dispatcher)
             : this(request, new ScalarRouteValuesQuery(), dispatcher)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RouteLinker" /> class.
+        /// </summary>
+        /// <param name="request">The current request.</param>
+        /// <param name="routeValuesQuery">
+        /// A Strategy for extracting route values.
+        /// </param>
+        /// <param name="dispatcher">A custom dispatcher.</param>
+        /// <remarks>
+        /// <para>
+        /// This constructor overload requires custom Strategies to be
+        /// injected. If you don't want to supply one or both custom
+        /// Strategies, you can use a simpler constructor overload.
+        /// </para>
+        /// <para>
+        /// After initialization, the parameter values are available as
+        /// read-only properties.
+        /// </para>
+        /// </remarks>
+        /// <exception cref="System.ArgumentNullException">
+        /// request is null
+        /// </exception>
+        /// <exception cref="System.ArgumentNullException">
+        /// routeValuesQuery is null
+        /// </exception>
+        /// <exception cref="System.ArgumentNullException">
+        /// dispatcher is null
+        /// </exception>
+        /// <seealso cref="RouteLinker(HttpRequestMessage)" />
+        /// <seealso cref="RouteLinker(HttpRequestMessage, IRouteValuesQuery)" />
+        /// <seealso cref="RouteLinker(HttpRequestMessage, IRouteDispatcher)" />
+        /// <seealso cref="Request" />
+        /// <see cref="RouteValuesQuery" />
+        /// <see cref="RouteDispatcher" />
         public RouteLinker(
             HttpRequestMessage request,
             IRouteValuesQuery routeValuesQuery,
