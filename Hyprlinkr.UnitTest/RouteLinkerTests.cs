@@ -158,6 +158,14 @@ namespace Ploeh.Hyprlinkr.UnitTest
         }
 
         [Theory, AutoHypData]
+        public void GivenModestConstructorQueryIsCorrect(
+            [Modest]RouteLinker sut)
+        {
+            Assert.IsAssignableFrom<DefaultRouteValuesQuery>(
+                sut.RouteValuesQuery);
+        }
+
+        [Theory, AutoHypData]
         public void GivenGreedyConstructorRequestIsCorrect(
             [Frozen]HttpRequestMessage expected,
             [Greedy]RouteLinker sut)

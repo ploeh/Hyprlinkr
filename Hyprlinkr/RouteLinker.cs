@@ -201,6 +201,12 @@ namespace Ploeh.Hyprlinkr
             get { return this.request; }
         }
 
+        /// <summary>Gets the route values query.</summary>
+        public IRouteValuesQuery RouteValuesQuery
+        {
+            get { return this.valuesQuery; }
+        }
+
         /// <summary>
         /// Gets the route dispatcher.
         /// </summary>
