@@ -22,6 +22,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
             : base(
                 new HttpSchemeCustomization(),
                 new MethodCustomization(),
+                new ParameterCustomization(),
                 new MultipleCustomization(),
                 new InjectFixtureIntoItself(),
                 new AutoMoqCustomization(),
@@ -73,6 +74,15 @@ namespace Ploeh.Hyprlinkr.UnitTest
 
                 Expression<Action<FooController>> exp = c => c.GetDefault();
                 fixture.Inject(exp.GetBodyMethodCallExpression());
+            }
+        }
+
+        private class ParameterCustomization : ICustomization
+        {
+            public void Customize(IFixture fixture)
+            {
+                Expression<Action<FooController>> exp = c => c.GetById(0);
+                fixture.Inject(exp.GetMethodInfo().GetParameters().Single());
             }
         }
 
