@@ -44,6 +44,13 @@
     <Compile Include="RouteLinkerTests.fs" />
     <None Include="Script.fsx" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Hyprlinkr\Hyprlinkr.csproj">
+      <Name>Hyprlinkr</Name>
+      <Project>{76905975-456a-44c1-87f6-8e2296cd336e}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
   </PropertyGroup>
