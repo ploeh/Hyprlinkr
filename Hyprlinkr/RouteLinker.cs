@@ -205,6 +205,7 @@ namespace Ploeh.Hyprlinkr
         /// Given the default API route configuration, the resulting URI will be something like
         /// this (assuming that the base URI is http://localhost): http://localhost/api/foo/1337
         /// </example>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "The expression is strongly typed in order to prevent the caller from passing any sort of expression. It doesn't fully capture everything the caller might throw at it, but it does constrain the caller as well as possible. This enables the developer to get a compile-time exception instead of a run-time exception in most cases where an invalid expression is being supplied.")]
         public Uri GetUri<T, TResult>(Expression<Func<T, TResult>> method)
         {
             if (method == null)
@@ -265,7 +266,7 @@ namespace Ploeh.Hyprlinkr
         /// Given the default API route configuration, the resulting URI will be something like
         /// this (assuming that the base URI is http://localhost): http://localhost/api/foo/1337
         /// </example>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "The expression is a strongly typed in order to prevent the caller from passing any sort of expression. It doesn't fully capture everything the caller might throw at it, but it does constrain the caller as well as possible. This enables the developer to get a compile-time exception instead of a run-time exception in most cases where an invalid expression is being supplied.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "The expression is strongly typed in order to prevent the caller from passing any sort of expression. It doesn't fully capture everything the caller might throw at it, but it does constrain the caller as well as possible. This enables the developer to get a compile-time exception instead of a run-time exception in most cases where an invalid expression is being supplied.")]
         public Uri GetUri<T>(Expression<Action<T>> method)
         {
             if (method == null)
