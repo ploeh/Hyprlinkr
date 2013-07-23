@@ -160,11 +160,7 @@ namespace Ploeh.Hyprlinkr
             if (methodCallExp == null)
                 throw new ArgumentException("The expression's body must be a MethodCallExpression. The code block supplied should invoke a method.\nExample: x => x.Foo().", "method");
 
-            var r = this.Dispatch(methodCallExp);
-
-            var relativeUri = this.GetRelativeUri(r);
-            var baseUri = this.GetBaseUri();
-            return new Uri(baseUri, relativeUri);
+            return this.GetUri(methodCallExp);
         }
 
         /// <summary>
@@ -225,6 +221,11 @@ namespace Ploeh.Hyprlinkr
             if (methodCallExp == null)
                 throw new ArgumentException("The expression's body must be a MethodCallExpression. The code block supplied should invoke a method.\nExample: x => x.Foo().", "method");
 
+            return this.GetUri(methodCallExp);
+        }
+
+        private Uri GetUri(MethodCallExpression methodCallExp)
+        {
             var r = this.Dispatch(methodCallExp);
 
             var relativeUri = this.GetRelativeUri(r);
