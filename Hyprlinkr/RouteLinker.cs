@@ -153,6 +153,9 @@ namespace Ploeh.Hyprlinkr
 
         public Uri GetUri<T, TResult>(Expression<Func<T, TResult>> method)
         {
+            if (method == null)
+                throw new ArgumentNullException("method");
+
             var methodCallExp = (MethodCallExpression)method.Body;
             var r = this.Dispatch(methodCallExp);
 

@@ -35,3 +35,8 @@ let GetUriReturnsCorrectResult
         let baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority)
         let expected = Uri(Uri(baseUri), "api/foo/" + id)
         Assert.Equal(expected, actual)
+
+[<Theory>][<AutoHyfData>]
+let GetUriWithNullFuncExpressionThrows (sut : RouteLinker) =
+    Assert.Throws<ArgumentNullException>(
+        fun () -> sut.GetUri<FooController, obj>(null) |> ignore)
