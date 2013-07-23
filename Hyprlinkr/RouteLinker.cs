@@ -151,6 +151,16 @@ namespace Ploeh.Hyprlinkr
             this.dispatcher = dispatcher;
         }
 
+        public Uri GetUri<T, TResult>(Expression<Func<T, TResult>> method)
+        {
+            var methodCallExp = (MethodCallExpression)method.Body;
+            var r = this.Dispatch(methodCallExp);
+
+            var relativeUri = this.GetRelativeUri(r);
+            var baseUri = this.GetBaseUri();
+            return new Uri(baseUri, relativeUri);
+        }
+
         /// <summary>
         /// Creates an URI based on a type-safe expression.
         /// </summary>
