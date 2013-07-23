@@ -1,6 +1,7 @@
 ﻿module Hyprlinkr.UnitTest.FSharp.RouteLinkerTests
 
 open System
+open System.Linq.Expressions
 open System.Net.Http
 open System.Web.Http
 open System.Web.Http.Hosting
@@ -40,3 +41,8 @@ let GetUriReturnsCorrectResult
 let GetUriWithNullFuncExpressionThrows (sut : RouteLinker) =
     Assert.Throws<ArgumentNullException>(
         fun () -> sut.GetUri<FooController, obj>(null) |> ignore)
+
+[<Theory>][<AutoHyfData>]
+let GetUriFromInvalidFuncExpressionThrows(sut : RouteLinker) =
+    Assert.Throws<ArgumentException>(
+        fun () -> sut.GetUri(fun _ -> obj()) |> ignore)

@@ -156,7 +156,10 @@ namespace Ploeh.Hyprlinkr
             if (method == null)
                 throw new ArgumentNullException("method");
 
-            var methodCallExp = (MethodCallExpression)method.Body;
+            var methodCallExp = method.Body as MethodCallExpression;
+            if (methodCallExp == null)
+                throw new ArgumentException("The expression's body must be a MethodCallExpression. The code block supplied should invoke a method.\nExample: x => x.Foo().", "method");
+
             var r = this.Dispatch(methodCallExp);
 
             var relativeUri = this.GetRelativeUri(r);
