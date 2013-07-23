@@ -7,10 +7,10 @@ open System.Reflection
 [<assembly: AssemblyConfiguration("")>]
 [<assembly: AssemblyCompany("Mark Seemann")>]
 [<assembly: AssemblyProduct("Hyprlinkr.UnitTest.FSharp")>]
-[<assembly: AssemblyCopyright("Copyright © Mark Seemann 2012")>]
+[<assembly: AssemblyCopyright("Copyright © Mark Seemann 2013")>]
 [<assembly: AssemblyTrademark("")>]
 [<assembly: AssemblyCulture("")>]
 
-[<assembly: AssemblyVersion("0.7.0")>]
-[<assembly: AssemblyFileVersion("0.7.0")>]
+[<assembly: AssemblyVersion("0.8.0")>]
+[<assembly: AssemblyFileVersion("0.8.0")>]
 do()
