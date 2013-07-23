@@ -151,6 +151,60 @@ namespace Ploeh.Hyprlinkr
             this.dispatcher = dispatcher;
         }
 
+        /// <summary>
+        /// Creates an URI based on a type-safe expression.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type of resource to link to. This will typically be the type of an
+        /// <see cref="System.Web.Http.ApiController" />, but doesn't have to be.
+        /// </typeparam>
+        /// <typeparam name="TResult">
+        /// The return type of the Action Method of the resource.
+        /// </typeparam>
+        /// <param name="method">
+        /// An expression wich identifies the action method that serves the desired resource.
+        /// </param>
+        /// <returns>
+        /// An <see cref="Uri" /> instance which represents the resource identifed by
+        /// <paramref name="method" />.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This method is used to build valid URIs for resources represented by code. In the
+        /// ASP.NET Web API, resources are served by Action Methods on Controllers. If building a
+        /// REST service with hypermedia controls, you will want to create links to various other
+        /// resources in your service. Viewed from code, these resources are encapsulated by Action
+        /// Methods, but you need to build valid URIs that, when requested via HTTP, invokes the
+        /// desired Action Method.
+        /// </para>
+        /// <para>
+        /// The target Action Method can be type-safely identified by the
+        /// <paramref name="method" /> expression. The <typeparamref name="T" /> type argument will
+        /// typically indicate a particular class which derives from
+        /// <see cref="System.Web.Http.ApiController" />, but there's no generic constraint on the
+        /// type argument, so this is not required.
+        /// </para>
+        /// <para>
+        /// Based on the Action Method identified by the supplied expression, the ASP.NET Web API
+        /// routing configuration is consulted to build an appropriate URI which matches the Action
+        /// Method. The routing configuration is pulled from the <see cref="HttpRequestMessage" />
+        /// instance supplied to the constructor of the <see cref="RouteLinker" /> class.
+        /// </para>
+        /// <para>
+        /// This overload mostly exists to support F# clients.
+        /// </para>
+        /// </remarks>
+        /// <seealso cref="RouteLinker(HttpRequestMessage)" />
+        /// <seealso cref="RouteLinker(HttpRequestMessage, IRouteDispatcher)" />
+        /// <example>
+        /// This example demonstrates how an F# client can create an <see cref="Uri" /> instance for a GetById
+        /// method defined on a FooController class.
+        /// <code>
+        /// let uri = linker.GetUri(fun (c : FooController) -> c.GetById(1337))
+        /// </code>
+        /// Given the default API route configuration, the resulting URI will be something like
+        /// this (assuming that the base URI is http://localhost): http://localhost/api/foo/1337
+        /// </example>
         public Uri GetUri<T, TResult>(Expression<Func<T, TResult>> method)
         {
             if (method == null)
@@ -195,7 +249,7 @@ namespace Ploeh.Hyprlinkr
         /// </para>
         /// <para>
         /// Based on the Action Method identified by the supplied expression, the ASP.NET Web API
-        /// routing configuration is consulted to build an apporpriate URI which matches the Action
+        /// routing configuration is consulted to build an appropriate URI which matches the Action
         /// Method. The routing configuration is pulled from the <see cref="HttpRequestMessage" />
         /// instance supplied to the constructor of the <see cref="RouteLinker" /> class.
         /// </para>
