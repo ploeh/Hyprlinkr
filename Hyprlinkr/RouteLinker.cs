@@ -298,6 +298,12 @@ namespace Ploeh.Hyprlinkr
         {
             var urlHelper = this.CreateUrlHelper();
             var relativeUri = urlHelper.Route(r.RouteName, r.RouteValues);
+            if (relativeUri == null)
+                throw new InvalidOperationException(
+                    string.Format(
+                        "The route string returned by System.Web.Http.Routing.UrlHelper.Route(string, IDictionary<string, object>) is null, which indicates an error. This can happen if the Action Method identified by the RouteLinker.GetUri method doesn't have a matching route with the name \"{0}\", or if the route parameter names don't match the method arguments.",
+                        r.RouteName));
+
             return new Uri(relativeUri, UriKind.Relative);
         }
 

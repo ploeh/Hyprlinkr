@@ -266,5 +266,25 @@ namespace Ploeh.Hyprlinkr.UnitTest
                 "api/model?number=" + model.Number + "&text=" + model.Text);
             Assert.Equal(expected, actual);
         }
+
+        [Theory, AutoHypData]
+        public void GetUriForNonMatchingRouteThrows(
+            [Frozen]HttpRequestMessage request,
+            RouteLinker sut,
+            int id)
+        {
+            request.RequestUri = new Uri(request.RequestUri, "api/foo/" + id);
+            request.AddRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{bar}",
+                defaults: new
+                {
+                    controller = "Home",
+                    id = RouteParameter.Optional
+                });
+
+            Assert.Throws<InvalidOperationException>(() =>
+                sut.GetUri<FooController>(c => c.GetById(id)));
+        }
     }
 }
