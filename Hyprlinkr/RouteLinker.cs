@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Web.Http.Controllers;
 using System.Web.Http.Routing;
 using System.Web.Http.Hosting;
+using System.Globalization;
 
 namespace Ploeh.Hyprlinkr
 {
@@ -294,6 +295,12 @@ namespace Ploeh.Hyprlinkr
             return this.dispatcher.Dispatch(methodCallExp, routeValues);
         }
 
+        #region CA suppressions
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "GetUri", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "IDictionary", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "UrlHelper", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "RouteLinker", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
+        #endregion
         private Uri GetRelativeUri(Rouple r)
         {
             var urlHelper = this.CreateUrlHelper();
@@ -301,6 +308,7 @@ namespace Ploeh.Hyprlinkr
             if (relativeUri == null)
                 throw new InvalidOperationException(
                     string.Format(
+                        CultureInfo.CurrentCulture,
                         "The route string returned by System.Web.Http.Routing.UrlHelper.Route(string, IDictionary<string, object>) is null, which indicates an error. This can happen if the Action Method identified by the RouteLinker.GetUri method doesn't have a matching route with the name \"{0}\", or if the route parameter names don't match the method arguments.",
                         r.RouteName));
 
