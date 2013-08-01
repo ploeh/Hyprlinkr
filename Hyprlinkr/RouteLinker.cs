@@ -329,28 +329,49 @@ namespace Ploeh.Hyprlinkr
 
         private HttpRequestMessage CopyRequestWithoutRouteValues()
         {
-            var r = new HttpRequestMessage(
+            var requestCopy = new HttpRequestMessage(
                 this.request.Method,
                 this.request.RequestUri);
-
             try
             {
-                foreach (var kvp in this.request.Properties)
-                    if (kvp.Key != HttpPropertyKeys.HttpRouteDataKey)
-                        r.Properties.Add(kvp.Key, kvp.Value);
-
-                var routeData = this.request.GetRouteData();
-                r.Properties.Add(
-                    HttpPropertyKeys.HttpRouteDataKey,
-                    new HttpRouteData(routeData.Route));
-
-                return r;
+                CopyPropertiesOfCurrentRequestTo(requestCopy);
             }
             catch
             {
-                r.Dispose();
+                requestCopy.Dispose();
                 throw;
             }
+            return requestCopy;
+        }
+
+        private void CopyPropertiesOfCurrentRequestTo(HttpRequestMessage destination)
+        {
+            CopyNonRouteValuePropertiesFromRequestToCopy(destination);
+            CopyRouteDataToRequest(destination);
+        }
+
+        private void CopyNonRouteValuePropertiesFromRequestToCopy(HttpRequestMessage destination)
+        {
+            foreach (var kvp in this.request.Properties)
+                if (kvp.Key != HttpPropertyKeys.HttpRouteDataKey)
+                    destination.Properties.Add(kvp.Key, kvp.Value);
+        }
+
+        private void CopyRouteDataToRequest(HttpRequestMessage requestCopy)
+        {
+            var routeData = GetRouteDataOrThrowException();
+            requestCopy.Properties.Add(
+                HttpPropertyKeys.HttpRouteDataKey,
+                new HttpRouteData(routeData.Route));
+        }
+
+
+        private IHttpRouteData GetRouteDataOrThrowException()
+        {
+            var routeData = this.request.GetRouteData();
+            if (routeData == null)
+                throw new InvalidOperationException("Current request has no route data.");
+            return routeData;
         }
 
         /// <summary>

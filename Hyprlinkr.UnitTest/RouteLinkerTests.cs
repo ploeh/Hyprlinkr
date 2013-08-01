@@ -214,6 +214,15 @@ namespace Ploeh.Hyprlinkr.UnitTest
         }
 
         [Theory, AutoHypData]
+        public void GetUriWhenRequestHasNoRouteDataThrowsArgumentException([Frozen]HttpRequestMessage request,
+            RouteLinker sut)
+        {
+            request.RequestUri = new Uri(request.RequestUri, "api/foo/");
+
+            Assert.Throws<InvalidOperationException>(() => sut.GetUri<FooController>(r => r.GetDefault()));
+        }
+
+        [Theory, AutoHypData]
         public void GetUriDoesNotMutateExistingRouteData(
             [Frozen]HttpRequestMessage request,
             RouteLinker sut)
