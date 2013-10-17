@@ -26,5 +26,13 @@ namespace Ploeh.Hyprlinkr.UnitTest45
             var expected = new Uri(new Uri(baseUri), "api/async/" + id);
             Assert.Equal(expected, actual);
         }
+
+        [Theory, AutoHyp45Data]
+        public void GetUriAsyncWithNullFuncExpressionThrows(
+            RouteLinker sut)
+        {
+            Assert.Throws<ArgumentNullException>(
+                () => sut.GetUriAsync<AsyncController, object>(null).Result);
+        }
     }
 }

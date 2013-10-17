@@ -283,6 +283,9 @@ namespace Ploeh.Hyprlinkr
 
         public Task<Uri> GetUriAsync<T, TResult>(Expression<Func<T, Task<TResult>>> method)
         {
+            if (method == null)
+                throw new ArgumentNullException("method");
+
             return Task.Factory.StartNew(() => this.GetUri((MethodCallExpression)method.Body));
         }
 
