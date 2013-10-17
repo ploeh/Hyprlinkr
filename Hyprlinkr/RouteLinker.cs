@@ -281,6 +281,73 @@ namespace Ploeh.Hyprlinkr
             return this.GetUri(methodCallExp);
         }
 
+        /// <summary>
+        /// Creates an URI based on a type-safe expression.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type of resource to link to. This will typically be the type of
+        /// an <see cref="System.Web.Http.ApiController" />, but doesn't have
+        /// to be.
+        /// </typeparam>
+        /// <typeparam name="TResult">
+        /// The return type of the Action Method of the resource.
+        /// </typeparam>
+        /// <param name="method">
+        /// An expression wich identifies the action method that serves the
+        /// desired resource.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task{Uri}" /> instance which represents the resource
+        /// identifed by <paramref name="method" />.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This method is used to build valid URIs for resources represented
+        /// by code. In the ASP.NET Web API, resources are served by Action
+        /// Methods on Controllers. If building a REST service with hypermedia
+        /// controls, you will want to create links to various other resources
+        /// in your service. Viewed from code, these resources are encapsulated
+        /// by Action Methods, but you need to build valid URIs that, when
+        /// requested via HTTP, invokes the desired Action Method.
+        /// </para>
+        /// <para>
+        /// The target Action Method can be type-safely identified by the
+        /// <paramref name="method" /> expression.
+        /// The <typeparamref name="T" /> type argument will typically indicate
+        /// a particular class which derives from
+        /// <see cref="System.Web.Http.ApiController" />, but there's no
+        /// generic constraint on the type argument, so this is not required.
+        /// </para>
+        /// <para>
+        /// Based on the Action Method identified by the supplied expression,
+        /// the ASP.NET Web API routing configuration is consulted to build an
+        /// appropriate URI which matches the Action Method. The routing
+        /// configuration is pulled from the <see cref="HttpRequestMessage" />
+        /// instance supplied to the constructor of the
+        /// <see cref="RouteLinker" /> class.
+        /// </para>
+        /// <para>
+        /// This overload supports extracting valid URI instances from async
+        /// Controllers.
+        /// </para>
+        /// </remarks>
+        /// <seealso cref="RouteLinker(HttpRequestMessage)" />
+        /// <seealso cref="RouteLinker(HttpRequestMessage, IRouteDispatcher)" />
+        /// <seealso cref="GetUri{T}(Expression{Action{T}})" />
+        /// <seealso cref="GetUri{T, TResult}(Expression{Func{T, TResult}})" />
+        /// <exception cref="System.ArgumentNullException">method is null</exception>
+        /// <exception cref="System.ArgumentException">The expression's body isn't a MethodCallExpression. The code block supplied should invoke a method.\nExample: x => x.Foo().</exception>
+        /// <example>
+        /// This example demonstrates how to create an <see cref="Uri" />
+        /// instance for a Get method defined on an AsyncController class.
+        /// <code>
+        /// Uri actual = linker.GetUriAsync((AsyncController c) => c.Get(id)).Result;
+        /// </code>
+        /// Given the default API route configuration, the resulting URI will
+        /// be something like this (assuming that the base URI is
+        /// http://localhost): http://localhost/api/async/1337
+        /// </example>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "The expression is strongly typed in order to prevent the caller from passing any sort of expression. It doesn't fully capture everything the caller might throw at it, but it does constrain the caller as well as possible. This enables the developer to get a compile-time exception instead of a run-time exception in most cases where an invalid expression is being supplied.")]
         public Task<Uri> GetUriAsync<T, TResult>(Expression<Func<T, Task<TResult>>> method)
         {
             if (method == null)
