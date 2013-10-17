@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Hyprlinkr</id>
-    <version>0.8.2</version>
+    <version>0.9.0</version>
     <title>Hyprlinkr</title>
     <authors>Mark Seemann</authors>
     <owners>Mark Seemann</owners>
@@ -12,7 +12,7 @@
     <projectUrl>https://github.com/ploeh/Hyprlinkr</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Hyprlinkr is a small and very focused helper library for the ASP.NET Web API. It does one thing only: it creates URIs according to the application's route configuration in a type-safe manner.</description>
-    <copyright>Copyright Mark Seemann 2012</copyright>
+    <copyright>Copyright Mark Seemann 2013</copyright>
   </metadata>
   <files>
     <file src="bin\Release\Ploeh.Hyprlinkr.dll" target="lib\net40" />
