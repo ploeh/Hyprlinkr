@@ -34,5 +34,14 @@ namespace Ploeh.Hyprlinkr.UnitTest45
             Assert.Throws<ArgumentNullException>(
                 () => sut.GetUriAsync<AsyncController, object>(null).Result);
         }
+
+        [Theory, AutoHyp45Data]
+        public void GetUriFromInvalidFuncExpressionThrows(
+            RouteLinker sut)
+        {
+            Assert.Throws<ArgumentException>(
+                () => sut.GetUriAsync<AsyncController, object>(
+                    _ => new Task<object>(() => new object())).Result);
+        }
     }
 }

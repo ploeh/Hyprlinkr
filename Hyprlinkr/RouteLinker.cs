@@ -286,7 +286,11 @@ namespace Ploeh.Hyprlinkr
             if (method == null)
                 throw new ArgumentNullException("method");
 
-            return Task.Factory.StartNew(() => this.GetUri((MethodCallExpression)method.Body));
+            var methodCallExp = method.Body as MethodCallExpression;
+            if(methodCallExp == null)
+                throw new ArgumentException("The expression's body must be a MethodCallExpression. The code block supplied should invoke a method.\nExample: x => x.Foo().", "method");
+
+            return Task.Factory.StartNew(() => this.GetUri(methodCallExp));
         }
 
         private Uri GetUri(MethodCallExpression methodCallExp)
