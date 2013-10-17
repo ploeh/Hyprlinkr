@@ -10,6 +10,7 @@
         <dependency id="Microsoft.AspNet.WebApi.Core" version="4.0.20710.0" />
     </dependencies>
     <projectUrl>https://github.com/ploeh/Hyprlinkr</projectUrl>
+    <licenseUrl>https://github.com/ploeh/Hyprlinkr/blob/master/LICENCE.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Hyprlinkr is a small and very focused helper library for the ASP.NET Web API. It does one thing only: it creates URIs according to the application's route configuration in a type-safe manner.</description>
     <copyright>Copyright Mark Seemann 2013</copyright>
