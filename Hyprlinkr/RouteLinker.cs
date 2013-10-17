@@ -9,6 +9,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Routing;
 using System.Web.Http.Hosting;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace Ploeh.Hyprlinkr
 {
@@ -278,6 +279,11 @@ namespace Ploeh.Hyprlinkr
                 throw new ArgumentException("The expression's body must be a MethodCallExpression. The code block supplied should invoke a method.\nExample: x => x.Foo().", "method");
 
             return this.GetUri(methodCallExp);
+        }
+
+        public Task<Uri> GetUriAsync<T, TResult>(Expression<Func<T, Task<TResult>>> method)
+        {
+            return Task.Factory.StartNew(() => this.GetUri((MethodCallExpression)method.Body));
         }
 
         private Uri GetUri(MethodCallExpression methodCallExp)

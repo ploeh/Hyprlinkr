@@ -71,11 +71,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncController.cs" />
+    <Compile Include="AutoHyp45DataAttribute.cs" />
+    <Compile Include="Hyprlinkr45Customization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RouteConfiguration.cs" />
+    <Compile Include="RouteLinkerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Hyprlinkr\Hyprlinkr.csproj">
+      <Project>{76905975-456a-44c1-87f6-8e2296cd336e}</Project>
+      <Name>Hyprlinkr</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
