@@ -18,7 +18,7 @@ namespace Ploeh.Hyprlinkr
         /// <param name="helper">Provides the requested URI via helper.Request</param>
         /// <param name="expression">Method call expression of T</param>
         /// <returns>URI for the request and controller expression. </returns>
-        public static Uri Link<T, TResult>(this UrlHelper helper, Expression<Func<T, TResult>> expression)
+        public static Uri GetLink<T, TResult>(this UrlHelper helper, Expression<Func<T, TResult>> expression)
             where T : ApiController
         {
             var linker = new RouteLinker(helper.Request);
@@ -33,7 +33,7 @@ namespace Ploeh.Hyprlinkr
         /// <param name="helper">Provides the requested URI via helper.Request</param>
         /// <param name="expression">Expression of T</param>
         /// <returns>URI for the request and controller expression. </returns>
-        public static Uri Link<T>(this UrlHelper helper, Expression<Action<T>> expression)
+        public static Uri GetLink<T>(this UrlHelper helper, Expression<Action<T>> expression)
             where T : ApiController
         {
             var linker = new RouteLinker(helper.Request);
@@ -49,7 +49,7 @@ namespace Ploeh.Hyprlinkr
         /// <param name="expression">Expression of T</param>
         /// <param name="dispatcher">Custom route dispatcher to use in place of default dispatcher</param>
         /// <returns>URI for the request and controller expression. </returns>
-        public static Uri Link<T, TResult>(this UrlHelper helper, 
+        public static Uri GetLink<T, TResult>(this UrlHelper helper, 
                                            Expression<Func<T, TResult>> expression, 
                                            IRouteDispatcher dispatcher)
             where T : ApiController
@@ -67,7 +67,7 @@ namespace Ploeh.Hyprlinkr
         /// <param name="expression">Expression of T</param>
         /// <param name="dispatcher">Custom route dispatcher to use in place of default dispatcher</param>
         /// <returns>URI for the request and controller expression. </returns>
-        public static Uri Link<T>(this UrlHelper helper, 
+        public static Uri GetLink<T>(this UrlHelper helper, 
                                   Expression<Action<T>> expression, 
                                   IRouteDispatcher dispatcher)
            where T : ApiController

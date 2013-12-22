@@ -18,7 +18,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
     public class UrlHelperExtensionsTests
     {
         [Theory, AutoHypData]
-        public void LinkDoesNotMutateExistingRouteData(
+        public void GetLinkDoesNotMutateExistingRouteData(
             [Frozen]HttpRequestMessage request,
             UrlHelper sut)
         {
@@ -26,33 +26,33 @@ namespace Ploeh.Hyprlinkr.UnitTest
             var expected = new HashSet<KeyValuePair<string, object>>(
                 request.GetRouteData().Values);
 
-            sut.Link<FooController>(r => r.GetDefault());
+            sut.GetLink<FooController>(r => r.GetDefault());
 
             var actual = request.GetRouteData().Values.ToList();
             Assert.True(expected.SetEquals(actual));
         }
 
         [Theory, AutoHypData]
-        public void LinkThrowsExceptionForNullExpression(
+        public void GetLinkThrowsExceptionForNullExpression(
             [Frozen]HttpRequestMessage request,
             RouteLinker forComparison,
             UrlHelper sut)
         {
             request.AddDefaultRoute();
-            Assert.Throws(typeof(ArgumentNullException), () => sut.Link<FooController>(null));
+            Assert.Throws(typeof(ArgumentNullException), () => sut.GetLink<FooController>(null));
         }
 
 
         [Theory, AutoHypData]
-        public void LinkForNoRouteDataThrows([Frozen]HttpRequestMessage request,
+        public void GetLinkForNoRouteDataThrows([Frozen]HttpRequestMessage request,
             UrlHelper sut)
         {
             request.RequestUri = new Uri(request.RequestUri, "api/foo/");
-            Assert.Throws<InvalidOperationException>(() => sut.Link<FooController>(r => r.GetDefault()));
+            Assert.Throws<InvalidOperationException>(() => sut.GetLink<FooController>(r => r.GetDefault()));
         }
 
         [Theory, AutoHypData]
-        public void LinkFromBaseActionMethodReturnsCorrectResponse(
+        public void GetLinkFromBaseActionMethodReturnsCorrectResponse(
             [Frozen]HttpRequestMessage request,
             RouteLinker forComparison,
             UrlHelper sut)
@@ -60,13 +60,13 @@ namespace Ploeh.Hyprlinkr.UnitTest
             request.AddDefaultRoute();
 
             var expected = forComparison.GetUri<DerivedController>(c => c.BaseMethod());
-            var actual = sut.Link<DerivedController>(c => c.BaseMethod());
+            var actual = sut.GetLink<DerivedController>(c => c.BaseMethod());
 
             Assert.Equal(expected, actual);
         }
 
         [Theory, AutoHypData]
-        public void LinkReturnsCorrectUriForExpressionOfFuncWithSingleParameter(
+        public void GetLinkReturnsCorrectUriForExpressionOfFuncWithSingleParameter(
             [Frozen]HttpRequestMessage request,
             RouteLinker forComparison,
             UrlHelper sut, int id)
@@ -74,13 +74,13 @@ namespace Ploeh.Hyprlinkr.UnitTest
             request.AddDefaultRoute();
 
             var expected = forComparison.GetUri<FooController>(a => a.GetById(id));
-            var actual = sut.Link<FooController>(a => a.GetById(id));
+            var actual = sut.GetLink<FooController>(a => a.GetById(id));
 
             Assert.Equal(expected, actual);
         }
 
         [Theory, AutoHypData]
-        public void LinkReturnsCorrectUriForExpressionOfActionWithSingleParameter(
+        public void GetLinkReturnsCorrectUriForExpressionOfActionWithSingleParameter(
             [Frozen]HttpRequestMessage request,
             RouteLinker forComparison,
             UrlHelper sut, int id)
@@ -88,13 +88,13 @@ namespace Ploeh.Hyprlinkr.UnitTest
             request.AddDefaultRoute();
 
             var expected = forComparison.GetUri<FooController, object>(a => a.GetById(id));
-            var actual = sut.Link<FooController, object>(a => a.GetById(id));
+            var actual = sut.GetLink<FooController, object>(a => a.GetById(id));
 
             Assert.Equal(expected, actual);
         }
 
         [Theory, AutoHypData]
-        public void LinkReturnsCorrectUriForExpressionOfFuncWithMultipleParameters(
+        public void GetLinkReturnsCorrectUriForExpressionOfFuncWithMultipleParameters(
             [Frozen]HttpRequestMessage request,
             RouteLinker forComparison,
             UrlHelper sut, int id, int bar)
@@ -102,13 +102,13 @@ namespace Ploeh.Hyprlinkr.UnitTest
             request.AddDefaultRoute();
 
             var expected = forComparison.GetUri<FooBarController, object>(a => a.GetBar(id, bar));
-            var actual = sut.Link<FooBarController, object>(a => a.GetBar(id, bar));
+            var actual = sut.GetLink<FooBarController, object>(a => a.GetBar(id, bar));
 
             Assert.Equal(expected, actual);
         }
 
         [Theory, AutoHypData]
-        public void LinkReturnsCorrectUriForExpressionOfActionWithMultipleParameters(
+        public void GetLinkReturnsCorrectUriForExpressionOfActionWithMultipleParameters(
             [Frozen]HttpRequestMessage request,
             RouteLinker forComparison,
             UrlHelper sut, int id, int bar)
@@ -116,14 +116,14 @@ namespace Ploeh.Hyprlinkr.UnitTest
             request.AddDefaultRoute();
 
             var expected = forComparison.GetUri<FooBarController>(a => a.GetBar(id, bar));
-            var actual = sut.Link<FooBarController>(a => a.GetBar(id, bar));
+            var actual = sut.GetLink<FooBarController>(a => a.GetBar(id, bar));
 
             Assert.Equal(expected, actual);
         }
 
 
         [Theory, AutoHypData]
-        public void LinkReturnsCorrectUriForExpressionOfActionWithComplexParameter(
+        public void GetLinkReturnsCorrectUriForExpressionOfActionWithComplexParameter(
             [Frozen]HttpRequestMessage request,
             RouteLinker forComparison,
             UrlHelper sut,
@@ -132,13 +132,13 @@ namespace Ploeh.Hyprlinkr.UnitTest
             request.AddDefaultRoute();
 
             var expected = forComparison.GetUri<ModelController>(a => a.Get(someModel));
-            var actual = sut.Link<ModelController>(a => a.Get(someModel));
+            var actual = sut.GetLink<ModelController>(a => a.Get(someModel));
 
             Assert.Equal(expected, actual);
         }
 
         [Theory, AutoHypData]
-        public void LinkReturnsCorrectUriForExpressionOfFuncWithComplexParameter(
+        public void GetLinkReturnsCorrectUriForExpressionOfFuncWithComplexParameter(
             [Frozen]HttpRequestMessage request,
             RouteLinker forComparison,
             UrlHelper sut, SomeModel someModel)
@@ -146,13 +146,13 @@ namespace Ploeh.Hyprlinkr.UnitTest
             request.AddDefaultRoute();
 
             var expected = forComparison.GetUri<ModelController, object>(a => a.Get(someModel));
-            var actual = sut.Link<ModelController, object>(a => a.Get(someModel));
+            var actual = sut.GetLink<ModelController, object>(a => a.Get(someModel));
 
             Assert.Equal(expected, actual);
         }
 
         [Theory, AutoHypData]
-        public void LinkWithCustomRouteAndDispatcherReturnsCorrectResult(
+        public void GetLinkWithCustomRouteAndDispatcherReturnsCorrectResult(
             [Frozen]HttpRequestMessage request,
             [Frozen(As = typeof(IRouteValuesQuery))]ScalarRouteValuesQuery dummyQuery,
             [Frozen]Mock<IRouteDispatcher> dispatcherStub,
@@ -183,7 +183,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
               r.GetWithPloehAndFnaah(ploeh, fnaah));
 
             // Act
-            var actual = sut.Link<FooController>(r =>
+            var actual = sut.GetLink<FooController>(r =>
                 r.GetWithPloehAndFnaah(ploeh, fnaah), dispatcherStub.Object);
 
             //Assert           
