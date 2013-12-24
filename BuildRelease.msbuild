@@ -5,16 +5,19 @@
     <NuGetPath>packages\NuGet.CommandLine.2.7.3\tools</NuGetPath>
     <XUnitPath>packages\xunit.runners.1.9.1\tools</XUnitPath>
   </PropertyGroup>
+  <ItemGroup>
+    <BuildOutput Include="Hyprlinkr\bin\Release\Ploeh.Hyprlinkr.dll" />
+    <BuildOutput Include="Hyprlinkr\bin\Release\Ploeh.Hyprlinkr.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <TestAssemblies Include="**\bin\Release\*UnitTest*.dll" />
+  </ItemGroup>
   
   <UsingTask TaskName="xunit" AssemblyFile="$(XUnitPath)\xunit.runner.msbuild.dll" />
 
   <!--What to build-->
   <ItemGroup>
     <ProjectToBuild Include="*.sln" />
-  </ItemGroup>
-  <ItemGroup>
-    <BuildOutput Include="Hyprlinkr\bin\Release\Ploeh.Hyprlinkr.dll" />
-    <BuildOutput Include="Hyprlinkr\bin\Release\Ploeh.Hyprlinkr.XML" />
   </ItemGroup>
 
   <!--Clean-->
@@ -33,10 +36,6 @@
 
   <!--Test-->
   <Target Name="Test" DependsOnTargets="Build">
-    <ItemGroup>
-      <TestAssemblies Include="**\bin\Release\*UnitTest*.dll" />
-    </ItemGroup>
-    
     <xunit Assemblies="@(TestAssemblies)" />
   </Target>
 
