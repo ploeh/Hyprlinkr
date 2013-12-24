@@ -44,7 +44,8 @@ namespace Ploeh.Hyprlinkr
         /// <summary>
         /// Returns URI matching helper's request and expression using provided route dispatcher         
         /// </summary>
-        /// <typeparam name="T">A class that derives from ApiController</typeparam>        
+        /// <typeparam name="T">A class that derives from ApiController</typeparam>      
+        /// <typeparam name="TResult">Any result type</typeparam>    
         /// <param name="helper">Provides the requested URI via helper.Request</param>
         /// <param name="expression">Expression of T</param>
         /// <param name="dispatcher">Custom route dispatcher to use in place of default dispatcher</param>
