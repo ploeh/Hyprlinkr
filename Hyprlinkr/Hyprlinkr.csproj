@@ -93,6 +93,7 @@
     <Compile Include="ResourceLinkParser.cs" />
     <Compile Include="Rouple.cs" />
     <Compile Include="RouteLinker.cs" />
+    <Compile Include="UrlHelperExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
