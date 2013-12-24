@@ -2,8 +2,9 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="CompleteBuild" ToolsVersion="4.0">
   <!--Project configuration-->
   <PropertyGroup>
-    <NuGetPath>packages\NuGet.CommandLine.2.7.3\tools</NuGetPath>
     <XUnitPath>packages\xunit.runners.1.9.1\tools</XUnitPath>
+    <NuGetPath>packages\NuGet.CommandLine.2.7.3\tools</NuGetPath>
+    <NuGetPackageName>hyprlinkr</NuGetPackageName>
   </PropertyGroup>
   <ItemGroup>
     <BuildOutput Include="Hyprlinkr\bin\Release\Ploeh.Hyprlinkr.dll" />
@@ -83,7 +84,7 @@
              Query="//metadata/version"
              Value="$(SemanticVersion)" />
     <XmlPoke XmlInputPath="$(TempNuspecFilePath)"
-             Query="//metadata/dependencies/dependency[contains(@id, 'hyprlinkr')]/@version"
+             Query="//metadata/dependencies/dependency[contains(@id, '$(NuGetPackageName)')]/@version"
              Value="$(SemanticVersion)" />
   </Target>
   <Target Name="NuGetPack" DependsOnTargets="NuGetPrepare">
