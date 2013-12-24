@@ -190,5 +190,40 @@ namespace Ploeh.Hyprlinkr.UnitTest
             Assert.Equal(expected, actual);
         }
 
+        [Theory, AutoHypData]
+        public void GetLinkThrowsArgumentNullExceptionWhenUrlHelperIsNullWithExpressionOfFuncAndDefaultDispatcher(              
+            int id)
+        {
+            UrlHelper helper = null;
+            Assert.Throws<ArgumentNullException>(() => helper.GetLink<FooController, object>(a => a.GetById(id)));
+        }
+
+        [Theory, AutoHypData]
+        public void GetLinkThrowsArgumentNullExceptionWhenUrlHelperIsNullWithExpressionOfActionAndDefaultDispatcher(          
+            int id)
+        {
+            UrlHelper helper = null;
+            Assert.Throws<ArgumentNullException>(() => helper.GetLink<FooController>(a => a.GetById(id)));
+        }
+
+        [Theory, AutoHypData]
+        public void GetLinkThrowsArgumentNullExceptionWhenUrlHelperIsNullWithExpressionOfFuncAndCustomDispatcher(           
+            [Frozen]Mock<IRouteDispatcher> dispatcherStub, 
+            int id)
+        {
+            UrlHelper helper = null;
+            Assert.Throws<ArgumentNullException>(
+                            () => helper.GetLink<FooController, object>(a => a.GetById(id), dispatcherStub.Object));
+        }
+
+        [Theory, AutoHypData]
+        public void GetLinkThrowsArgumentNullExceptionWhenUrlHelperIsNullWithExpressionOfActionAndCustomDispatcher(           
+            [Frozen]Mock<IRouteDispatcher> dispatcherStub, 
+            int id)
+        {
+            UrlHelper helper = null;
+            Assert.Throws<ArgumentNullException>(
+                            () => helper.GetLink<FooController>(a => a.GetById(id), dispatcherStub.Object));
+        }
     }
 }
