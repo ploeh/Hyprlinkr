@@ -21,6 +21,9 @@ namespace Ploeh.Hyprlinkr
         public static Uri GetLink<T, TResult>(this UrlHelper helper, Expression<Func<T, TResult>> expression)
             where T : ApiController
         {
+            if (helper == null)
+                throw new ArgumentNullException("helper");
+
             var linker = new RouteLinker(helper.Request);
 
             return linker.GetUri(expression);
@@ -36,6 +39,9 @@ namespace Ploeh.Hyprlinkr
         public static Uri GetLink<T>(this UrlHelper helper, Expression<Action<T>> expression)
             where T : ApiController
         {
+            if (helper == null)
+                throw new ArgumentNullException("helper");
+
             var linker = new RouteLinker(helper.Request);
 
             return linker.GetUri(expression);
@@ -55,6 +61,9 @@ namespace Ploeh.Hyprlinkr
                                            IRouteDispatcher dispatcher)
             where T : ApiController
         {
+            if (helper == null)
+                throw new ArgumentNullException("helper");
+
             var linker = new RouteLinker(helper.Request, dispatcher);
 
             return linker.GetUri(expression);
@@ -73,6 +82,9 @@ namespace Ploeh.Hyprlinkr
                                   IRouteDispatcher dispatcher)
            where T : ApiController
         {
+            if (helper == null)
+                throw new ArgumentNullException("helper");
+
             var linker = new RouteLinker(helper.Request, dispatcher);
 
             return linker.GetUri(expression);
