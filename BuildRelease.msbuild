@@ -73,7 +73,7 @@
              Query="//metadata/version"
              Value="$(SemanticVersion)" />
     <XmlPoke XmlInputPath="$(TempNuspecFilePath)"
-             Query="//metadata/dependencies/dependency[contains(@id, '$(NuGetPackageName)')]/@version"
+             Query="//metadata/dependencies/dependency[contains(@id, '$(NuGetPackageDependencyRoot)')]/@version"
              Value="$(SemanticVersion)" />
   </Target>
   <Target Name="NuGetPack" DependsOnTargets="NuGetPrepare">
