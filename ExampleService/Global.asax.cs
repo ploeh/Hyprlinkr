@@ -17,7 +17,7 @@ namespace Ploeh.Samples.Hyprlinkr.ExampleService
         protected void Application_Start()
         {
             GlobalConfiguration.Configuration.Routes.MapHttpRoute(
-                name: "API Default",
+                name: "DefaultApi",
                 routeTemplate: "{controller}/{id}",
                 defaults: new
                 {
