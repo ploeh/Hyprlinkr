@@ -1,6 +1,9 @@
 Hyprlinkr
 =========
 Hyprlinkr is a small and very focused helper library for the ASP.NET Web API. It does one thing only: it creates URIs according to the application's route configuration in a type-safe manner.
+
+It works with both ASP.NET Web API 1 and ASP.NET Web 2.
+
 Example
 -------
 Imagine that you're using the standard route configuration created by the Visual Studio project template:
