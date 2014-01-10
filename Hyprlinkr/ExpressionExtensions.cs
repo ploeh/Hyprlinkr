@@ -20,7 +20,7 @@ namespace Ploeh.Hyprlinkr
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="expression"/> is <c>null</c>.</exception>
         /// <exception cref="System.ArgumentException"><paramref name="expression"/> doesn't represent an Action that invokes a method.</exception>
-        internal static MethodCallExpression GetBodyMethodCallExpression(this LambdaExpression expression)
+        private static MethodCallExpression GetBodyMethodCallExpression(this LambdaExpression expression)
         {
             if (expression == null)
                 throw new ArgumentNullException("expression");
