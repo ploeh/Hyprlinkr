@@ -73,7 +73,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
                         .Returns(fixture.CreateAnonymous<string>())));
 
                 Expression<Action<FooController>> exp = c => c.GetDefault();
-                fixture.Inject(exp.GetBodyMethodCallExpression());
+                fixture.Inject((MethodCallExpression)exp.Body);
             }
         }
 

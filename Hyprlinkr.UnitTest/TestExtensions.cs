@@ -9,7 +9,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
     {
         public static HttpActionContext ToActionContext<TController>(this Expression<Action<TController>> expression)
         {
-            var bodyCallExpression = expression.GetBodyMethodCallExpression();
+            var bodyCallExpression = ((MethodCallExpression)expression.Body);
             var methodInfo = bodyCallExpression.Method;
             var controllerDescriptor = new HttpControllerDescriptor { ControllerType = typeof(TController) };
             var actionContext =
