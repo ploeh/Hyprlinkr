@@ -7,7 +7,7 @@ namespace Ploeh.Hyprlinkr
     /// <summary>
     /// A class with some extension methods based around expressions.
     /// </summary>
-    public static class ExpressionExtensions
+    internal static class ExpressionExtensions
     {
         /// <summary>
         /// Gets the <see cref="MethodCallExpression"/> of the body of the supplied expression.
@@ -51,30 +51,6 @@ namespace Ploeh.Hyprlinkr
                 throw new ArgumentNullException("expression");
 
             return expression.GetBodyMethodCallExpression().Method;
-        }
-
-        /// <summary>
-        /// Gets the parameter value of the specified parameter from the <see cref="MethodCallExpression"/> .
-        /// </summary>
-        /// <param name="methodCallExpression">
-        /// The method call expression.
-        /// </param>
-        /// <param name="parameterInfo">
-        /// The parameter to return the value for.
-        /// </param>
-        /// <returns>
-        /// The value of the parameter.
-        /// </returns>
-        public static object GetParameterValue(this MethodCallExpression methodCallExpression, ParameterInfo parameterInfo)
-        {
-            if (methodCallExpression == null)
-                throw new ArgumentNullException("methodCallExpression");
-            if (parameterInfo == null)
-                throw new ArgumentNullException("parameterInfo");
-
-            var arg = methodCallExpression.Arguments[parameterInfo.Position];
-            var lambda = Expression.Lambda(arg);
-            return lambda.Compile().DynamicInvoke();
         }
     }
 }

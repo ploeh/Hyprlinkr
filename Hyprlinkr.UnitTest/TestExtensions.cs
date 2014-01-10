@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Web.Http.Controllers;
 
 namespace Ploeh.Hyprlinkr.UnitTest
@@ -24,6 +25,20 @@ namespace Ploeh.Hyprlinkr.UnitTest
                 actionContext.ActionArguments.Add(kvp.Key, kvp.Value);
 
             return actionContext;
+        }
+
+        private static object GetParameterValue(
+            this MethodCallExpression methodCallExpression,
+            ParameterInfo parameterInfo)
+        {
+            if (methodCallExpression == null)
+                throw new ArgumentNullException("methodCallExpression");
+            if (parameterInfo == null)
+                throw new ArgumentNullException("parameterInfo");
+
+            var arg = methodCallExpression.Arguments[parameterInfo.Position];
+            var lambda = Expression.Lambda(arg);
+            return lambda.Compile().DynamicInvoke();
         }
     }
 }
