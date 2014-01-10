@@ -82,7 +82,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
             public void Customize(IFixture fixture)
             {
                 Expression<Action<FooController>> exp = c => c.GetById(0);
-                fixture.Inject(exp.GetMethodInfo().GetParameters().Single());
+                fixture.Inject(((MethodCallExpression)exp.Body).Method.GetParameters().Single());
             }
         }
 

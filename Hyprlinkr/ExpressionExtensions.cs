@@ -45,7 +45,7 @@ namespace Ploeh.Hyprlinkr
         /// <returns>
         /// The <see cref="MethodInfo"/> object of the body of the supplied expression.
         /// </returns>
-        public static MethodInfo GetMethodInfo(this LambdaExpression expression)
+        internal static MethodInfo GetMethodInfo(this LambdaExpression expression)
         {
             if (expression == null)
                 throw new ArgumentNullException("expression");
