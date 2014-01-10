@@ -128,7 +128,6 @@
       <DependentUpon>Reflect.Overloads.tt</DependentUpon>
     </Compile>
     <Compile Include="RedirectRouteHandler.cs" />
-    <Compile Include="ReflectionExtensionsTest.cs" />
     <Compile Include="ReflectionHierarchy\Base.cs" />
     <Compile Include="ReflectionHierarchy\Derived.cs" />
     <Compile Include="ReflectionHierarchy\DerivedFromDerived.cs" />

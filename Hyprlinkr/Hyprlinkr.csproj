@@ -89,7 +89,6 @@
     <Compile Include="IResourceLinker.cs" />
     <Compile Include="IRouteValuesQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReflectionExtensions.cs" />
     <Compile Include="ResourceLinkParser.cs" />
     <Compile Include="Rouple.cs" />
     <Compile Include="RouteLinker.cs" />

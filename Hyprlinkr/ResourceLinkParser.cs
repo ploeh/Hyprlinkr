@@ -140,7 +140,7 @@ namespace Ploeh.Hyprlinkr
             else
                 actualActionMethod = actionDescriptor.MethodInfo;
 
-            return actualActionMethod.RefersToTheSameMethodAs(expectedActionMethod);
+            return actualActionMethod.MethodHandle.Equals(expectedActionMethod.MethodHandle);
         }
 
         /// <summary>
