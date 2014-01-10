@@ -79,7 +79,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arg.cs" />
     <Compile Include="DefaultRouteDispatcher.cs" />
     <Compile Include="ScalarRouteValuesQuery.cs" />
     <Compile Include="ExpressionExtensions.cs" />
