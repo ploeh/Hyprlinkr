@@ -7,7 +7,7 @@ open System.Reflection
 [<assembly: AssemblyConfiguration("")>]
 [<assembly: AssemblyCompany("Mark Seemann")>]
 [<assembly: AssemblyProduct("Hyprlinkr.UnitTest.FSharp")>]
-[<assembly: AssemblyCopyright("Copyright © Mark Seemann 2013")>]
+[<assembly: AssemblyCopyright("Copyright © Mark Seemann 2014")>]
 [<assembly: AssemblyTrademark("")>]
 [<assembly: AssemblyCulture("")>]
 
