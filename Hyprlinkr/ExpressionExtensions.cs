@@ -4,21 +4,10 @@ using System.Reflection;
 
 namespace Ploeh.Hyprlinkr
 {
-    /// <summary>
-    /// A class with some extension methods based around expressions.
-    /// </summary>
     internal static class ExpressionExtensions
     {
-        /// <summary>
-        /// Gets the <see cref="MethodInfo"/> object of the body of the supplied expression.
-        /// </summary>
-        /// <param name="expression">
-        /// The expression.
-        /// </param>
-        /// <returns>
-        /// The <see cref="MethodInfo"/> object of the body of the supplied expression.
-        /// </returns>
-        internal static MethodInfo GetMethodInfo(this LambdaExpression expression)
+        internal static MethodCallExpression GetMethodCallExpression(
+            this LambdaExpression expression)
         {
             if (expression == null)
                 throw new ArgumentNullException("expression");
@@ -31,7 +20,7 @@ namespace Ploeh.Hyprlinkr
                     "expression");
             }
 
-            return methodCallExpression.Method;
+            return methodCallExpression;
         }
     }
 }
