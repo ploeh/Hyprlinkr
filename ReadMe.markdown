@@ -61,6 +61,26 @@ The default behavior for RouteLinker is to assume that there's only a single con
 Nuget
 -----
 Hyprlinkr is [available via nuget](https://nuget.org/packages/Hyprlinkr)
+Web API 2
+---------
+Hyprlinkr is compiled against ASP.NET Web API 1, but it also works with Web API 2. In order to use Hyprlinkr with Web API 2, you may need to add an assembly redirect (if NuGet hasn't already done it for you):
+```XML
+<configuration>
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="System.Web.Http" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-5.0.0.0" newVersion="5.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.Net.Http.Formatting" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-5.0.0.0" newVersion="5.0.0.0" />
+      </dependentAssembly>
+    </assemblyBinding>
+  </runtime>
+  <!--other configuration settings-->
+</configuration>
+```
 Example code
 ------------
 The *ExampleService* project, included in the source code, provides a very simple example of how to wire and use Hyprlinkr. As an example, in HomeController.cs you can see that links are added to a model instance like this:
