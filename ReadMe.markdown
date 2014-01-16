@@ -55,6 +55,17 @@ As an alternative to Dependency Injection (DI), the request can also be pulled d
 var linker = new RouteLinker(this.Request);
 ```
 The example code includes a NoDIController class that demonstrates this approach.
+### From an API Controller ###
+If you want to use Hyprlinkr directly from an `ApiController`, you can use extension methods to create links:
+```C#
+// Inside an ApiController
+var uri = this.Url.GetLink<FooController>(a => a.GetById(1337));
+```
+This will create a URI like this:
+```
+http://localhost/api/foo/1337
+```
+assuming that the current host is http://localhost.
 Custom route dispatching
 ------------------------
 The default behavior for RouteLinker is to assume that there's only a single configured route for the ASP.NET Web API, and that this route is named "API Default". This behavior is implemented by the DefaultRouteDispatcher class. If you require different dispatching behavior, you can implement a custom IRouteDispatcher and inject it into the RouteLinker instances.
