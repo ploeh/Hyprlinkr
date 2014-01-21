@@ -13,7 +13,7 @@ using Ploeh.AutoFixture;
 
 namespace Ploeh.Hyprlinkr.UnitTest
 {
-    public class DefaultRouteValuesQueryTest
+    public class ScalarRouteValuesQueryTest
     {
         [Theory, AutoHypData]
         public void SutHasAppropriateGuards(GuardClauseAssertion assertion)
