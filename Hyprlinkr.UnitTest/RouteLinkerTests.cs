@@ -295,5 +295,55 @@ namespace Ploeh.Hyprlinkr.UnitTest
             Assert.Throws<InvalidOperationException>(() =>
                 sut.GetUri<FooController>(c => c.GetById(id)));
         }
+
+        [Theory, AutoHypData]
+        public void GetUriForNullQueryParameterReturnsCorrectResult(
+            [Frozen]HttpRequestMessage request,
+            RouteLinker sut,
+            int id)
+        {
+            request.AddDefaultRoute();
+
+            var actual = sut.GetUri<BarController>(
+                c => c.GetWithIdAndQueryParameter(id, null));
+
+            var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
+            var expected = new Uri(new Uri(baseUri), "api/bar/" + id);
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory, AutoHypData]
+        public void GetUriForNullFnaahReturnsCorrectResult(
+            [Frozen]HttpRequestMessage request,
+            RouteLinker sut,
+            int ploeh)
+        {
+            request.AddDefaultRoute();
+
+            var actual = sut.GetUri<FooController>(
+                c => c.GetWithPloehAndFnaah(ploeh, null));
+
+            var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
+            var expected = new Uri(new Uri(baseUri), "api/foo?ploeh=" + ploeh);
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory, AutoHypData]
+        public void GetUriWithNullOptionalParameterReturnsCorrectResult(
+            [Frozen]HttpRequestMessage request,
+            RouteLinker sut,
+            int id,
+            string bar)
+        {
+            request.AddDefaultRoute();
+
+            var actual = sut.GetUri<FooController>(
+                c => c.GetWithIdAndOptionalParameter(id, bar, null));
+
+            var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
+            var expected = 
+                new Uri(new Uri(baseUri), "api/foo/" + id + "?bar=" + bar);
+            Assert.Equal(expected, actual);
+        }
     }
 }

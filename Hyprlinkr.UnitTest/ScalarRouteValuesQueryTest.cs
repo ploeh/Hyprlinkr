@@ -112,7 +112,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
             var expected =
                 new Dictionary<string, object> 
                     {
-                        { "id", id.ToString() },
+                        { "id", id },
                         { "bar", bar } 
                     }
                     .ToArray()[index];

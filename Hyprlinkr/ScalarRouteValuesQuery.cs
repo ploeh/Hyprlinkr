@@ -106,7 +106,7 @@ namespace Ploeh.Hyprlinkr
 
             var arg = methodCallExpression.Arguments[parameterInfo.Position];
             var lambda = Expression.Lambda(arg);
-            var value = lambda.Compile().DynamicInvoke().ToString();
+            var value = lambda.Compile().DynamicInvoke();
             return new Dictionary<string, object>
             {
                 { parameterInfo.Name, value }
