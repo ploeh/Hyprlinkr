@@ -260,5 +260,24 @@
             <see cref="T:System.Type"/> of the parameter.
             </returns>
         </member>
+        <member name="T:Ploeh.AutoFixture.Xunit.NoAutoPropertiesAttribute">
+            <summary>
+            An attribute that can be applied to parameters in an <see cref="T:Ploeh.AutoFixture.Xunit.AutoDataAttribute"/>-driven
+            Theory to indicate that the parameter value should not have properties auto populated
+            when the <see cref="T:Ploeh.AutoFixture.IFixture"/> creates an instance of that type.
+            </summary>
+        </member>
+        <member name="M:Ploeh.AutoFixture.Xunit.NoAutoPropertiesAttribute.GetCustomization(System.Reflection.ParameterInfo)">
+            <summary>
+            Gets a customization that stops auto population of properties for the type of the parameter.
+            </summary>
+            <param name="parameter">The parameter for which the customization is requested.</param>
+            <returns>
+            A customization that stops auto population of the <see cref="T:System.Type"/> of the parameter.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="parameter"/> is null.
+            </exception>
+        </member>
     </members>
 </doc>

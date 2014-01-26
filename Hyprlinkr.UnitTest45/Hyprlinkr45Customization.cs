@@ -32,7 +32,7 @@ namespace Ploeh.Hyprlinkr.UnitTest45
         {
             public void Customize(IFixture fixture)
             {
-                var config = fixture.CreateAnonymous<HttpConfiguration>();
+                var config = fixture.Create<HttpConfiguration>();
 
                 fixture.Customize<HttpRequestMessage>(c => c
                     .Do(x =>

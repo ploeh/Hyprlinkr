@@ -24,7 +24,6 @@ namespace Ploeh.Hyprlinkr.UnitTest
                 new MethodCustomization(),
                 new ParameterCustomization(),
                 new MultipleCustomization(),
-                new InjectFixtureIntoItself(),
                 new AutoMoqCustomization(),
                 new HttpRequestMessageCustomization(),
                 new HttpConfigurationCustomization()
@@ -52,7 +51,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         {
             public void Customize(IFixture fixture)
             {
-                var config = fixture.CreateAnonymous<HttpConfiguration>();
+                var config = fixture.Create<HttpConfiguration>();
 
                 fixture.Customize<HttpRequestMessage>(c => c
                     .Do(x =>
@@ -70,7 +69,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
                 fixture.Customize<Mock<MethodInfo>>(c => c
                     .Do(stub => stub
                         .SetupGet(m => m.ReflectedType.Name)
-                        .Returns(fixture.CreateAnonymous<string>())));
+                        .Returns(fixture.Create<string>())));
 
                 Expression<Action<FooController>> exp = c => c.GetDefault();
                 fixture.Inject((MethodCallExpression)exp.Body);
@@ -83,14 +82,6 @@ namespace Ploeh.Hyprlinkr.UnitTest
             {
                 Expression<Action<FooController>> exp = c => c.GetById(0);
                 fixture.Inject(((MethodCallExpression)exp.Body).Method.GetParameters().Single());
-            }
-        }
-
-        private class InjectFixtureIntoItself : ICustomization
-        {
-            public void Customize(IFixture fixture)
-            {
-                fixture.Inject<ISpecimenBuilderComposer>(fixture);
             }
         }
     }

@@ -15,12 +15,12 @@ type HttpSchemeCustomization() =
 type HttpRequestMessageCustomization() =
     interface ICustomization with
         member this.Customize fixture =
-            let config = fixture.CreateAnonymous<HttpConfiguration>()
+            let config = fixture.Create<HttpConfiguration>()
             let assignConfig (msg : HttpRequestMessage) =
                 msg.Properties.[HttpPropertyKeys.HttpConfigurationKey] <-
                     config
             fixture.Customize<HttpRequestMessage>(
-                fun c -> c.Do assignConfig :> ISpecimenBuilderComposer)
+                fun c -> c.Do assignConfig :> ISpecimenBuilder)
 
 type HyprlinkrCustomization() =
     inherit CompositeCustomization(

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Albedo</id>
+    <version>0.5.0</version>
+    <title>Albedo</title>
+    <authors>Mark Seemann,  Nikos Baxevanis,  Adam Chester</authors>
+    <owners>Mark Seemann,  Nikos Baxevanis,  Adam Chester</owners>
+    <licenseUrl>https://raw2.github.com/ploeh/Albedo/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/ploeh/Albedo</projectUrl>
+    <iconUrl>https://raw.github.com/ploeh/Albedo/master/Logo-3.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A .NET library targeted at making Reflection programming more consistent, using a common set of abstractions and utilities.</description>
+    <language>en-US</language>
+  </metadata>
+</package>
