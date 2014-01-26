@@ -11,6 +11,11 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Hyprlinkr.UnitTest.FSharp",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hyprlinkr.UnitTest45", "Hyprlinkr.UnitTest45\Hyprlinkr.UnitTest45.csproj", "{C618B2E6-96D8-49F2-8DFC-2FB9DFAEDDAD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7A13823C-0B72-4B86-9E75-76B44B9BB339}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
