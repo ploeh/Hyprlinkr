@@ -1,6 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7A13823C-0B72-4B86-9E75-76B44B9BB339}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hyprlinkr", "Hyprlinkr\Hyprlinkr.csproj", "{76905975-456A-44C1-87F6-8E2296CD336E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hyprlinkr.UnitTest", "Hyprlinkr.UnitTest\Hyprlinkr.UnitTest.csproj", "{8007D548-D6C9-4C56-AFEA-6B0413189A5D}"
@@ -10,11 +17,6 @@ EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Hyprlinkr.UnitTest.FSharp", "Hyprlinkr.UnitTest.FSharp\Hyprlinkr.UnitTest.FSharp.fsproj", "{DA4CC787-3FAF-4929-B372-BDC118E2E8E6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hyprlinkr.UnitTest45", "Hyprlinkr.UnitTest45\Hyprlinkr.UnitTest45.csproj", "{C618B2E6-96D8-49F2-8DFC-2FB9DFAEDDAD}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7A13823C-0B72-4B86-9E75-76B44B9BB339}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
