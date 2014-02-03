@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Routing;
 
@@ -88,6 +89,16 @@ namespace Ploeh.Hyprlinkr
             var linker = new RouteLinker(helper.Request, dispatcher);
 
             return linker.GetUri(expression);
+        }
+
+        public static Task<Uri> GetLinkAsync<T, TResult>(this UrlHelper helper, Expression<Func<T, Task<TResult>>> method)
+        {
+            if (helper == null)
+                throw new ArgumentNullException("helper");
+
+            var linker = new RouteLinker(helper.Request);
+
+            return linker.GetUriAsync(method);
         }
     }
 }
