@@ -91,6 +91,17 @@ namespace Ploeh.Hyprlinkr
             return linker.GetUri(expression);
         }
 
+        /// <summary>
+        /// Returns URI matching helper's request and expression using RouteLinker's default route dispatcher
+        /// </summary>
+        /// <typeparam name="T">A class that derives from ApiController</typeparam>
+        /// <typeparam name="TResult">Any result type</typeparam>
+        /// <param name="helper">Provides the requested URI via helper.Request</param>
+        /// <param name="method">Method call expression of T</param>
+        /// <returns>
+        /// A <see cref="Task{Uri}" /> instance which represents the resource
+        /// identifed by <paramref name="method" />.
+        /// </returns>
         public static Task<Uri> GetLinkAsync<T, TResult>(this UrlHelper helper, Expression<Func<T, Task<TResult>>> method)
         {
             if (helper == null)
