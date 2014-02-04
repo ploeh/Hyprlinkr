@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace Ploeh.Hyprlinkr.UnitTest.Controllers
 {
@@ -8,5 +9,13 @@ namespace Ploeh.Hyprlinkr.UnitTest.Controllers
         {
             return new object();
         } 
+    }
+
+    public class FooBarAsyncController : ApiController
+    {
+        public Task<object> GetBar(int id, int bar)
+        {
+            return Task.Factory.StartNew(() => new object());
+        }
     }
 }

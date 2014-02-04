@@ -225,5 +225,55 @@ namespace Ploeh.Hyprlinkr.UnitTest
             Assert.Throws<ArgumentNullException>(
                             () => helper.GetLink<FooController>(a => a.GetById(id), dispatcherStub.Object));
         }
+
+        [Theory, AutoHypData]
+        public void GetLinkAsyncThrowsArgumentNullExceptionWhenUrlHelperIsNullWithExpressionOfFuncAndDefaultDispatcher(
+            int id)
+        {
+            UrlHelper helper = null;
+            Assert.Throws<ArgumentNullException>(() => helper.GetLinkAsync<FooAsyncController, object>(a => a.GetById(id)));
+        }
+
+        [Theory, AutoHypData]
+        public void GetLinkAsyncReturnsCorrectUriForExpressionOfActionWithSingleParameter(
+            [Frozen]HttpRequestMessage request,
+            RouteLinker forComparison,
+            UrlHelper sut, int id)
+        {
+            request.AddDefaultRoute();
+
+            var expected = forComparison.GetUriAsync<FooAsyncController, object>(a => a.GetById(id)).Result;
+            var actual = sut.GetLinkAsync<FooAsyncController, object>(a => a.GetById(id)).Result;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory, AutoHypData]
+        public void GetLinkAsyncReturnsCorrectUriForExpressionOfFuncWithMultipleParameters(
+            [Frozen]HttpRequestMessage request,
+            RouteLinker forComparison,
+            UrlHelper sut, int id, int bar)
+        {
+            request.AddDefaultRoute();
+
+            var expected = forComparison.GetUriAsync<FooBarAsyncController, object>(a => a.GetBar(id, bar)).Result;
+            var actual = sut.GetLinkAsync<FooBarAsyncController, object>(a => a.GetBar(id, bar)).Result;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory, AutoHypData]
+        public void GetLinkAsyncReturnsCorrectUriForExpressionOfFuncWithComplexParameter(
+            [Frozen]HttpRequestMessage request,
+            RouteLinker forComparison,
+            UrlHelper sut, SomeModel someModel)
+        {
+            request.AddDefaultRoute();
+
+            var expected = forComparison.GetUriAsync<ModelAsyncController, object>(a => a.Get(someModel)).Result;
+            var actual = sut.GetLinkAsync<ModelAsyncController, object>(a => a.Get(someModel)).Result;
+
+            Assert.Equal(expected, actual);
+        }
     }
 }
