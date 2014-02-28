@@ -72,6 +72,9 @@ The default behavior for RouteLinker is to assume that there's only a single con
 Nuget
 -----
 Hyprlinkr is [available via nuget](https://nuget.org/packages/Hyprlinkr)
+Versioning
+----------
+Hyprlinkr follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html).
 Web API 2
 ---------
 Hyprlinkr is compiled against ASP.NET Web API 1, but it also works with Web API 2. In order to use Hyprlinkr with Web API 2, you may need to add an assembly redirect (if NuGet hasn't already done it for you):
