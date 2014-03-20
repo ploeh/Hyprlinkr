@@ -6,9 +6,12 @@
   <UsingTask TaskName="xunit" AssemblyFile="$(XUnitPath)\xunit.runner.msbuild.dll" />
 
   <!--Clean-->
-  <Target Name="CleanAll" DependsOnTargets="CleanDebug;CleanRelease" />
+  <Target Name="CleanAll" DependsOnTargets="CleanDebug;CleanVerify;CleanRelease" />
   <Target Name="CleanDebug">
     <MSBuild Projects="@(ProjectToBuild)" Targets="Clean" Properties="Configuration=Debug" />
+  </Target>
+  <Target Name="CleanVerify">
+    <MSBuild Projects="@(ProjectToBuild)" Targets="Clean" Properties="Configuration=Verify" />
   </Target>
   <Target Name="CleanRelease">
     <MSBuild Projects="@(ProjectToBuild)" Targets="Clean" Properties="Configuration=Release" />
@@ -16,11 +19,12 @@
 
   <!--Compile-->
   <Target Name="Build" DependsOnTargets="CleanAll">
+    <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=Verify" />
     <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=Release" />
   </Target>
 
-  <!--Test-->
-  <Target Name="Test" DependsOnTargets="Build">
+  <!--Test. Note that the GetTestAssemblies Task MUST BE defined in the Build.config file. -->
+  <Target Name="Test" DependsOnTargets="GetTestAssemblies">
     <xunit Assemblies="@(TestAssemblies)" />
   </Target>
 
