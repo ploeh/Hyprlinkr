@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using System.Linq.Expressions;
+using System.Web.Http;
 
 namespace Ploeh.Hyprlinkr
 {
@@ -76,6 +77,25 @@ namespace Ploeh.Hyprlinkr
         {
             if (method == null)
                 throw new ArgumentNullException("method");
+
+            var routeAttribute = method
+                .Method
+                .GetCustomAttributes(false)
+                .Where(attribute => attribute.GetType().FullName == "System.Web.Http.RouteAttribute")
+                .FirstOrDefault();
+            
+            if (routeAttribute != null)
+            {
+                var nameProperty = routeAttribute.GetType().GetProperty("Name");
+
+                  if (nameProperty != null)
+                  {
+                      var routeName = nameProperty.GetValue(routeAttribute, null) as string;
+
+                      if (routeName != null)
+                          return new Rouple(routeName, routeValues);
+                }
+            }
 
             var newRouteValues = new Dictionary<string, object>(routeValues);
 
