@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace Ploeh.Hyprlinkr.UnitTest45
+namespace Ploeh.Hyprlinkr.UnitTest.Controllers
 {
     public class AsyncController : ApiController
     {

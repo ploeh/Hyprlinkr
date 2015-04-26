@@ -105,6 +105,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AsyncController.cs" />
     <Compile Include="AutoHypDataAttribute.cs" />
     <Compile Include="Controllers\AmbiguousActionController.cs" />
     <Compile Include="Controllers\BarController.cs" />

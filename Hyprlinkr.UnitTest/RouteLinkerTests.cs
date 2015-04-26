@@ -14,6 +14,7 @@ using Moq;
 using System.Reflection;
 using Ploeh.AutoFixture.Idioms;
 using Moq.Protected;
+using System.Threading.Tasks;
 
 namespace Ploeh.Hyprlinkr.UnitTest
 {
@@ -344,6 +345,38 @@ namespace Ploeh.Hyprlinkr.UnitTest
             var expected = 
                 new Uri(new Uri(baseUri), "api/foo/" + id + "?bar=" + bar);
             Assert.Equal(expected, actual);
+        }
+
+        [Theory, AutoHypData]
+        public void GetAsyncRouteForGetMethodWithIdReturnsCorrectResult(
+            [Frozen]HttpRequestMessage request,
+            RouteLinker sut,
+            int id)
+        {
+            request.AddDefaultRoute();
+
+            Uri actual = sut.GetUriAsync((AsyncController c) => c.Get(id)).Result;
+
+            var baseUri = request.RequestUri.GetLeftPart(UriPartial.Authority);
+            var expected = new Uri(new Uri(baseUri), "api/async/" + id);
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory, AutoHypData]
+        public void GetUriAsyncWithNullFuncExpressionThrows(
+            RouteLinker sut)
+        {
+            Assert.Throws<ArgumentNullException>(
+                () => sut.GetUriAsync<AsyncController, object>(null).Result);
+        }
+
+        [Theory, AutoHypData]
+        public void GetUriFromInvalidFuncExpressionThrows(
+            RouteLinker sut)
+        {
+            Assert.Throws<ArgumentException>(
+                () => sut.GetUriAsync<AsyncController, object>(
+                    _ => new Task<object>(() => new object())).Result);
         }
     }
 }
