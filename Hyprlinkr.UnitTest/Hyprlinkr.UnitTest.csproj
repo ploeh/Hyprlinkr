@@ -108,6 +108,7 @@
     <Compile Include="Controllers\AsyncController.cs" />
     <Compile Include="AutoHypDataAttribute.cs" />
     <Compile Include="Controllers\AmbiguousActionController.cs" />
+    <Compile Include="Controllers\RouteAttributeController.cs" />
     <Compile Include="Controllers\BarController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DerivedController.cs" />

@@ -63,6 +63,17 @@ namespace Ploeh.Hyprlinkr.UnitTest
         }
 
         [Theory, AutoHypData]
+        public void DispatchReturnsResultWithRouterAttributeRouteName(
+            DefaultRouteDispatcher sut,
+            IDictionary<string, object> routeValues)
+        {
+            Expression<Action<RouteAttributeController>> exp = c => c.GetDefault();
+            var method = (MethodCallExpression)exp.Body;
+            var actual = sut.Dispatch(method, routeValues);
+            Assert.Equal(RouteAttributeController.RouteName, actual.RouteName);
+        }
+
+        [Theory, AutoHypData]
         public void DispatchPreservesAllRouteValues(
             DefaultRouteDispatcher sut,
             MethodCallExpression method,
@@ -94,6 +105,17 @@ namespace Ploeh.Hyprlinkr.UnitTest
             var method = (MethodCallExpression)exp.Body;
             var actual = sut.Dispatch(method, routeValues);
             Assert.Equal("bar", actual.RouteValues["controller"]);
+        }
+
+        [Theory, AutoHypData]
+        public void DispatchDoesNotAddRouteAttributeControllerNameToRouteValues(
+            DefaultRouteDispatcher sut,
+            IDictionary<string, object> routeValues)
+        {
+            Expression<Action<RouteAttributeController>> exp = c => c.GetDefault();
+            var method = (MethodCallExpression)exp.Body;
+            var actual = sut.Dispatch(method, routeValues);
+            Assert.Empty(actual.RouteValues.Where(rv => rv.Key == "controller"));
         }
 
         [Theory, AutoHypData]

@@ -26,6 +26,8 @@ namespace Ploeh.Samples.Hyprlinkr.ExampleService
                 }
             );
 
+            GlobalConfiguration.Configuration.MapHttpAttributeRoutes();
+
             GlobalConfiguration.Configuration.Services.Replace(
                 typeof(IHttpControllerActivator),
                 new MyCustomControllerActivator());

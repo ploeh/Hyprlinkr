@@ -68,6 +68,7 @@ namespace Ploeh.Samples.Hyprlinkr.ExampleService
             };
         }
 
+        [Route("custom/route/{id}", Name = "CustomRoute")]
         public HomeModel Get(string id)
         {
             return new HomeModel
