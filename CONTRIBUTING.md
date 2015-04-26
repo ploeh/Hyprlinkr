@@ -10,7 +10,7 @@ Hyprlinkr does [not rely on NuGet Package Restore](http://blog.ploeh.dk/2014/01/
 
 ## Verification
 
-There is currently a single solution to be found under the \Src folder, but be aware that the final verification step before pushing to the repository is to successfully build the BuildRelease.msbuild file. This can be done either from Bash (using build-release.sh) or PowerShell (using BuildRelease.ps1).
+There is currently a single solution to be found under the \Src folder, but be aware that the final verification step before pushing to the repository is to successfully build the BuildRelease.msbuild file. This can be done either from Bash (using build-release.sh) or PowerShell (using Build-Release.ps1).
 
 As part of the verification build, Visual Studio Code Analysis is executed in a configuration that treats warnings as errors. No CA warnings should be suppressed unless the documented conditions for suppression are satisfied. Otherwise, a documented agreement between at least two active developers of the project should be reached to allow a suppression of a non-suppressable warning.
 
