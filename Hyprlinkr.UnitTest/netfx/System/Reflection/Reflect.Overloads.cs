@@ -25,7 +25,7 @@ using System.Linq.Expressions;
 
 /// <devdoc>
 /// Generated overloads for available Func/Action generic types 
-/// for current target framework version 4.0.
+/// for current target framework version 4.5.
 /// </devdoc>
 internal static partial class Reflect
 { 
@@ -1346,7 +1346,7 @@ internal static partial class Reflect
 
 /// <devdoc>
 /// Generated overloads for available Func/Action generic types 
-/// for current target framework version 4.0.
+/// for current target framework version 4.5.
 /// </devdoc>
 /// <typeparam name="TTarget">Type to reflect.</typeparam>
 internal static partial class Reflect<TTarget>
