@@ -2,7 +2,7 @@ Hyprlinkr
 =========
 Hyprlinkr is a small and very focused helper library for the ASP.NET Web API. It does one thing only: it creates URIs according to the application's route configuration in a type-safe manner.
 
-It works with both ASP.NET Web API 1 and ASP.NET Web 2.
+As of version 2 it works with ASP.NET Web 2. Look for version 1 for compatibility with ASP.NET Web API 1.
 
 Example
 -------
@@ -68,33 +68,17 @@ http://localhost/api/foo/1337
 assuming that the current host is http://localhost.
 Custom route dispatching
 ------------------------
-The default behavior for RouteLinker is to assume that there's only a single configured route for the ASP.NET Web API, and that this route is named "API Default". This behavior is implemented by the DefaultRouteDispatcher class. If you require different dispatching behavior, you can implement a custom IRouteDispatcher and inject it into the RouteLinker instances.
+The default behavior for RouteLinker is:
+* If the method being linked to has a [Route] attribute with a route name defined, use that route. Note that you cannot link to a method with an unnamed [Route] attribute
+* Otherwise assume that there's only a single configured route, and that route is named "API Default"
+
+This behavior is implemented by the DefaultRouteDispatcher class. If you require different dispatching behavior, you can implement a custom IRouteDispatcher and inject it into the RouteLinker instances.
 Nuget
 -----
 Hyprlinkr is [available via nuget](https://nuget.org/packages/Hyprlinkr)
 Versioning
 ----------
 Hyprlinkr follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html).
-Web API 2
----------
-Hyprlinkr is compiled against ASP.NET Web API 1, but it also works with Web API 2. In order to use Hyprlinkr with Web API 2, you may need to add an assembly redirect (if NuGet hasn't already done it for you):
-```XML
-<configuration>
-  <runtime>
-    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
-      <dependentAssembly>
-        <assemblyIdentity name="System.Web.Http" publicKeyToken="31bf3856ad364e35" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-5.0.0.0" newVersion="5.0.0.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="System.Net.Http.Formatting" publicKeyToken="31bf3856ad364e35" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-5.0.0.0" newVersion="5.0.0.0" />
-      </dependentAssembly>
-    </assemblyBinding>
-  </runtime>
-  <!--other configuration settings-->
-</configuration>
-```
 Example code
 ------------
 The *ExampleService* project, included in the source code, provides a very simple example of how to wire and use Hyprlinkr. As an example, in HomeController.cs you can see that links are added to a model instance like this:
