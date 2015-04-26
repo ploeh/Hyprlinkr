@@ -1,10 +1,10 @@
 # How to contribute to Hyprlinkr
 
-Hyprlinkr is currently being developed in C# on .NET 4.0 (in order to ensure as broad reach as possible) using Visual Studio 2013 with xUnit.net as the unit testing framework. So far, all development has been done with TDD, so there's a high degree of code coverage, and it would be preferable to keep it that way.
+Hyprlinkr is currently being developed in C# on .NET 4.5 using Visual Studio 2013 with xUnit.net as the unit testing framework. So far, all development has been done with TDD, so there's a high degree of code coverage, and it would be preferable to keep it that way.
 
 ## Dependencies
 
-All binaries (such as xUnit.net) are included as NuGet packages in the source control repository under the \packages folder. All additional binaries not part of .NET 4.0 must also be added to the repository, so that it would be possible to pull down the repository and immediately be able to compile and run all tests.
+All binaries (such as xUnit.net) are included as NuGet packages in the source control repository under the \packages folder. All additional binaries not part of .NET 4.5 must also be added to the repository, so that it would be possible to pull down the repository and immediately be able to compile and run all tests.
 
 Hyprlinkr does [not rely on NuGet Package Restore](http://blog.ploeh.dk/2014/01/29/nuget-package-restore-considered-harmful).
 
