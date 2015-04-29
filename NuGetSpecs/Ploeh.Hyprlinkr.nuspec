@@ -17,7 +17,7 @@
     <copyright>Copyright Mark Seemann 2014</copyright>
   </metadata>
   <files>
-    <file src="Ploeh.Hyprlinkr.dll" target="lib\net40" />
-    <file src="Ploeh.Hyprlinkr.XML" target="lib\net40" />
+    <file src="Ploeh.Hyprlinkr.dll" target="lib\net45" />
+    <file src="Ploeh.Hyprlinkr.XML" target="lib\net45" />
   </files>
 </package>
