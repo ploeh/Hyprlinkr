@@ -7,7 +7,7 @@
     <authors>Mark Seemann</authors>
     <owners>Mark Seemann</owners>
     <dependencies>
-        <dependency id="Microsoft.AspNet.WebApi.Core" version="4.0.20710.0" />
+        <dependency id="Microsoft.AspNet.WebApi.Core" version="5.2.3" />
     </dependencies>
     <projectUrl>https://github.com/ploeh/Hyprlinkr</projectUrl>
     <licenseUrl>https://github.com/ploeh/Hyprlinkr/blob/master/LICENCE.txt</licenseUrl>
