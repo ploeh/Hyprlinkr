@@ -6,6 +6,7 @@ deploy/*
 *.csproj.user
 *.suo
 *.cache
+.vs/
 TestResults/
 NuGetPackages/
 *_mm_cache.bin
