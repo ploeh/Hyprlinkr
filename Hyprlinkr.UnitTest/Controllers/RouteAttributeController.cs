@@ -6,12 +6,20 @@ using System.Web.Http;
 
 namespace Ploeh.Hyprlinkr.UnitTest.Controllers
 {
+    [Route("/controllerCustomRoute", Name = ControllerRouteName)]
     public class RouteAttributeController : ApiController
     {
-        public const string RouteName = "CustomRoute";
+        public const string ControllerRouteName = "ControllerCustomRoute";
 
-        [Route("/customRoute", Name = RouteName)]
+        public const string ActionRouteName = "CustomRoute";
+
+        [Route("/customRoute", Name = ActionRouteName)]
         public object GetDefault()
+        {
+            return new object();
+        }
+        
+        public object GetDefaultWithoutActionRouteName()
         {
             return new object();
         }

@@ -78,26 +78,14 @@ namespace Ploeh.Hyprlinkr
             if (method == null)
                 throw new ArgumentNullException("method");
 
-            var routeAttribute = method
-                .Method
-                .GetCustomAttribute<RouteAttribute>(false);
+            var methodRouteAttribute = method.Method.GetCustomAttribute<RouteAttribute>(false);
 
-            if (routeAttribute != null && routeAttribute.Name != null)
+            if (methodRouteAttribute?.Name != null)
             {
-                return new Rouple(routeAttribute.Name, routeValues);
+                return new Rouple(methodRouteAttribute.Name, routeValues);
             }
 
-            var newRouteValues = new Dictionary<string, object>(routeValues);
-
-            var controllerName = method
-                .Object
-                .Type
-                .Name
-                .ToLowerInvariant()
-                .Replace("controller", "");
-            newRouteValues["controller"] = controllerName;
-
-            return new Rouple(this.routeName, newRouteValues);
+            return ExtractRoupleFromController(method, routeValues);
         }
 
         /// <summary>
@@ -107,6 +95,50 @@ namespace Ploeh.Hyprlinkr
         public string RouteName
         {
             get { return this.routeName; }
+        }
+
+        private Rouple ExtractRoupleFromController(MethodCallExpression callExpression, IDictionary<string, object> routeValues)
+        {
+            var controllerRouteName = RouteName;
+            var newRouteValues = AddControllerNameAndMethodToRouteValues(callExpression, routeValues);
+            var controllerRouteAttribute = callExpression.Object.Type.GetCustomAttribute<RouteAttribute>(false);
+            if (controllerRouteAttribute != null)
+            {
+                if (controllerRouteAttribute.Name != null)
+                {
+                    controllerRouteName = controllerRouteAttribute.Name;
+                }
+
+                newRouteValues = RemoveControllerAndActionRouteValuesIfNeeded(controllerRouteAttribute, newRouteValues);
+            }
+
+            return new Rouple(controllerRouteName, newRouteValues);
+        }
+
+        private static Dictionary<string, object> RemoveControllerAndActionRouteValuesIfNeeded(RouteAttribute controllerRouteAttribute, Dictionary<string, object> routeValues)
+        {
+            var controllerRouteTemplate = controllerRouteAttribute.Template;
+            if (controllerRouteTemplate != null)
+            {
+                if (!controllerRouteTemplate.Contains("{controller}"))
+                {
+                    routeValues.Remove("controller");
+                }
+                if (!controllerRouteTemplate.Contains("{action}"))
+                {
+                    routeValues.Remove("action");
+                }
+            }
+            return routeValues;
+        }
+
+        private static Dictionary<string, object> AddControllerNameAndMethodToRouteValues(MethodCallExpression callExpression, IDictionary<string, object> routeValues)
+        {
+            var newRouteValues = new Dictionary<string, object>(routeValues);
+            var controllerName = callExpression.Object.Type.Name.ToLowerInvariant().Replace("controller", "");
+            newRouteValues["controller"] = controllerName;
+            newRouteValues["action"] = callExpression.Method.Name.ToLowerInvariant();
+            return newRouteValues;
         }
     }
 }
