@@ -70,17 +70,16 @@ namespace Ploeh.Hyprlinkr
         /// <paramref name="method" />.
         /// </para>
         /// </remarks>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "This method should produce URIs with lower-case letters, so ultimately, it would have to invoke some sort of ToLower method.")]
         public Rouple Dispatch(
             MethodCallExpression method,
             IDictionary<string, object> routeValues)
         {
             if (method == null)
                 throw new ArgumentNullException("method");
-
+          
             var methodRouteAttribute = method.Method.GetCustomAttribute<RouteAttribute>(false);
 
-            if (methodRouteAttribute?.Name != null)
+            if (methodRouteAttribute != null && methodRouteAttribute.Name != null)
             {
                 return new Rouple(methodRouteAttribute.Name, routeValues);
             }
@@ -97,21 +96,35 @@ namespace Ploeh.Hyprlinkr
             get { return this.routeName; }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "This method should produce URIs with lower-case letters, so ultimately, it would have to invoke some sort of ToLower method.")]
         private Rouple ExtractRoupleFromController(MethodCallExpression callExpression, IDictionary<string, object> routeValues)
-        {
-            var controllerRouteName = RouteName;
-            var newRouteValues = AddControllerNameAndMethodToRouteValues(callExpression, routeValues);
-            var controllerRouteAttribute = callExpression.Object.Type.GetCustomAttribute<RouteAttribute>(false);
+        {            
+            var controllerType = callExpression.Object.Type;
+                        
+            var controllerRouteAttribute = controllerType.GetCustomAttribute<RouteAttribute>(false);
             if (controllerRouteAttribute != null)
             {
-                if (controllerRouteAttribute.Name != null)
-                {
-                    controllerRouteName = controllerRouteAttribute.Name;
-                }
-
-                newRouteValues = RemoveControllerAndActionRouteValuesIfNeeded(controllerRouteAttribute, newRouteValues);
+                return ExtractRoupleFromControllerRouteAttribute(callExpression, routeValues, controllerRouteAttribute);
             }
 
+            var controllerName = controllerType.Name.ToLowerInvariant().Replace("controller", "");
+
+            var newRouteValues = new Dictionary<string, object>(routeValues);
+            newRouteValues["controller"] = controllerName;
+
+            return new Rouple(this.routeName, newRouteValues);
+        }
+
+        private Rouple ExtractRoupleFromControllerRouteAttribute(MethodCallExpression callExpression, IDictionary<string, object> routeValues, RouteAttribute controllerRouteAttribute)
+        {
+            var controllerRouteName = this.routeName;
+            if (controllerRouteAttribute.Name != null)
+            {
+                controllerRouteName = controllerRouteAttribute.Name;
+            }
+
+            var newRouteValues = AddControllerNameAndMethodToRouteValues(callExpression, routeValues);
+            newRouteValues = RemoveControllerAndActionRouteValuesIfNeeded(controllerRouteAttribute, newRouteValues);
             return new Rouple(controllerRouteName, newRouteValues);
         }
 
@@ -132,6 +145,7 @@ namespace Ploeh.Hyprlinkr
             return routeValues;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "This method should produce URIs with lower-case letters, so ultimately, it would have to invoke some sort of ToLower method.")]
         private static Dictionary<string, object> AddControllerNameAndMethodToRouteValues(MethodCallExpression callExpression, IDictionary<string, object> routeValues)
         {
             var newRouteValues = new Dictionary<string, object>(routeValues);
