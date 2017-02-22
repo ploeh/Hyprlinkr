@@ -97,7 +97,9 @@ namespace Ploeh.Hyprlinkr
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "This method should produce URIs with lower-case letters, so ultimately, it would have to invoke some sort of ToLower method.")]
-        private Rouple ExtractRoupleFromController(MethodCallExpression callExpression, IDictionary<string, object> routeValues)
+        private Rouple ExtractRoupleFromController(
+            MethodCallExpression callExpression, 
+            IDictionary<string, object> routeValues)
         {            
             var controllerType = callExpression.Object.Type;
                         
@@ -115,7 +117,10 @@ namespace Ploeh.Hyprlinkr
             return new Rouple(this.routeName, newRouteValues);
         }
 
-        private Rouple ExtractRoupleFromControllerRouteAttribute(MethodCallExpression callExpression, IDictionary<string, object> routeValues, RouteAttribute controllerRouteAttribute)
+        private Rouple ExtractRoupleFromControllerRouteAttribute(
+            MethodCallExpression callExpression, 
+            IDictionary<string, object> routeValues, 
+            RouteAttribute controllerRouteAttribute)
         {
             var controllerRouteName = this.routeName;
             if (controllerRouteAttribute.Name != null)
@@ -128,7 +133,9 @@ namespace Ploeh.Hyprlinkr
             return new Rouple(controllerRouteName, newRouteValues);
         }
 
-        private static Dictionary<string, object> RemoveControllerAndActionRouteValuesIfNeeded(RouteAttribute controllerRouteAttribute, Dictionary<string, object> routeValues)
+        private static Dictionary<string, object> RemoveControllerAndActionRouteValuesIfNeeded(
+            RouteAttribute controllerRouteAttribute, 
+            Dictionary<string, object> routeValues)
         {
             var controllerRouteTemplate = controllerRouteAttribute.Template;
             if (controllerRouteTemplate != null)
@@ -146,7 +153,9 @@ namespace Ploeh.Hyprlinkr
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "This method should produce URIs with lower-case letters, so ultimately, it would have to invoke some sort of ToLower method.")]
-        private static Dictionary<string, object> AddControllerNameAndMethodToRouteValues(MethodCallExpression callExpression, IDictionary<string, object> routeValues)
+        private static Dictionary<string, object> AddControllerNameAndMethodToRouteValues(
+            MethodCallExpression callExpression, 
+            IDictionary<string, object> routeValues)
         {
             var newRouteValues = new Dictionary<string, object>(routeValues);
             var controllerName = callExpression.Object.Type.Name.ToLowerInvariant().Replace("controller", "");
