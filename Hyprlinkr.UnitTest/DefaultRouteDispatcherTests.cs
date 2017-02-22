@@ -60,7 +60,7 @@ namespace Ploeh.Hyprlinkr.UnitTest
         {
             var actual = sut.Dispatch(method, routeValues);
             Assert.Equal(sut.RouteName, actual.RouteName);
-        }
+        }   
 
         [Theory, AutoHypData]
         public void DispatchReturnsResultWithRouterAttributeRouteName(
@@ -70,7 +70,18 @@ namespace Ploeh.Hyprlinkr.UnitTest
             Expression<Action<RouteAttributeController>> exp = c => c.GetDefault();
             var method = (MethodCallExpression)exp.Body;
             var actual = sut.Dispatch(method, routeValues);
-            Assert.Equal(RouteAttributeController.RouteName, actual.RouteName);
+            Assert.Equal(RouteAttributeController.ActionRouteName, actual.RouteName);
+        }
+
+        [Theory, AutoHypData]
+        public void DispatchReturnsResultWithRouterAttributeControllerRouteName(
+          DefaultRouteDispatcher sut,
+          IDictionary<string, object> routeValues)
+        {
+            Expression<Action<RouteAttributeController>> exp = c => c.GetDefaultWithoutActionRouteName();
+            var method = (MethodCallExpression)exp.Body;
+            var actual = sut.Dispatch(method, routeValues);
+            Assert.Equal(RouteAttributeController.ControllerRouteName, actual.RouteName);
         }
 
         [Theory, AutoHypData]

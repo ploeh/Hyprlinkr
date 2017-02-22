@@ -70,34 +70,21 @@ namespace Ploeh.Hyprlinkr
         /// <paramref name="method" />.
         /// </para>
         /// </remarks>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "This method should produce URIs with lower-case letters, so ultimately, it would have to invoke some sort of ToLower method.")]
         public Rouple Dispatch(
             MethodCallExpression method,
             IDictionary<string, object> routeValues)
         {
             if (method == null)
                 throw new ArgumentNullException("method");
+          
+            var methodRouteAttribute = method.Method.GetCustomAttribute<RouteAttribute>(false);
 
-            var routeAttribute = method
-                .Method
-                .GetCustomAttribute<RouteAttribute>(false);
-
-            if (routeAttribute != null && routeAttribute.Name != null)
+            if (methodRouteAttribute != null && methodRouteAttribute.Name != null)
             {
-                return new Rouple(routeAttribute.Name, routeValues);
+                return new Rouple(methodRouteAttribute.Name, routeValues);
             }
 
-            var newRouteValues = new Dictionary<string, object>(routeValues);
-
-            var controllerName = method
-                .Object
-                .Type
-                .Name
-                .ToLowerInvariant()
-                .Replace("controller", "");
-            newRouteValues["controller"] = controllerName;
-
-            return new Rouple(this.routeName, newRouteValues);
+            return ExtractRoupleFromController(method, routeValues);
         }
 
         /// <summary>
@@ -107,6 +94,74 @@ namespace Ploeh.Hyprlinkr
         public string RouteName
         {
             get { return this.routeName; }
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "This method should produce URIs with lower-case letters, so ultimately, it would have to invoke some sort of ToLower method.")]
+        private Rouple ExtractRoupleFromController(
+            MethodCallExpression callExpression, 
+            IDictionary<string, object> routeValues)
+        {            
+            var controllerType = callExpression.Object.Type;
+                        
+            var controllerRouteAttribute = controllerType.GetCustomAttribute<RouteAttribute>(false);
+            if (controllerRouteAttribute != null)
+            {
+                return ExtractRoupleFromControllerRouteAttribute(callExpression, routeValues, controllerRouteAttribute);
+            }
+
+            var controllerName = controllerType.Name.ToLowerInvariant().Replace("controller", "");
+
+            var newRouteValues = new Dictionary<string, object>(routeValues);
+            newRouteValues["controller"] = controllerName;
+
+            return new Rouple(this.routeName, newRouteValues);
+        }
+
+        private Rouple ExtractRoupleFromControllerRouteAttribute(
+            MethodCallExpression callExpression, 
+            IDictionary<string, object> routeValues, 
+            RouteAttribute controllerRouteAttribute)
+        {
+            var controllerRouteName = this.routeName;
+            if (controllerRouteAttribute.Name != null)
+            {
+                controllerRouteName = controllerRouteAttribute.Name;
+            }
+
+            var newRouteValues = AddControllerNameAndMethodToRouteValues(callExpression, routeValues);
+            newRouteValues = RemoveControllerAndActionRouteValuesIfNeeded(controllerRouteAttribute, newRouteValues);
+            return new Rouple(controllerRouteName, newRouteValues);
+        }
+
+        private static Dictionary<string, object> RemoveControllerAndActionRouteValuesIfNeeded(
+            RouteAttribute controllerRouteAttribute, 
+            Dictionary<string, object> routeValues)
+        {
+            var controllerRouteTemplate = controllerRouteAttribute.Template;
+            if (controllerRouteTemplate != null)
+            {
+                if (!controllerRouteTemplate.Contains("{controller}"))
+                {
+                    routeValues.Remove("controller");
+                }
+                if (!controllerRouteTemplate.Contains("{action}"))
+                {
+                    routeValues.Remove("action");
+                }
+            }
+            return routeValues;
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "This method should produce URIs with lower-case letters, so ultimately, it would have to invoke some sort of ToLower method.")]
+        private static Dictionary<string, object> AddControllerNameAndMethodToRouteValues(
+            MethodCallExpression callExpression, 
+            IDictionary<string, object> routeValues)
+        {
+            var newRouteValues = new Dictionary<string, object>(routeValues);
+            var controllerName = callExpression.Object.Type.Name.ToLowerInvariant().Replace("controller", "");
+            newRouteValues["controller"] = controllerName;
+            newRouteValues["action"] = callExpression.Method.Name.ToLowerInvariant();
+            return newRouteValues;
         }
     }
 }
